@@ -12,3 +12,5 @@ class Player extends GameObject {
         return Math.PI * this.radius ** 2
     }
 }
+
+module.exports = Player;
