@@ -17,6 +17,10 @@ class Game {
         delete this.players[socket.id];
     }
 
+    handleUpdate(socket, direction) {
+        this.players[socket.id].direction = direction;
+    }
+
     update() {
         const now = Date.now();
         const dt = (now - this.lastUpdateTime) / 1000;
