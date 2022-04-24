@@ -5,6 +5,11 @@
     <title>Cookie.io</title>
 </head>
 <body>
+<canvas id="game"></canvas>
+<div id="menu">
+    <input type="text" id="username" placeholder="Введи свой ник">
+    <button id="play-button">Играть!</button>
+</div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const socket = io();

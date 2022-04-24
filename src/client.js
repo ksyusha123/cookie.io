@@ -1,0 +1,1 @@
+export const play = (username) => socket.emit('join', username);
