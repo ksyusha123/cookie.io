@@ -3,7 +3,7 @@ const { Server } = require('socket.io');
 const app = express();
 const port = 3000;
 
-const Game = require('game');
+const Game = require('./game');
 
 app.use('/static', express.static('public'));
 
