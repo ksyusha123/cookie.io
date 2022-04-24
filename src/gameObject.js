@@ -1,11 +1,11 @@
 class GameObject {
     constructor(id, x, y, direction, speed, radius) {
-        this.id = id
-        this.x = x
-        this.y = y
-        this.direction = direction
-        this.speed = speed
-        this.radius = radius
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.direction = direction;
+        this.speed = speed;
+        this.radius = radius;
     }
 
     update(dt) {
