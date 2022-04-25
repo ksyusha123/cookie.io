@@ -21,7 +21,10 @@ const io = new Server(server);
 io.on('connection', socket => {
     console.log('Player connected!', socket.id);
 
-    socket.on('join', (username) => game.addPlayer(socket, username));
+    socket.on('join', (username) => {
+        game.addPlayer(socket, username);
+        console.log('join');
+    });
     socket.on('update', (direction) => game.handleUpdate(socket, direction));
     socket.on('disconnect', () => {
         console.log('Player disconnected', socket.id);

@@ -1,3 +1,8 @@
-import {play} from "./client";
+// import {play} from "./client";
 
-document.getElementById("play-button").onclick = () => play(document.getElementById("username").value);
+const play = (username) => socket.emit('join', username);
+
+document.getElementById("play-button").onclick = () => {
+    console.log(1);
+    return play(document.getElementById("username").value);
+};
