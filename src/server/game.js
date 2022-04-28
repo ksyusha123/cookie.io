@@ -1,5 +1,5 @@
-const settings = require('./settings');
-const Player = require('./public/player');
+const settings = require('../settings');
+const Player = require('./player');
 
 class Game {
     constructor() {
