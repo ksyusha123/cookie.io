@@ -5,7 +5,7 @@ const port = 3000;
 
 const Game = require('./game');
 
-app.use('/static', express.static('public'));
+app.use('/static', express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
