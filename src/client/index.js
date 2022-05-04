@@ -7,9 +7,8 @@ const play = (username) => socket.emit('join', username);
 const updateDirection = throttle(100, direction => socket.emit('update', direction));
 
 document.getElementById("play-button").onclick = () => {
-    console.log(1);
     play(document.getElementById("username").value);
-    startCapturingInput()
+    startCapturingInput();
 };
 
 function onMouseInput(e) {
@@ -23,7 +22,7 @@ function onTouchInput(e) {
 
 function handleInput(x, y) {
     const dir = Math.atan2(x - window.innerWidth / 2, window.innerHeight / 2 - y);
-    console.log(dir);
+    // console.log(dir);
     updateDirection(dir);
 }
 
