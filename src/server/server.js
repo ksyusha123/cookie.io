@@ -8,10 +8,10 @@ const Game = require('./game');
 
 const app = express();
 app.use(express.static('../client'));
-const compiler = webpack(webpackConfig);
-app.use(webpackDevMiddleware(compiler));
+// const compiler = webpack(webpackConfig);
+// app.use(webpackDevMiddleware(compiler));
 // app.use(express.static('server'));
-// app.use(express.static('dist'));
+app.use(express.static('../../dist'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port);
