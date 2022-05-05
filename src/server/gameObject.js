@@ -13,11 +13,22 @@ class GameObject {
         this.y -= dt * this.speed * Math.cos(this.direction);
     }
 
+    distanceTo(object) {
+        const dx = this.x - object.x;
+        const dy = this.y - object.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    setDirection(direction) {
+        this.direction = direction;
+    }
+
     serialize() {
         return {
             id: this.id,
             x: this.x,
-            y: this.y
+            y: this.y,
+            direction: this.direction,
         }
     }
 }

@@ -5,6 +5,7 @@ class Game {
     constructor() {
         this.players = {};
         this.lastUpdateTime = Date.now();
+        this.shouldSendUpdate = false;
     }
 
     addPlayer(socket, username) {
@@ -13,12 +14,12 @@ class Game {
         this.players[socket.id] = new Player(socket.id, username, x, y, settings.START_RADIUS, socket);
     }
 
-    removePlayer(socket) {
-        delete this.players[socket.id];
+    removePlayer(playerId) {
+        delete this.players[playerId];
     }
 
-    handleUpdate(socket, direction) {
-        this.players[socket.id].direction = direction;
+    handleInput(socket, direction) {
+        this.players[socket.id].setDirection(direction);
     }
 
     update() {
@@ -26,8 +27,32 @@ class Game {
         const dt = (now - this.lastUpdateTime) / 1000;
         this.lastUpdateTime = now;
 
+        for (const playerId of Object.keys(this.players)){
+            const player = this.players[playerId];
+            player.update(dt);
+        }
 
-        //todo: handle update
+        // todo: handle collisions
+
+        for (const playerId of Object.keys(this.players)){
+            const player = this.players[playerId];
+            if (player.radius === 0){
+                player.socket.emit(settings.MESSAGES.GAME_OVER);
+                this.removePlayer(playerId);
+            }
+        }
+
+        if (this.shouldSendUpdate){
+            const fixedLeaderBoard = this.leaderBoard;
+            for (const playerId of Object.keys(this.players)){
+                const player = this.players[playerId];
+                const playerUpdate = this.makeUpdate(player, fixedLeaderBoard);
+                player.socket.emit(settings.MESSAGES.GAME_UPDATE, playerUpdate);
+            }
+            this.shouldSendUpdate = false;
+        } else {
+            this.shouldSendUpdate = true;
+        }
     }
 
 
@@ -38,12 +63,19 @@ class Game {
             .map(player => ({username: player.username, area: player.area}));
     }
 
-    _serialize(player, closePlayers) {
+    findClosePlayers(player){
+        return Object.values(this.players).filter(
+            p => p !== player && p.distanceTo(player) <= settings.MAP_SIZE / 2
+        );
+    }
+
+    makeUpdate(player, leaderBoard) {
+        const closePlayers = this.findClosePlayers(player);
         return {
             time: Date.now(),
             me: player.serialize(),
             others: closePlayers.map(p => p.serialize()),
-            leaderboard: this.leaderBoard,
+            leaderboard: leaderBoard,
         };
     }
 }
