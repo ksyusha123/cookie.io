@@ -1,4 +1,5 @@
-const GameObject = require('./gameObject')
+const GameObject = require('./gameObject');
+const settings = require('../settings');
 
 class Player extends GameObject {
     constructor(id, username, x, y, radius, socket) {
@@ -10,6 +11,20 @@ class Player extends GameObject {
 
     get area() {
         return Math.PI * this.radius ** 2
+    }
+
+    update(dt) {
+        super.update(dt);
+
+        this.x = Math.max(0, Math.min(settings.MAP_SIZE, this.x));
+        this.y = Math.max(0, Math.min(settings.MAP_SIZE, this.y));
+    }
+
+    serialize() {
+        return {
+            ...(super.serialize()),
+            area: this.area,
+        };
     }
 }
 

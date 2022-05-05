@@ -4,11 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        game: './src/client/index.js',
+        game: path.resolve(__dirname, './src/client/index.js'),
     },
     output: {
-        filename: '[name].[contenthash].js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, './dist'),
     },
     module: {
         rules: [
@@ -32,7 +32,7 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: 'src/client/index.html',
+            template: path.resolve(__dirname, './src/client/index.html'),
         }),
     ],
 };
