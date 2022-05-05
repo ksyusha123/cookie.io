@@ -19,10 +19,6 @@ class GameObject {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    setDirection(direction) {
-        this.direction = direction;
-    }
-
     serialize() {
         return {
             id: this.id,

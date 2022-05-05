@@ -20,7 +20,7 @@ class Game {
     }
 
     handleInput(socket, direction) {
-        this.players[socket.id].setDirection(direction);
+        this.players[socket.id].direction = direction;
     }
 
     update() {
@@ -28,15 +28,13 @@ class Game {
         const dt = (now - this.lastUpdateTime) / 1000;
         this.lastUpdateTime = now;
 
-        for (const playerId of Object.keys(this.players)){
-            const player = this.players[playerId];
+        for (const player of Object.values(this.players)){
             player.update(dt);
         }
 
         // todo: handle collisions
 
-        for (const playerId of Object.keys(this.players)){
-            const player = this.players[playerId];
+        for (const [playerId, player] in this.players){
             if (player.radius === 0){
                 player.socket.emit(settings.MESSAGES.GAME_OVER);
                 this.removePlayer(playerId);
@@ -45,8 +43,7 @@ class Game {
 
         if (this.shouldSendUpdate){
             const fixedLeaderBoard = this.leaderBoard;
-            for (const playerId of Object.keys(this.players)){
-                const player = this.players[playerId];
+            for (const player of Object.values(this.players)){
                 const playerUpdate = this.makeUpdate(player, fixedLeaderBoard);
                 player.socket.emit(settings.MESSAGES.GAME_UPDATE, playerUpdate);
             }
