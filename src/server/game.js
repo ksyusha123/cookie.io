@@ -58,8 +58,8 @@ class Game {
 
 
     get leaderBoard() {
-        return this.players
-            .sort((player1, player2) => player1.area > player2.area)
+        return Object.values(this.players)
+            .sort((player1, player2) => player2.area - player1.area)
             .slice(0, 10)
             .map(player => ({username: player.username, area: player.area}));
     }
