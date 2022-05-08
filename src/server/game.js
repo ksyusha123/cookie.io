@@ -32,7 +32,7 @@ class Game {
             player.update(dt);
         }
 
-        // todo: handle collisions
+        this._processCollisions();
 
         for (const [playerId, player] in this.players){
             if (player.radius === 0){
@@ -50,6 +50,24 @@ class Game {
             this.shouldSendUpdate = false;
         } else {
             this.shouldSendUpdate = true;
+        }
+    }
+
+    _processCollisions(){
+        const players = Object.values(this.players);
+
+        for (let i = 0; i < this.players.length - 1; i++){
+            for (let j = i + 1; j < this.players.length; j++){
+                if (players[i].distanceTo(players[j]) < 0.8 * (players[i].radius + players[j].radius)) {
+                    if (players[i].area <= 1.5 * players[j].area) {
+                        // players[i].isDead = true;
+                        // players[j].radius += players[i].radius;
+                    } else if (players[j].area <= 1.5 * players[i].area) {
+                        // players[j].isDead = true;
+                        // players[i].radius += players[j].radius;
+                    }
+                }
+            }
         }
     }
 
