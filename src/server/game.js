@@ -62,11 +62,9 @@ class Game {
                     if (players[i].area <= 1.5 * players[j].area) {
                         players[j].radius += players[i].radius;
                         players[i].radius = 0;
-                        players[i].socket.emit(settings.MESSAGES.GAME_OVER);
                     } else if (players[j].area <= 1.5 * players[i].area) {
                         players[i].radius += players[j].radius;
                         players[j].radius = 0;
-                        players[j].socket.emit(settings.MESSAGES.GAME_OVER);
                     }
                 }
             }
