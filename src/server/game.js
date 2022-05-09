@@ -32,7 +32,7 @@ class Game {
             player.update(dt);
         }
 
-        // todo: handle collisions
+        this._handleCollisions();
 
         for (const [playerId, player] in this.players){
             if (player.radius === 0){
@@ -53,6 +53,30 @@ class Game {
         }
     }
 
+    _handleCollisions(){
+        const players = Object.values(this.players);
+
+        for (let i = 0; i < this.players.length - 1; i++){
+            for (let j = i + 1; j < this.players.length; j++){
+                if (players[i].distanceTo(players[j]) < settings.CRITICAL_DISTANCE_BORDER * (players[i].radius + players[j].radius)) {
+                    if (players[i].area <= settings.CRITICAL_AREA_DIFF * players[j].area) {
+                        this._updateRadii(players[j], players[i]);
+                    } else if (players[j].area <= settings.CRITICAL_AREA_DIFF * players[i].area) {
+                        this._updateRadii(players[i], players[j]);
+                    }
+                }
+            }
+        }
+    }
+
+    _updateRadii(winner, loser){
+        winner.radius = this._recalculateRadius(winner.radius, loser.radius);
+        loser.radius = 0;
+    }
+
+    _recalculateRadius(radius1, radius2){
+        return Math.sqrt(radius1 * radius1 + radius2 * radius2);
+    }
 
     get leaderBoard() {
         return Object.values(this.players)

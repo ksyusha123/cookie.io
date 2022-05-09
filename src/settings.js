@@ -6,7 +6,9 @@ const settings = {
         INPUT: 'input',
         GAME_OVER: 'game_over',
         GAME_UPDATE: 'game_update',
-    }
+    },
+    CRITICAL_DISTANCE_BORDER: 0.8,
+    CRITICAL_AREA_DIFF: 1.5
 };
 
 module.exports = settings;
