@@ -20,4 +20,16 @@ const connect = onGameOver => (
 
 module.exports.connect = connect;
 
+const play = username => {
+    socket.emit(Constants.settings.MSG_TYPES.JOIN_GAME, username);
+};
+
+module.exports.play = play;
+
+const updateDirection = dir => {
+    socket.emit(Constants.settings.MSG_TYPES.INPUT, dir);
+};
+
+module.exports.updateDirection = updateDirection;
+
 

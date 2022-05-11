@@ -1,23 +1,23 @@
-import io from 'socket.io-client';
-import { throttle } from 'throttle-debounce';
+const io  =  require('socket.io-client');
+const throttle = require('throttle-debounce').throttle;
 
 const settings = require('../settings');
 
 const socket = io();
 
-// const connectedPromise = new Promise(resolve => {
-//     socket.on('connect', () => {
-//         console.log('Connected to server!');
-//         resolve();
-//     });
-// });
+const connectedPromise = new Promise(resolve => {
+     socket.on('connect', () => {
+         console.log('Connected to server!');
+         resolve();
+     });
+ });
 
-// connectedPromise.then(() => {
+connectedPromise.then(() => {
     socket.on(settings.MESSAGES.GAME_UPDATE, processGameUpdate);
     socket.on('disconnect', () => {
         console.log('Disconnected from server');
     });
-// });
+ });
 
 const play = (username) => socket.emit(settings.MESSAGES.JOIN, username);
 const updateDirection = throttle(20, direction => {
