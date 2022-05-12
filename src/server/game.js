@@ -1,6 +1,9 @@
 const settings = require('../settings');
 const Player = require('./player');
 
+import {generateId} from "./utils";
+
+
 class Game {
     constructor() {
         this.players = {};
