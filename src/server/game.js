@@ -1,7 +1,6 @@
 const settings = require('../settings');
 const Player = require('./player');
-
-import {Food} from "./food";
+const Food = require('./food');
 
 
 class Game {
@@ -89,7 +88,7 @@ class Game {
         }
 
         for (const player of Object.values(this.players)){
-            for (const food of this.food){
+            for (const food of Object.values(this.food)){
                 if (player.distanceTo(food) < settings.CRITICAL_DISTANCE_BORDER * (player.radius + food.radius)){
                     this._updateRadii(player, food);
                 }
@@ -120,7 +119,7 @@ class Game {
     }
 
     findCloseFood(player){
-        return this.food.filter(f => f.distanceTo(player) <= settings.MAP_SIZE / 2);
+        return Object.values(this.food).filter(f => f.distanceTo(player) <= settings.MAP_SIZE / 2);
     }
 
     makeUpdate(player, leaderBoard) {
