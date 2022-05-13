@@ -21,7 +21,7 @@ class Game {
 
     _generateFood(count) {
         for (let i = 0; i < count; i++) {
-            this.food.add(new Food());
+            this.food.add(Food.create());
         }
     }
 
