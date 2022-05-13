@@ -8,7 +8,10 @@ const settings = {
         GAME_UPDATE: 'game_update',
     },
     CRITICAL_DISTANCE_BORDER: 0.8,
-    CRITICAL_AREA_DIFF: 1.5
+    CRITICAL_AREA_DIFF: 1.5,
+    FOOD_RADIUS: 10,
+    PLAYER_SPEED: 400,
+    FOOD_COUNT: 50,
 };
 
 module.exports = settings;

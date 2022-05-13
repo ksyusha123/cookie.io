@@ -1,9 +1,13 @@
 const settings = require('../settings');
 const Player = require('./player');
+const Food = require('./food');
+
 
 class Game {
     constructor() {
         this.players = {};
+        this.food = new Set();
+        this._generateFood(settings.FOOD_COUNT);
         this.lastUpdateTime = Date.now();
         this.shouldSendUpdate = false;
         setInterval(this.update.bind(this), 1000 / 60);
@@ -12,7 +16,13 @@ class Game {
     addPlayer(socket, username) {
         const x = settings.MAP_SIZE * (0.25 + Math.random() * 0.5);
         const y = settings.MAP_SIZE * (0.25 + Math.random() * 0.5);
-        this.players[socket.id] = new Player(socket.id, username, x, y, settings.START_RADIUS, socket);
+        this.players[socket.id] = new Player(socket.id, username, x, y, socket);
+    }
+
+    _generateFood(count) {
+        for (let i = 0; i < count; i++) {
+            this.food.add(Food.create());
+        }
     }
 
     removePlayer(playerId) {
@@ -34,10 +44,19 @@ class Game {
 
         this._handleCollisions();
 
+        this._generateFood(settings.FOOD_COUNT - this.food.length);
+
         for (const [playerId, player] in this.players){
             if (player.radius === 0){
                 player.socket.emit(settings.MESSAGES.GAME_OVER);
                 this.removePlayer(playerId);
+            }
+        }
+
+        const foodCopy = new Set(this.food);
+        for (const food of foodCopy) {
+            if (food.radius === 0){
+                this.food.delete(food);
             }
         }
 
@@ -67,6 +86,14 @@ class Game {
                 }
             }
         }
+
+        for (const player of Object.values(this.players)){
+            for (const food of Object.values(this.food)){
+                if (player.distanceTo(food) < settings.CRITICAL_DISTANCE_BORDER * (player.radius + food.radius)){
+                    this._updateRadii(player, food);
+                }
+            }
+        }
     }
 
     _updateRadii(winner, loser){
@@ -91,12 +118,18 @@ class Game {
         );
     }
 
+    findCloseFood(player){
+        return Object.values(this.food).filter(f => f.distanceTo(player) <= settings.MAP_SIZE / 2);
+    }
+
     makeUpdate(player, leaderBoard) {
         const closePlayers = this.findClosePlayers(player);
+        const closeFood = this.findCloseFood(player);
         return {
             time: Date.now(),
             me: player.serialize(),
             others: closePlayers.map(p => p.serialize()),
+            food: closeFood.map(f => f.serialize()),
             leaderboard: leaderBoard,
         };
     }
