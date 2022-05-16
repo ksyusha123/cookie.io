@@ -1,8 +1,15 @@
-const io = require("socket.io-client").io;
-const Constants = require('../shared/constants.js');
+import io from "socket.io-client";
+import settings from "../settings";
+import {throttle} from "throttle-debounce";
 
 
-const socket = io(`ws://${window.location.host}`);
+const socket = io();
+
+socket.on(settings.MESSAGES.GAME_UPDATE, processGameUpdate);
+socket.on('disconnect', () => {
+    console.log('Disconnected from server');
+});
+
 const connectedPromise = new Promise(resolve => {
     socket.on('connect', () => {
         console.log('Connected to server!');
@@ -10,26 +17,21 @@ const connectedPromise = new Promise(resolve => {
     });
 });
 
-const connect = onGameOver => (
+export function processGameUpdate(update){
+    console.log('process game upd');
+    // todo
+}
+
+export const connect = onGameOver => (
     connectedPromise.then(() => {
-        // Register callbacks
-        socket.on(Constants.settings.MSG_TYPES.GAME_UPDATE, processGameUpdate);
-        socket.on(Constants.settings.MSG_TYPES.GAME_OVER, onGameOver);
+        socket.on(settings.MESSAGES.GAME_UPDATE, processGameUpdate);
+        socket.on(settings.MESSAGES.GAME_OVER, onGameOver);
     })
 );
 
-module.exports.connect = connect;
+export const updateDirection = throttle(20, direction => {
+    console.log(direction);
+    socket.emit(settings.MESSAGES.INPUT, direction)
+});
 
-const play = username => {
-    socket.emit(Constants.settings.MSG_TYPES.JOIN_GAME, username);
-};
-
-module.exports.play = play;
-
-const updateDirection = dir => {
-    socket.emit(Constants.settings.MSG_TYPES.INPUT, dir);
-};
-
-module.exports.updateDirection = updateDirection;
-
-
+export const play = (username) => socket.emit(settings.MESSAGES.JOIN, username);

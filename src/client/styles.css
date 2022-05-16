@@ -91,3 +91,7 @@ input{
     border: 3px solid #B5EF8A;
     border-radius: 10px;
 }
+
+.hidden{
+    display: none;
+}
