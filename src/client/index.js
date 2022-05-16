@@ -1,10 +1,14 @@
 import io from 'socket.io-client';
-import { throttle } from 'throttle-debounce';
+import {throttle} from 'throttle-debounce';
+import {downloadAssets, getAsset} from "./assets";
 
 const settings = require('../settings');
 
 const socket = io();
-console.log('hello from index');
+
+await downloadAssets();
+
+
 socket.on(settings.MESSAGES.GAME_UPDATE, processGameUpdate);
 socket.on('disconnect', () => {
     console.log('Disconnected from server');

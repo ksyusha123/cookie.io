@@ -1,7 +1,7 @@
-const ASSET_NAMES = [/*place here asset names by comma*/];
+const ASSET_NAMES = ['Zhenya.png'];
 
 const assets = {};
-const downloadPromise = Promise.all(ASSET_NAMES.map(downloadAsset));
+const downloadPromise = Promise.all(ASSET_NAMES.map(downloadAsset)).then(() => console.log('all assets downloaded'));
 
 function downloadAsset(assetName) {
     return new Promise(resolve => {
@@ -15,7 +15,5 @@ function downloadAsset(assetName) {
     });
 }
 
-const downloadAssets = () => downloadPromise;
-module.exports.downloadAssets = downloadAssets;
-const getAsset = assetName => assets[assetName];
-module.exports.getAsset = getAsset;
+export const downloadAssets = () => downloadPromise;
+export const getAsset = assetName => assets[assetName];
