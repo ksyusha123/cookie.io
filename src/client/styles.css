@@ -35,6 +35,14 @@ body{
     border-radius: 20px;
 }
 
+.play-button:hover{
+    background: #ace683;
+}
+
+.play-button:active{
+    background: #9ed479;
+}
+
 .chose-menu{
     display: flex;
     flex-direction: row;
@@ -65,6 +73,10 @@ input{
     padding: 5px;
 }
 
+input:hover{
+    background: rgba(210, 210, 210, 0.8);
+}
+
 .select-heading{
     font-weight: bold;
     font-size: 25px;
@@ -88,8 +100,16 @@ input{
 .select-skin-button{
     height: 100px;
     margin: 3% 30% 3% 30%;
-    border: 3px solid #B5EF8A;
+    border: 3px solid lightgray;
     border-radius: 10px;
+}
+
+.select-skin-button:hover{
+    border: 3px solid #B5EF8A;
+}
+
+.select-skin-button:active{
+    border: 3px solid gray;
 }
 
 .hidden{
