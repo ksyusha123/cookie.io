@@ -6,6 +6,7 @@ body{
 }
 
 .menu{
+    visibility: visible;
     border: 0 solid;
     background: rgba(250, 250, 250, 0.80);
     padding: 2%;
@@ -48,6 +49,7 @@ body{
     flex-direction: row;
     justify-content: space-between;
     margin: 0 10% 0 10%;
+    visibility: visible;
 }
 
 .chose-username-menu{
@@ -74,7 +76,7 @@ input{
 }
 
 input:hover{
-    background: rgba(210, 210, 210, 0.8);
+    background: rgba(200, 200, 200, 0.5);
 }
 
 .select-heading{
@@ -115,3 +117,46 @@ input:hover{
 .hidden{
     display: none;
 }
+
+.canvas{
+    display: none;
+    visibility: hidden;
+}
+
+.modal {
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal__content {
+    width: 70%;
+    height: 400px;
+    padding: 2%;
+    background: rgba(250, 250, 250, 0.80);
+    border-radius: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overscroll-behavior: contain;
+}
+
+.modal__close-button{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: normal;
+    font-size: 30px;
+    background: #B5EF8A;
+    border: 0;
+    padding: 1%;
+    border-radius: 20px;
+}
+
+.modal__close-button:hover{
+    background: #ace683;
+}
+
+.modal__close-button:active{
+    background: #9ed479;
+}
+
+
