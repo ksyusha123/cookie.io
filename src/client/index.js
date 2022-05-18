@@ -1,4 +1,3 @@
-
 import {downloadAssets} from "./assets";
 import {play} from "./networking";
 import {startCapturingInput} from "./input";

@@ -18,20 +18,22 @@ function render() {
         return;
     }
 
-    // Draw background
     renderBackground(me.x, me.y);
 
-    // Draw all bullets
-    bullets.forEach(renderBullet.bind(null, me));
-
-    // Draw all players
     renderPlayer(me, me);
     others.forEach(renderPlayer.bind(null, me));
 }
 
-// ... Helper functions here excluded
+function renderBackground(x, y) {
+    //TODO
+}
+
+function renderPlayer(me, player) {
+    //TODO
+}
 
 let renderInterval = null;
+
 export function startRendering() {
     renderInterval = setInterval(render, 1000 / 60);
 }
