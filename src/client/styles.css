@@ -118,12 +118,12 @@ input:hover{
     display: none;
 }
 
-.canvas{
+.game-canvas{
     display: none;
-    visibility: hidden;
 }
 
 .modal {
+    margin: 5%;
     display: none;
     justify-content: center;
     align-items: center;
@@ -136,9 +136,15 @@ input:hover{
     background: rgba(250, 250, 250, 0.80);
     border-radius: 20px;
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
+    flex-direction: column;
     overscroll-behavior: contain;
+}
+
+.modal-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex: 0.1;
 }
 
 .modal__close-button{
@@ -149,6 +155,7 @@ input:hover{
     border: 0;
     padding: 1%;
     border-radius: 20px;
+    width: 40%;
 }
 
 .modal__close-button:hover{
@@ -157,6 +164,45 @@ input:hover{
 
 .modal__close-button:active{
     background: #9ed479;
+}
+
+.modal-skins{
+    flex: 0.9;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 24px;
+    height: 8px;
+    border-radius: 10px;
+    background-color: #C1C1C1;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #B5EF8A;
+    border-radius: 10px;
+}
+
+.skin-button{
+    height: 40%;
+    width: 21%;
+    margin: 2%;
+    border: 0 solid;
+    background: rgba(0, 0, 0, 0);
+    border-radius: 15px;
+}
+
+.skin-button:hover{
+    background: rgba(230, 230, 230, 0.5);
+}
+
+.skin-button:active{
+    border: 3px solid #B5EF8A;
 }
 
 
