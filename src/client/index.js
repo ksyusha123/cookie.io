@@ -1,6 +1,7 @@
 import {downloadAssets} from "./assets";
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
+import {startRendering} from "./render";
 
 const settings = require('../settings');
 
@@ -11,7 +12,10 @@ document.getElementById("play-button").onclick = () => {
     play(document.getElementById("username").value);
     document.getElementsByClassName('menu')[0].style.display = 'none';
     document.getElementsByClassName('chose-menu')[0].style.display = 'none';
+    document.body.style.background = 'none';
+    document.getElementById('game-canvas').style.display = 'flex';
     startCapturingInput();
+    startRendering();
 };
 
 document.getElementById("select-skin-button").onclick = () => {

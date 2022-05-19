@@ -18,7 +18,7 @@ const connectedPromise = new Promise(resolve => {
 });
 
 export function processGameUpdate(update){
-    console.log('process game upd');
+    //console.log('process game upd');
     // todo
 }
 
@@ -30,7 +30,7 @@ export const connect = onGameOver => (
 );
 
 export const updateDirection = throttle(20, direction => {
-    console.log(direction);
+    //console.log(direction);
     socket.emit(settings.MESSAGES.INPUT, direction)
 });
 
