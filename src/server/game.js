@@ -13,10 +13,10 @@ class Game {
         setInterval(this.update.bind(this), 1000 / 60);
     }
 
-    addPlayer(socket, username) {
+    addPlayer(socket, username, skin) {
         const x = settings.MAP_SIZE * (0.25 + Math.random() * 0.5);
         const y = settings.MAP_SIZE * (0.25 + Math.random() * 0.5);
-        this.players[socket.id] = new Player(socket.id, username, x, y, socket);
+        this.players[socket.id] = new Player(socket.id, username, skin, x, y, socket);
     }
 
     _generateFood(count) {

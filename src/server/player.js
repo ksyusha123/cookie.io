@@ -2,10 +2,11 @@ const GameObject = require('./gameObject');
 const settings = require('../settings');
 
 class Player extends GameObject {
-    constructor(id, username, x, y, socket) {
+    constructor(id, username, skin, x, y, socket) {
         super(id, x, y, settings.START_RADIUS);
         this.direction = Math.random() * 2 * Math.PI;
         this.username = username;
+        this.skin = skin;
         this.socket = socket;
         this.speed = settings.PLAYER_SPEED;
     }
@@ -21,6 +22,7 @@ class Player extends GameObject {
     serialize() {
         return {
             ...(super.serialize()),
+            skin: this.skin,
             direction: this.direction,
             area: this.area,
         };
