@@ -19,14 +19,16 @@ const socket = io();
     });
 // });
 
-const play = (username) => socket.emit(settings.MESSAGES.JOIN, username);
+const play = (username, skin) => socket.emit(settings.MESSAGES.JOIN, username, skin);
 const updateDirection = throttle(20, direction => {
     console.log(direction);
     socket.emit(settings.MESSAGES.INPUT, direction)
 });
 
+let skin = '';
+
 document.getElementById("play-button").onclick = () => {
-    play(document.getElementById("username").value);
+    play(document.getElementById("username").value, skin);
     startCapturingInput();
 };
 

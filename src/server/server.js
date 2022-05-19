@@ -25,8 +25,8 @@ io.on('connection', socket => {
 
 const game = new Game();
 
-function joinGame(username) {
-    game.addPlayer(this, username);
+function joinGame(username, skin) {
+    game.addPlayer(this, username, skin);
     console.log('Player joined the game!', this.id);
 }
 
