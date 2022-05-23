@@ -1,6 +1,7 @@
 import io from "socket.io-client";
 import settings from "../settings";
 import {throttle} from "throttle-debounce";
+import {processGameUpdate} from "./state";
 
 
 const socket = io();
@@ -16,11 +17,6 @@ const connectedPromise = new Promise(resolve => {
         resolve();
     });
 });
-
-export function processGameUpdate(update){
-    //console.log('process game upd');
-    // todo
-}
 
 export const connect = onGameOver => (
     connectedPromise.then(() => {

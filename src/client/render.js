@@ -4,24 +4,22 @@ import { getCurrentState } from './state';
 const settings = require('../settings');
 const {MAP_SIZE} = settings;
 
-// Get the canvas graphics context
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
 
-// Make the canvas fullscreen
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 function render() {
-    //const { me, others } = getCurrentState();
-    //if (!me) {
-        //return;
-    //}
+    const { me, others } = getCurrentState();
+    if (!me) {
+        return;
+    }
 
-    renderBackground(0, 0);
+    renderBackground(me.x, me.y);
 
-    //renderPlayer(me, me);
-    //others.forEach(renderPlayer.bind(null, me));
+    renderPlayer(me, me);
+    others.forEach(renderPlayer.bind(null, me));
 }
 
 function renderBackground(x, y) {

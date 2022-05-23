@@ -11,8 +11,6 @@ export function processGameUpdate(update) {
     }
     gameUpdates.push(update);
 
-    // update leaderboard
-
     const previousUpdateIndex = getPreviousUpdateIndex();
     if (previousUpdateIndex > 0) {
         gameUpdates.splice(0, previousUpdateIndex);
