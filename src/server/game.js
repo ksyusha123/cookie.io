@@ -3,6 +3,8 @@ const Player = require('./player');
 const Food = require('./food');
 
 const VISIBLE_MAP_RADIUS = settings.MAP_SIZE / 2;
+const DESIRED_FRAMERATE = 60;
+const INTERVAL_SIZE = 1000 / DESIRED_FRAMERATE;
 
 
 class Game {
@@ -13,7 +15,7 @@ class Game {
         this.shouldSendUpdate = false;
 
         this._generateFood(settings.FOOD_COUNT);
-        setInterval(this.update.bind(this), 1000 / 60);
+        setInterval(this.update.bind(this), INTERVAL_SIZE);
     }
 
     addPlayer(socket, username, skin) {
