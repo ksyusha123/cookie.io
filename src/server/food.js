@@ -5,8 +5,7 @@ const getRandomIntFromRange = require('./utils');
 
 class Food extends GameObject {
     constructor(x, y) {
-        const id = Date.now();
-        super(id, x, y, settings.FOOD_RADIUS);
+        super(Date.now(), x, y, settings.FOOD_RADIUS);
     }
 
     static create() {
