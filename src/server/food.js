@@ -1,6 +1,5 @@
 const GameObject = require('./gameObject');
 const settings = require('../settings');
-const getRandomIntFromRange = require('./utils');
 
 
 class Food extends GameObject {
@@ -9,7 +8,8 @@ class Food extends GameObject {
     }
 
     static create() {
-        return new Food(getRandomIntFromRange(0, settings.MAP_SIZE), getRandomIntFromRange(0, settings.MAP_SIZE));
+        return new Food(Math.getRandomIntFromInterval(0, settings.MAP_SIZE),
+                        Math.getRandomIntFromInterval(0, settings.MAP_SIZE));
     }
 }
 

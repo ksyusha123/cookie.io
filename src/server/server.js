@@ -3,7 +3,9 @@ const socketio = require('socket.io');
 
 const Game = require('./game');
 const settings = require('../settings');
+const addPrototypes = require('./utils');
 
+addPrototypes();
 
 const app = express();
 app.use(express.static('../client'));
