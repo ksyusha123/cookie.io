@@ -18,7 +18,7 @@ class GameObject {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    doesCollide(object) {
+    collides(object) {
         return this.distanceTo(object) < settings.CRITICAL_DISTANCE_BORDER * (this.radius + object.radius);
     }
 

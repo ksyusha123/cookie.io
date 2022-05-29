@@ -87,7 +87,7 @@ class Game {
 
         for (const player of players) {
             for (const food of foodCopy) {
-                if (player.doesCollide(food)) {
+                if (player.collides(food)) {
                     player.eat(food);
                     this.food.delete(food);
                 }
@@ -96,7 +96,7 @@ class Game {
 
         for (let i = 0; i < this.players.length - 1; i++) {
             for (let j = i + 1; j < this.players.length; j++) {
-                if (players[i].doesCollide(players[j])) {
+                if (players[i].collides(players[j])) {
                     if (players[j].isBiggerWithDiff(players[i])) {
                         players[j].eat(players[i]);
                     } else if (players[i].isBiggerWithDiff(players[j])) {
