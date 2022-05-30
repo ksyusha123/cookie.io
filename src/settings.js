@@ -4,6 +4,7 @@ const settings = {
     MESSAGES: {
         JOIN: 'join',
         INPUT: 'input',
+        DISCONNECT: 'disconnect',
         GAME_OVER: 'game_over',
         GAME_UPDATE: 'game_update',
     },

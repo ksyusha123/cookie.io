@@ -3,7 +3,9 @@ const socketio = require('socket.io');
 
 const Game = require('./game');
 const settings = require('../settings');
+const addPrototypes = require('./utils');
 
+addPrototypes();
 
 const app = express();
 app.use(express.static('../client'));
@@ -20,7 +22,7 @@ io.on('connection', socket => {
 
     socket.on(settings.MESSAGES.JOIN, joinGame);
     socket.on(settings.MESSAGES.INPUT, handleInput);
-    socket.on('disconnect', onDisconnect);
+    socket.on(settings.MESSAGES.DISCONNECT, onDisconnect);
 });
 
 const game = new Game();
@@ -36,6 +38,6 @@ function handleInput(direction) {
 }
 
 function onDisconnect() {
-    game.removePlayer(this);
+    game.removePlayer(this.id);
     console.log('Player left the game', this.id);
 }

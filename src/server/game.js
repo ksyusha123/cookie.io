@@ -2,107 +2,45 @@ const settings = require('../settings');
 const Player = require('./player');
 const Food = require('./food');
 
+const VISIBLE_MAP_RADIUS = settings.MAP_SIZE / 2;
+const DESIRED_FRAMERATE = 60;
+const INTERVAL_SIZE = 1000 / DESIRED_FRAMERATE;
+
 
 class Game {
     constructor() {
         this.players = {};
         this.food = new Set();
-        this._generateFood(settings.FOOD_COUNT);
         this.lastUpdateTime = Date.now();
         this.shouldSendUpdate = false;
-        setInterval(this.update.bind(this), 1000 / 60);
+
+        this._generateFood(settings.FOOD_COUNT);
+        setInterval(this.update.bind(this), INTERVAL_SIZE);
     }
 
     addPlayer(socket, username, skin) {
-        const x = settings.MAP_SIZE * (0.25 + Math.random() * 0.5);
-        const y = settings.MAP_SIZE * (0.25 + Math.random() * 0.5);
-        this.players[socket.id] = new Player(socket.id, username, skin, x, y, socket);
-    }
-
-    _generateFood(count) {
-        for (let i = 0; i < count; i++) {
-            this.food.add(Food.create());
-        }
+        this.players[socket.id] = Player.spawn(username, skin, socket);
     }
 
     removePlayer(playerId) {
         delete this.players[playerId];
     }
 
-    handleInput(socket, direction) {
-        this.players[socket.id].direction = direction;
+    handleInput(playerId, direction) {
+        this.players[playerId].direction = direction;
     }
 
     update() {
-        const now = Date.now();
-        const dt = (now - this.lastUpdateTime) / 1000;
-        this.lastUpdateTime = now;
-
-        for (const player of Object.values(this.players)){
-            player.update(dt);
-        }
-
+        this._updatePositions();
         this._handleCollisions();
-
         this._generateFood(settings.FOOD_COUNT - this.food.length);
+        this._removeLosersAndNotify();
 
-        for (const [playerId, player] in this.players){
-            if (player.radius === 0){
-                player.socket.emit(settings.MESSAGES.GAME_OVER);
-                this.removePlayer(playerId);
-            }
+        if (this.shouldSendUpdate) {
+            this._sendInfo();
         }
 
-        const foodCopy = new Set(this.food);
-        for (const food of foodCopy) {
-            if (food.radius === 0){
-                this.food.delete(food);
-            }
-        }
-
-        if (this.shouldSendUpdate){
-            const fixedLeaderBoard = this.leaderBoard;
-            for (const player of Object.values(this.players)){
-                const playerUpdate = this.makeUpdate(player, fixedLeaderBoard);
-                player.socket.emit(settings.MESSAGES.GAME_UPDATE, playerUpdate);
-            }
-            this.shouldSendUpdate = false;
-        } else {
-            this.shouldSendUpdate = true;
-        }
-    }
-
-    _handleCollisions(){
-        const players = Object.values(this.players);
-
-        for (let i = 0; i < this.players.length - 1; i++){
-            for (let j = i + 1; j < this.players.length; j++){
-                if (players[i].distanceTo(players[j]) < settings.CRITICAL_DISTANCE_BORDER * (players[i].radius + players[j].radius)) {
-                    if (players[i].area <= settings.CRITICAL_AREA_DIFF * players[j].area) {
-                        this._updateRadii(players[j], players[i]);
-                    } else if (players[j].area <= settings.CRITICAL_AREA_DIFF * players[i].area) {
-                        this._updateRadii(players[i], players[j]);
-                    }
-                }
-            }
-        }
-
-        for (const player of Object.values(this.players)){
-            for (const food of Object.values(this.food)){
-                if (player.distanceTo(food) < settings.CRITICAL_DISTANCE_BORDER * (player.radius + food.radius)){
-                    this._updateRadii(player, food);
-                }
-            }
-        }
-    }
-
-    _updateRadii(winner, loser){
-        winner.radius = this._recalculateRadius(winner.radius, loser.radius);
-        loser.radius = 0;
-    }
-
-    _recalculateRadius(radius1, radius2){
-        return Math.sqrt(radius1 * radius1 + radius2 * radius2);
+        this.shouldSendUpdate = !this.shouldSendUpdate;
     }
 
     get leaderBoard() {
@@ -112,19 +50,19 @@ class Game {
             .map(player => ({username: player.username, area: player.area}));
     }
 
-    findClosePlayers(player){
-        return Object.values(this.players).filter(
-            p => p !== player && p.distanceTo(player) <= settings.MAP_SIZE / 2
-        );
+    findClosePlayersInRadius(player, radius) {
+        return Object.values(this.players)
+            .filter(p => p !== player && p.distanceTo(player) <= radius);
     }
 
-    findCloseFood(player){
-        return Object.values(this.food).filter(f => f.distanceTo(player) <= settings.MAP_SIZE / 2);
+    findCloseFoodInRadius(player, radius) {
+        return Object.values(this.food)
+            .filter(f => f.distanceTo(player) <= radius);
     }
 
     makeUpdate(player, leaderBoard) {
-        const closePlayers = this.findClosePlayers(player);
-        const closeFood = this.findCloseFood(player);
+        const closePlayers = this.findClosePlayersInRadius(player, VISIBLE_MAP_RADIUS);
+        const closeFood = this.findCloseFoodInRadius(player, VISIBLE_MAP_RADIUS);
         return {
             time: Date.now(),
             me: player.serialize(),
@@ -132,6 +70,64 @@ class Game {
             food: closeFood.map(f => f.serialize()),
             leaderboard: leaderBoard,
         };
+    }
+
+    _updatePositions() {
+        const now = Date.now();
+        const dt = (now - this.lastUpdateTime) / 1000;
+
+        Object.values(this.players).forEach(player => player.update(dt));
+
+        this.lastUpdateTime = now;
+    }
+
+    _handleCollisions() {
+        const players = Object.values(this.players);
+        const foodCopy = new Set(this.food);
+
+        for (const player of players) {
+            for (const food of foodCopy) {
+                if (player.collides(food)) {
+                    player.eat(food);
+                    this.food.delete(food);
+                }
+            }
+        }
+
+        for (let i = 0; i < this.players.length - 1; i++) {
+            for (let j = i + 1; j < this.players.length; j++) {
+                if (players[i].collides(players[j])) {
+                    if (players[j].isBiggerWithDiff(players[i])) {
+                        players[j].eat(players[i]);
+                    } else if (players[i].isBiggerWithDiff(players[j])) {
+                        players[i].eat(players[j]);
+                    }
+                }
+            }
+        }
+    }
+
+    _generateFood(count) {
+        for (let i = 0; i < count; i++) {
+            this.food.add(Food.create());
+        }
+    }
+
+    _removeLosersAndNotify() {
+        for (const [playerId, player] in this.players) {
+            if (player.radius === 0) {
+                player.socket.emit(settings.MESSAGES.GAME_OVER);
+                this.removePlayer(playerId);
+            }
+        }
+    }
+
+    _sendInfo() {
+        const fixedLeaderBoard = this.leaderBoard;
+        for (const player of Object.values(this.players)) {
+            const playerUpdate = this.makeUpdate(player, fixedLeaderBoard);
+            player.socket.emit(settings.MESSAGES.GAME_UPDATE, playerUpdate);
+        }
     }
 }
 
