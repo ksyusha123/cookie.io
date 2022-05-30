@@ -7,6 +7,8 @@ const settings = require('../settings');
 
 await downloadAssets();
 
+let skin = '';
+
 document.getElementById("play-button").onclick = () => {
     console.log("click!");
     play(document.getElementById("username").value);

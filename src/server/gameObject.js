@@ -1,16 +1,15 @@
+const settings = require('../settings');
+
 class GameObject {
-    constructor(id, x, y, direction, speed, radius) {
+    constructor(id, x, y, radius) {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.direction = direction;
-        this.speed = speed;
         this.radius = radius;
     }
 
-    update(dt) {
-        this.x += dt * this.speed * Math.sin(this.direction);
-        this.y -= dt * this.speed * Math.cos(this.direction);
+    get area() {
+        return Math.PI * this.radius ** 2;
     }
 
     distanceTo(object) {
@@ -19,14 +18,25 @@ class GameObject {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    collides(object) {
+        return this.distanceTo(object) < settings.CRITICAL_DISTANCE_BORDER * (this.radius + object.radius);
+    }
+
+    isBiggerWithDiff(object) {
+        return object.isSmallerWithDiff(this);
+    }
+
+    isSmallerWithDiff(object) {
+        return this.area <= settings.CRITICAL_AREA_DIFF * object.area;
+    }
+
     serialize() {
         return {
             id: this.id,
             x: this.x,
             y: this.y,
-            direction: this.direction,
-        }
+        };
     }
 }
 
-module.exports = GameObject
+module.exports = GameObject;
