@@ -26,7 +26,6 @@ export const connect = onGameOver => (
 );
 
 export const updateDirection = throttle(20, direction => {
-    //console.log(direction);
     socket.emit(settings.MESSAGES.INPUT, direction)
 });
 

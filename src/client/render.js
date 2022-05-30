@@ -9,6 +9,8 @@ const context = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+const PLAYER_RADIUS = 50;
+
 
 function render() {
     const { me, others } = getCurrentState();
@@ -53,7 +55,37 @@ function renderBackground(x, y) {
 }
 
 function renderPlayer(me, player) {
-    //TODO
+    const { x, y, direction } = player;
+    const canvasX = canvas.width / 2 + x - me.x;
+    const canvasY = canvas.height / 2 + y - me.y;
+
+    context.save();
+    context.translate(canvasX, canvasY);
+    context.rotate(direction);
+    context.drawImage(
+        getAsset('Zhenya.png'),
+        -PLAYER_RADIUS,
+        -PLAYER_RADIUS,
+        PLAYER_RADIUS * 2,
+        PLAYER_RADIUS * 2,
+    );
+    context.restore();
+
+    // Draw health bar
+    context.fillStyle = 'white';
+    context.fillRect(
+        canvasX - PLAYER_RADIUS,
+        canvasY + PLAYER_RADIUS + 8,
+        PLAYER_RADIUS * 2,
+        2,
+    );
+    context.fillStyle = 'red';
+    context.fillRect(
+        canvasX - PLAYER_RADIUS + PLAYER_RADIUS * 2 * player.radius / 10,
+        canvasY + PLAYER_RADIUS + 8,
+        PLAYER_RADIUS * 2 * (1 - player.radius / 10),
+        2,
+    );
 }
 
 let renderInterval = null;
