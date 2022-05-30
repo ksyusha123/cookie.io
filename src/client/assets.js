@@ -1,7 +1,6 @@
 const ASSET_NAMES = ['Zhenya.png', 'background.png', 'BlueCookie.png', 'HoneyCookie.png', 'Ksyusha.png', 'OrangeCookie.png',
     'PinkCookie.png'];
 
-
 const assets = {};
 const downloadPromise = Promise.all(ASSET_NAMES.map(downloadAsset)).then(() => console.log('all assets downloaded'));
 

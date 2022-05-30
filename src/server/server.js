@@ -8,8 +8,8 @@ const addPrototypes = require('./utils');
 addPrototypes();
 
 const app = express();
-app.use(express.static('../client'));
-app.use(express.static('../../dist'));
+app.use(express.static(__dirname + '/../client'));
+app.use(express.static(__dirname + '/../../dist'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port);

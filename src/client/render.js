@@ -4,24 +4,24 @@ import { getCurrentState } from './state';
 const settings = require('../settings');
 const {MAP_SIZE} = settings;
 
-// Get the canvas graphics context
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
 
-// Make the canvas fullscreen
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+const PLAYER_RADIUS = 50;
+
 
 function render() {
-    //const { me, others } = getCurrentState();
-    //if (!me) {
-        //return;
-    //}
+    const { me, others } = getCurrentState();
+    if (!me) {
+        return;
+    }
 
-    renderBackground(0, 0);
+    renderBackground(me.x, me.y);
 
-    //renderPlayer(me, me);
-    //others.forEach(renderPlayer.bind(null, me));
+    renderPlayer(me, me);
+    others.forEach(renderPlayer.bind(null, me));
 }
 
 function renderBackground(x, y) {
@@ -55,7 +55,37 @@ function renderBackground(x, y) {
 }
 
 function renderPlayer(me, player) {
-    //TODO
+    const { x, y, direction } = player;
+    const canvasX = canvas.width / 2 + x - me.x;
+    const canvasY = canvas.height / 2 + y - me.y;
+
+    context.save();
+    context.translate(canvasX, canvasY);
+    context.rotate(direction);
+    context.drawImage(
+        getAsset('Zhenya.png'),
+        -PLAYER_RADIUS,
+        -PLAYER_RADIUS,
+        PLAYER_RADIUS * 2,
+        PLAYER_RADIUS * 2,
+    );
+    context.restore();
+
+    // Draw health bar
+    context.fillStyle = 'white';
+    context.fillRect(
+        canvasX - PLAYER_RADIUS,
+        canvasY + PLAYER_RADIUS + 8,
+        PLAYER_RADIUS * 2,
+        2,
+    );
+    context.fillStyle = 'red';
+    context.fillRect(
+        canvasX - PLAYER_RADIUS + PLAYER_RADIUS * 2 * player.radius / 10,
+        canvasY + PLAYER_RADIUS + 8,
+        PLAYER_RADIUS * 2 * (1 - player.radius / 10),
+        2,
+    );
 }
 
 let renderInterval = null;
