@@ -3,14 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Cookie.io</title>
-    <link type="text/css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-<canvas id="game"></canvas>
-<div id="menu">
-    <label for="username"></label><input type="text" id="username" placeholder="Введи свой ник">
-    <button id="play-button">Играть!</button>
-    <script src="game.bundle.js"></script>
+<canvas class="game-canvas" id="game-canvas"></canvas>
+<script src="game.bundle.js"></script>
+<div class="menu">
+    <h1 class="game-name">Cookie.io</h1>
+    <button class="play-button" id="play-button">играть</button>
+</div>
+<div class="chose-menu">
+    <div class="chose-username-menu">
+        <p class="select-heading">название печенья:</p>
+        <label for="username"></label><input type="text" id="username" placeholder="введите название, например, галета">
+    </div>
+    <div class="chose-skin-menu">
+        <p class="select-heading">как печенье выглядит:</p>
+        <button class="select-skin-button" id="select-skin-button">.</button>
+    </div>
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal__content">
+        <div class="modal-skins" id="modal-skins">
+            <button class="skin-button" id="skin1">.</button>
+            <button class="skin-button" id="skin2">.</button>
+            <button class="skin-button" id="skin3">.</button>
+            <button class="skin-button" id="skin4">.</button>
+            <button class="skin-button" id="skin5">.</button>
+            <button class="skin-button" id="skin6">.</button>
+            <button class="skin-button" id="skin7">.</button>
+            <button class="skin-button" id="skin8">.</button>
+            <button class="skin-button" id="skin9">.</button>
+            <button class="skin-button" id="skin10">.</button>
+            <button class="skin-button" id="skin11">.</button>
+            <button class="skin-button" id="skin12">.</button>
+        </div>
+        <div class="modal-buttons" id="modal-buttons">
+            <button class="modal__close-button" id="modal__close-button">выбрать</button>
+        </div>
+    </div>
 </div>
 </body>
 </html>
