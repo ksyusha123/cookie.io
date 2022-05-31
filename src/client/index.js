@@ -7,10 +7,10 @@ const settings = require('../settings');
 
 await downloadAssets();
 
-let skin = '';
+let skin = 'Zhenya.png';
 
 document.getElementById("play-button").addEventListener('click', () => {
-    play(document.getElementById("username").value);
+    play(document.getElementById("username").value, skin);
     document.getElementsByClassName('menu')[0].style.display = 'none';
     document.getElementsByClassName('chose-menu')[0].style.display = 'none';
     document.body.style.background = 'none';

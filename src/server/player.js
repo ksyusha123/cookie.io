@@ -11,7 +11,7 @@ function toClosestInInterval(value, start, end) {
 
 class Player extends GameObject {
     constructor(id, username, skin, x, y, socket) {
-        super(id, x, y, settings.START_RADIUS);
+        super(id, x, y, settings.PLAYER_RADIUS);
         this.direction = Math.random() * 2 * Math.PI;
         this.username = username;
         this.skin = skin;
@@ -37,7 +37,6 @@ class Player extends GameObject {
             ...(super.serialize()),
             skin: this.skin,
             direction: this.direction,
-            area: this.area,
         };
     }
 

@@ -65,10 +65,9 @@ function interpolateGameObject(prevObjState, nextObjState, ratio) {
     const interpolatedObject = {};
 
     for (const key of Object.keys(prevObjState)){
-        if (key in interpolatedKeys){
+        if (key in interpolatedKeys) {
             interpolatedObject[key] = interpolateValue(prevObjState[key], nextObjState[key], ratio);
-        }
-        else{
+        } else{
             interpolatedObject[key] = prevObjState[key];
         }
     }
