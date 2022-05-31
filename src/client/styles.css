@@ -1,11 +1,11 @@
-body{
+body {
     background-image: url(assets/background.png);
     background-size: cover;
     background-repeat: repeat;
     font-family: 'Montserrat', sans-serif;
 }
 
-.menu{
+.menu {
     visibility: visible;
     border: 0 solid;
     background: rgba(250, 250, 250, 0.80);
@@ -17,7 +17,7 @@ body{
     border-radius: 20px;
 }
 
-.game-name{
+.game-name {
     display: flex;
     justify-content: center;
     font-weight: bold;
@@ -25,7 +25,7 @@ body{
     margin: 2% 0 2% 0;
 }
 
-.play-button{
+.play-button {
     font-family: 'Montserrat', sans-serif;
     font-weight: normal;
     font-size: 40px;
@@ -36,15 +36,15 @@ body{
     border-radius: 20px;
 }
 
-.play-button:hover{
+.play-button:hover {
     background: #ace683;
 }
 
-.play-button:active{
+.play-button:active {
     background: #9ed479;
 }
 
-.chose-menu{
+.chose-menu {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -52,7 +52,7 @@ body{
     visibility: visible;
 }
 
-.chose-username-menu{
+.chose-username-menu {
     border: 0 solid;
     background: rgba(250, 250, 250, 0.80);
     padding: 2%;
@@ -63,7 +63,7 @@ body{
     flex: 0.5;
 }
 
-input{
+input {
     height: 40px;
     background: rgba(209, 209, 209, 0.5);
     border: 0 solid;
@@ -75,11 +75,11 @@ input{
     padding: 5px;
 }
 
-input:hover{
+input:hover {
     background: rgba(200, 200, 200, 0.5);
 }
 
-.select-heading{
+.select-heading {
     font-weight: bold;
     font-size: 25px;
     display: flex;
@@ -88,7 +88,7 @@ input:hover{
     justify-content: center;
 }
 
-.chose-skin-menu{
+.chose-skin-menu {
     border: 0 solid;
     background: rgba(250, 250, 250, 0.80);
     padding: 2%;
@@ -99,26 +99,26 @@ input:hover{
     flex: 0.5;
 }
 
-.select-skin-button{
+.select-skin-button {
     height: 100px;
     margin: 3% 30% 3% 30%;
     border: 3px solid lightgray;
     border-radius: 10px;
 }
 
-.select-skin-button:hover{
+.select-skin-button:hover {
     border: 3px solid #B5EF8A;
 }
 
-.select-skin-button:active{
+.select-skin-button:active {
     border: 3px solid gray;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
 
-.game-canvas{
+.game-canvas {
     display: none;
 }
 
@@ -140,14 +140,14 @@ input:hover{
     overscroll-behavior: contain;
 }
 
-.modal-buttons{
+.modal-buttons {
     display: flex;
     justify-content: center;
     align-items: flex-end;
     flex: 0.1;
 }
 
-.modal__close-button{
+.modal__close-button {
     font-family: 'Montserrat', sans-serif;
     font-weight: normal;
     font-size: 30px;
@@ -158,15 +158,15 @@ input:hover{
     width: 40%;
 }
 
-.modal__close-button:hover{
+.modal__close-button:hover {
     background: #ace683;
 }
 
-.modal__close-button:active{
+.modal__close-button:active {
     background: #9ed479;
 }
 
-.modal-skins{
+.modal-skins {
     flex: 0.9;
     display: flex;
     flex-direction: row;
@@ -188,7 +188,7 @@ input:hover{
     border-radius: 10px;
 }
 
-.skin-button{
+.skin-button {
     height: 40%;
     width: 21%;
     margin: 2%;
@@ -197,12 +197,10 @@ input:hover{
     border-radius: 15px;
 }
 
-.skin-button:hover{
+.skin-button:hover {
     background: rgba(230, 230, 230, 0.5);
 }
 
-.skin-button:active{
+.skin-button:active {
     border: 3px solid #B5EF8A;
 }
-
-

@@ -1,5 +1,5 @@
-import { getAsset } from './assets';
-import { getCurrentState } from './state';
+import {getAsset} from './assets';
+import {getCurrentState} from './state';
 
 const settings = require('../settings');
 const {PLAYER_RADIUS} = settings;
@@ -17,7 +17,7 @@ let prevNetX = 100;
 let prevNetY = 100;
 
 function render() {
-    const { me, others } = getCurrentState();
+    const {me, others} = getCurrentState();
     if (!me) {
         return;
     }
@@ -34,8 +34,8 @@ function renderBackground(x, y) {
     context.fillStyle = "#EEE5E9";
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    let diffX = x - prevX;
-    let diffY = y - prevY;
+    const diffX = x - prevX;
+    const diffY = y - prevY;
 
     prevX = x;
     prevY = y;
@@ -58,7 +58,7 @@ function renderBackground(x, y) {
 }
 
 function renderPlayer(me, player) {
-    const { x, y, direction, skin } = player;
+    const {x, y, direction, skin} = player;
     const canvasX = canvas.width / 2 + x - me.x;
     const canvasY = canvas.height / 2 + y - me.y;
 
@@ -80,6 +80,7 @@ let renderInterval = null;
 export function startRendering() {
     renderInterval = setInterval(render, 1000 / 60);
 }
+
 export function stopRendering() {
     clearInterval(renderInterval);
 }
