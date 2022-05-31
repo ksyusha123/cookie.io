@@ -18,12 +18,11 @@ const connectedPromise = new Promise(resolve => {
     });
 });
 
-export const connect = onGameOver => (
-    connectedPromise.then(() => {
-        socket.on(settings.MESSAGES.GAME_UPDATE, processGameUpdate);
-        socket.on(settings.MESSAGES.GAME_OVER, onGameOver);
-    })
-);
+export const connect = async onGameOver => {
+    await connectedPromise;
+    socket.on(settings.MESSAGES.GAME_UPDATE, processGameUpdate);
+    socket.on(settings.MESSAGES.GAME_OVER, onGameOver);
+};
 
 export const updateDirection = throttle(20, direction => {
     socket.emit(settings.MESSAGES.INPUT, direction)
