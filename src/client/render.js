@@ -10,6 +10,11 @@ const context = canvas.getContext('2d');
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight;
 
+let prevX = 0;
+let prevY = 0;
+
+let prevNetX = 100;
+let prevNetY = 100;
 
 function render() {
     const { me, others } = getCurrentState();
@@ -24,18 +29,29 @@ function render() {
 }
 
 function renderBackground(x, y) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.beginPath();
     context.fillStyle = "#EEE5E9";
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    for (let x = 0; x < canvas.width; x += 100) {
+    let diffX = x - prevX;
+    let diffY = y - prevY;
+
+    prevX = x;
+    prevY = y;
+
+    for (let x = prevNetX - diffX; x < canvas.width; x += 100) {
         context.moveTo(x, 0);
         context.lineTo(x, canvas.height);
     }
 
-    for (let y = 0; y < canvas.height; y += 100) {
+    for (let y = prevNetY - diffY; y < canvas.height; y += 100) {
         context.moveTo(0, y);
         context.lineTo(canvas.width, y);
     }
+
+    prevNetX -= diffX;
+    prevNetY -= diffY
 
     context.strokeStyle = "#888";
     context.stroke();
