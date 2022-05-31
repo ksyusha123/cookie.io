@@ -29,4 +29,4 @@ export const updateDirection = throttle(20, direction => {
     socket.emit(settings.MESSAGES.INPUT, direction)
 });
 
-export const play = (username) => socket.emit(settings.MESSAGES.JOIN, username);
+export const play = (username, skin) => socket.emit(settings.MESSAGES.JOIN, username, skin);
