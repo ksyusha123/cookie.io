@@ -27,7 +27,8 @@ class Game {
     }
 
     handleInput(playerId, direction) {
-        this.players[playerId].direction = direction;
+        if (playerId in this.players)
+            this.players[playerId].direction = direction;
     }
 
     update() {
@@ -94,8 +95,10 @@ class Game {
             }
         }
 
-        for (let i = 0; i < this.players.length - 1; i++) {
-            for (let j = i + 1; j < this.players.length; j++) {
+        const playersCount = Object.keys(this.players).length;
+
+        for (let i = 0; i < playersCount - 1; i++) {
+            for (let j = i + 1; j < playersCount; j++) {
                 if (players[i].collides(players[j])) {
                     if (players[j].isBiggerWithDiff(players[i])) {
                         players[j].eat(players[i]);
