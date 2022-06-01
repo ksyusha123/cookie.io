@@ -33,7 +33,7 @@ class Game {
     update() {
         this._updatePositions();
         this._handleCollisions();
-        this._generateFood(settings.FOOD_COUNT - this.food.length);
+        this._generateFood(settings.FOOD_COUNT - this.food.size);
         this._removeLosersAndNotify();
 
         if (this.shouldSendUpdate) {
@@ -56,7 +56,7 @@ class Game {
     }
 
     findCloseFoodInRadius(player, radius) {
-        return Object.values(this.food)
+        return Array.from(this.food)
             .filter(f => f.distanceTo(player) <= radius);
     }
 
