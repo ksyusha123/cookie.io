@@ -9,6 +9,10 @@ function toClosestInInterval(value, start, end) {
     return Math.max(start, Math.min(end, value));
 }
 
+function _recalculateSpeed(start_speed, current_radius, start_radius) {
+    return start_radius / current_radius * start_speed;
+}
+
 class Player extends GameObject {
     constructor(id, username, skin, x, y, socket) {
         super(id, x, y, settings.PLAYER_RADIUS);
@@ -29,6 +33,7 @@ class Player extends GameObject {
 
     eat(object) {
         this.radius = _recalculateRadius(this.radius, object.radius);
+        this.speed = _recalculateSpeed(settings.PLAYER_SPEED, this.radius, settings.PLAYER_RADIUS);
         object.radius = 0;
     }
 

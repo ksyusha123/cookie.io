@@ -1,5 +1,5 @@
 const settings = {
-    MAP_SIZE: 2000,
+    MAP_SIZE: 10000,
     PLAYER_RADIUS: 40,
     MESSAGES: {
         JOIN: 'join',
@@ -12,7 +12,7 @@ const settings = {
     CRITICAL_AREA_DIFF: 1.5,
     FOOD_RADIUS: 10,
     PLAYER_SPEED: 400,
-    FOOD_COUNT: 50,
+    FOOD_COUNT: 250,
 };
 
 module.exports = settings;
