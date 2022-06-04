@@ -10,7 +10,7 @@ body{
     font-family: 'Montserrat', sans-serif;
 }
 
-.menu{
+.head-menu{
     visibility: visible;
     border: 0 solid;
     background: rgba(250, 250, 250, 0.80);
