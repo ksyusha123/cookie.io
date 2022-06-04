@@ -14,7 +14,7 @@ let prevNetX = 100;
 let prevNetY = 100;
 
 function render() {
-    const {me, others, food} = getCurrentState();
+    const {me, others, food, leaderboard} = getCurrentState();
     if (!me) {
         return;
     }
@@ -24,6 +24,24 @@ function render() {
     renderPlayer(me, me);
     others.forEach(renderPlayer.bind(null, me));
     food.forEach(renderFood.bind(null, me));
+
+    renderLeaderboard(leaderboard);
+}
+
+function renderLeaderboard(leaderboard) {
+    const leaderboardHtml = document.getElementById('leaderboard');
+    const rows = leaderboardHtml.getElementsByTagName('tr');
+    for (let i = 0; i < leaderboard.length; i++) {
+        const cells = rows[i + 1].getElementsByTagName('td');
+        const usernameTextNode = cells[0].getElementsByTagName('p')[0];
+        usernameTextNode.innerHTML = processUsername(leaderboard[i].username);
+        const radiusTextNode = cells[1].getElementsByTagName('p')[0];
+        radiusTextNode.innerHTML = Math.round(leaderboard[i].radius);
+    }
+}
+
+function processUsername(username){
+    return username !== '' ? username.slice(0, 10) : 'oreo';
 }
 
 function renderBackground(x, y) {
