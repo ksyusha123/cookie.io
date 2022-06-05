@@ -1,5 +1,7 @@
 import {getAsset} from './assets';
 import {getCurrentState} from './state';
+import {getMyId} from "./networking";
+import settings from "../settings";
 
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
@@ -14,7 +16,7 @@ let prevNetX = 100;
 let prevNetY = 100;
 
 function render() {
-    const {me, others, food} = getCurrentState();
+    const {me, others, food, leaderboard} = getCurrentState();
     if (!me) {
         return;
     }
@@ -24,6 +26,40 @@ function render() {
     renderPlayer(me, me);
     others.forEach(renderPlayer.bind(null, me));
     food.forEach(renderFood.bind(null, me));
+
+    renderLeaderboard(leaderboard);
+}
+
+function renderLeaderboard(leaderboard) {
+    const leaderboardBody = document.getElementById('leaderboard').getElementsByTagName('tbody')[0];
+    const rows = leaderboardBody.getElementsByTagName('tr');
+    const myId = getMyId();
+
+    const newRowsCount = settings.TOP_COUNT - rows.length;
+    enlargeTable(leaderboardBody, newRowsCount);
+
+    for (let i = 0; i < leaderboard.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        cells[0].innerHTML = processUsername(leaderboard[i].username);
+        cells[1].innerHTML = Math.round(leaderboard[i].radius).toString();
+        rows[i].style.fontWeight = myId === leaderboard[i].id ? 'bold' : null;
+    }
+}
+
+function enlargeTable(table, rowsCount) {
+    for (let i = 0; i < rowsCount; i++){
+        const row = table.insertRow();
+        const usernameCell = row.insertCell();
+        const radiusCell = row.insertCell();
+        const usernameTextNode = document.createTextNode('');
+        const radiusTextNode = document.createTextNode('');
+        usernameCell.appendChild(usernameTextNode);
+        radiusCell.appendChild(radiusTextNode);
+    }
+}
+
+function processUsername(username){
+    return username !== '' ? username.slice(0, 10) : 'oreo';
 }
 
 function renderBackground(x, y) {

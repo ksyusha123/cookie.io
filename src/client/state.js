@@ -51,6 +51,7 @@ export function getCurrentState(){
         me: interpolateGameObject(previousUpdate.me, nextUpdate.me, ratio),
         others: interpolateGameObjectsArray(previousUpdate.others, nextUpdate.others, ratio),
         food: previousUpdate.food,
+        leaderboard: previousUpdate.leaderboard,
     };
 }
 
