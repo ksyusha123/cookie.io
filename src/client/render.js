@@ -29,14 +29,15 @@ function render() {
 }
 
 function renderLeaderboard(leaderboard) {
-    const leaderboardHtml = document.getElementById('leaderboard');
-    const rows = leaderboardHtml.getElementsByTagName('tr');
+    const leaderboardBody = document.getElementById('leaderboard').getElementsByTagName('tbody')[0];
+    const rows = leaderboardBody.getElementsByTagName('tr');
+    
     for (let i = 0; i < leaderboard.length; i++) {
-        const cells = rows[i + 1].getElementsByTagName('td');
+        const cells = rows[i].getElementsByTagName('td');
         const usernameTextNode = cells[0].getElementsByTagName('p')[0];
         usernameTextNode.innerHTML = processUsername(leaderboard[i].username);
         const radiusTextNode = cells[1].getElementsByTagName('p')[0];
-        radiusTextNode.innerHTML = Math.round(leaderboard[i].radius);
+        radiusTextNode.innerHTML = Math.round(leaderboard[i].radius).toString();
     }
 }
 
