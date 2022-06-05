@@ -1,5 +1,7 @@
 import {getAsset} from './assets';
 import {getCurrentState} from './state';
+import {getMyId} from "./networking";
+import settings from "../settings";
 
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
@@ -31,13 +33,28 @@ function render() {
 function renderLeaderboard(leaderboard) {
     const leaderboardBody = document.getElementById('leaderboard').getElementsByTagName('tbody')[0];
     const rows = leaderboardBody.getElementsByTagName('tr');
-    
+    const myId = getMyId();
+
+    const newRowsCount = settings.TOP_COUNT - rows.length;
+    enlargeTable(leaderboardBody, newRowsCount);
+
     for (let i = 0; i < leaderboard.length; i++) {
         const cells = rows[i].getElementsByTagName('td');
-        const usernameTextNode = cells[0].getElementsByTagName('p')[0];
-        usernameTextNode.innerHTML = processUsername(leaderboard[i].username);
-        const radiusTextNode = cells[1].getElementsByTagName('p')[0];
-        radiusTextNode.innerHTML = Math.round(leaderboard[i].radius).toString();
+        cells[0].innerHTML = processUsername(leaderboard[i].username);
+        cells[1].innerHTML = Math.round(leaderboard[i].radius).toString();
+        rows[i].style.fontWeight = myId === leaderboard[i].id ? 'bold' : null;
+    }
+}
+
+function enlargeTable(table, rowsCount) {
+    for (let i = 0; i < rowsCount; i++){
+        const row = table.insertRow();
+        const usernameCell = row.insertCell();
+        const radiusCell = row.insertCell();
+        const usernameTextNode = document.createTextNode('');
+        const radiusTextNode = document.createTextNode('');
+        usernameCell.appendChild(usernameTextNode);
+        radiusCell.appendChild(radiusTextNode);
     }
 }
 

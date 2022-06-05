@@ -47,7 +47,7 @@ class Game {
     get leaderBoard() {
         return Object.values(this.players)
             .sort((player1, player2) => player2.radius - player1.radius)
-            .slice(0, 10)
+            .slice(0, settings.TOP_COUNT)
             .map(player => ({username: player.username, radius: player.radius, id: player.id}));
     }
 
