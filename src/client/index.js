@@ -1,4 +1,4 @@
-import {downloadAssets} from "./assets";
+import {downloadAssets, getAsset, downloadSkinMenuAssets} from "./assets";
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
 import {startRendering} from "./render";
@@ -25,6 +25,7 @@ document.getElementById("play-button").addEventListener('click', () => {
 document.getElementById("select-skin-button").addEventListener('click', () => {
     headMenu.style.display = 'none';
     choseMenu.style.display = 'none';
+    downloadSkinMenuAssets();
     document.getElementById("modal").style.display = 'flex';
 });
 
