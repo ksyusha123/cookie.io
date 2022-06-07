@@ -195,7 +195,7 @@ input:hover{
 
 .skin-button{
     height: 40%;
-    width: 21%;
+    width: 19%;
     margin: 2%;
     border: 0 solid;
     background-size: 100% 100%;
@@ -208,8 +208,10 @@ input:hover{
     background-size: 100% 100%;
 }
 
-.skin-button:active{
+.skin-button:focus{
     border: 3px solid #B5EF8A;
 }
+
+
 
 
