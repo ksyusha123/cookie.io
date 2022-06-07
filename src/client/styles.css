@@ -1,3 +1,8 @@
+html{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 body{
     background-image: url(assets/background.png);
     background-size: cover;
@@ -6,7 +11,7 @@ body{
     overscroll-behavior: none;
 }
 
-.menu{
+.head-menu{
     visibility: visible;
     border: 0 solid;
     background: rgba(250, 250, 250, 0.80);
@@ -191,18 +196,20 @@ input:hover{
 
 .skin-button{
     height: 40%;
-    width: 21%;
+    width: 19%;
     margin: 2%;
     border: 0 solid;
-    background: rgba(0, 0, 0, 0);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
     border-radius: 15px;
 }
 
 .skin-button:hover{
-    background: rgba(230, 230, 230, 0.5);
+    background: rgba(230, 200, 230, 0.5);
+    background-size: 100% 100%;
 }
 
-.skin-button:active{
+.skin-button:focus{
     border: 3px solid #B5EF8A;
 }
 
@@ -214,6 +221,7 @@ input:hover{
     height: 20%;
     z-index: 10;
 }
+
 
 thead {
     font-size: 20px;

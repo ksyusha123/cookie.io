@@ -1,4 +1,4 @@
-import {downloadAssets} from "./assets";
+import {downloadAssets, getAsset, downloadSkinMenuAssets} from "./assets";
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
 import {startRendering} from "./render";
@@ -9,10 +9,13 @@ await downloadAssets();
 
 let skin = 'Zhenya.png';
 
+const headMenu = document.getElementsByClassName('head-menu')[0];
+const choseMenu = document.getElementsByClassName('chose-menu')[0];
+
 document.getElementById("play-button").addEventListener('click', () => {
     play(document.getElementById("username").value, skin);
-    document.getElementsByClassName('menu')[0].style.display = 'none';
-    document.getElementsByClassName('chose-menu')[0].style.display = 'none';
+    headMenu.style.display = 'none';
+    choseMenu.style.display = 'none';
     document.body.style.background = 'none';
     document.getElementById('game-canvas').style.display = 'flex';
     document.getElementById('leaderboard').style.display = 'flex';
@@ -21,15 +24,16 @@ document.getElementById("play-button").addEventListener('click', () => {
 });
 
 document.getElementById("select-skin-button").addEventListener('click', () => {
-    document.getElementsByClassName('menu')[0].style.display = 'none';
-    document.getElementsByClassName('chose-menu')[0].style.display = 'none';
+    headMenu.style.display = 'none';
+    choseMenu.style.display = 'none';
+    downloadSkinMenuAssets();
     document.getElementById("modal").style.display = 'flex';
 });
 
 document.getElementById("modal__close-button").addEventListener('click', () => {
     console.log("click on back select button");
-    document.getElementsByClassName('menu')[0].style.display = 'flex';
-    document.getElementsByClassName('chose-menu')[0].style.display = 'flex';
+    headMenu.style.display = 'flex';
+    choseMenu.style.display = 'flex';
     document.getElementById("modal").style.display = 'none';
 });
 
