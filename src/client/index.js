@@ -18,6 +18,7 @@ document.getElementById("play-button").addEventListener('click', () => {
     choseMenu.style.display = 'none';
     document.body.style.background = 'none';
     document.getElementById('game-canvas').style.display = 'flex';
+    document.getElementById('leaderboard').style.display = 'flex';
     startCapturingInput();
     startRendering();
 });

@@ -29,3 +29,5 @@ export const updateDirection = throttle(20, direction => {
 });
 
 export const play = (username, skin) => socket.emit(settings.MESSAGES.JOIN, username, skin);
+
+export const getMyId = () => socket.id;
