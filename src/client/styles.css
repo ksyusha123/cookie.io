@@ -110,6 +110,8 @@ input:hover{
     margin: 3% 30% 3% 30%;
     border: 3px solid lightgray;
     border-radius: 10px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 .select-skin-button:hover{
