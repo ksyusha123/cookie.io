@@ -12,7 +12,6 @@ const settings = {
     CRITICAL_AREA_DIFF: 1.5,
     FOOD_RADIUS: 10,
     PLAYER_SPEED: 400,
-    FOOD_COUNT: 250,
     TOP_COUNT: 5,
 };
 
