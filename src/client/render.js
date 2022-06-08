@@ -35,6 +35,8 @@ function renderLeaderboard(leaderboard) {
     const rows = leaderboardBody.getElementsByTagName('tr');
     const myId = getMyId();
 
+    clearTable(leaderboardBody, Object.values(leaderboard).length, rows.length);
+
     const newRowsCount = settings.TOP_COUNT - rows.length;
     enlargeTable(leaderboardBody, newRowsCount);
 
@@ -55,6 +57,12 @@ function enlargeTable(table, rowsCount) {
         const radiusTextNode = document.createTextNode('');
         usernameCell.appendChild(usernameTextNode);
         radiusCell.appendChild(radiusTextNode);
+    }
+}
+
+function clearTable(table, actualRowsCount, rowsCount) {
+    for (let i = actualRowsCount; i < rowsCount; i++) {
+        table.deleteRow(actualRowsCount);
     }
 }
 
