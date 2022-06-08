@@ -2,7 +2,7 @@ import io from "socket.io-client";
 import settings from "../settings";
 import {throttle} from "throttle-debounce";
 import {processGameUpdate} from "./state";
-import {stopRendering} from "./render";
+import {stopRendering, drawResultsMenu} from "./render";
 import {stopCapturingInput} from "./input";
 
 
@@ -14,6 +14,7 @@ socket.on('disconnect', () => {
 });
 socket.on(settings.MESSAGES.GAME_OVER, () => {
     console.log('Game over');
+    drawResultsMenu();
     stopRendering();
     stopCapturingInput();
 });

@@ -130,3 +130,23 @@ export function startRendering() {
 export function stopRendering() {
     clearInterval(renderInterval);
 }
+
+export function removeMenu() {
+    const headMenu = document.getElementsByClassName('head-menu')[0];
+    const choseMenu = document.getElementsByClassName('chose-menu')[0];
+    headMenu.style.display = 'none';
+    choseMenu.style.display = 'none';
+    document.body.style.background = 'none';
+    document.getElementById('game-canvas').style.display = 'flex';
+    document.getElementById('leaderboard').style.display = 'flex';
+}
+
+export function drawResultsMenu() {
+    const headMenu = document.getElementsByClassName('head-menu')[0];
+    const choseMenu = document.getElementsByClassName('chose-menu')[0];
+    headMenu.style.display = 'flex';
+    choseMenu.style.display = 'flex';
+    document.body.style.background = 'url(assets/background.png) cover repeat';
+    document.getElementById('game-canvas').style.display = 'none';
+    document.getElementById('leaderboard').style.display = 'none';
+}
