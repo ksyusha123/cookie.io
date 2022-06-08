@@ -117,10 +117,11 @@ class Game {
     }
 
     _removeLosersAndNotify() {
-        for (const [playerId, player] in this.players) {
+        for (const player of Object.values(this.players)) {
             if (player.radius === 0) {
                 player.socket.emit(settings.MESSAGES.GAME_OVER);
-                this.removePlayer(playerId);
+                console.log('Game over', player.id);
+                this.removePlayer(player.id);
             }
         }
     }
