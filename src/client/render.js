@@ -149,12 +149,21 @@ export function removeMenu() {
     document.getElementById('leaderboard').style.display = 'flex';
 }
 
-export function drawResultsMenu() {
+export function drawResultsMenu(results) {
     const headMenu = document.getElementsByClassName('head-menu')[0];
     const choseMenu = document.getElementsByClassName('chose-menu')[0];
     headMenu.style.display = 'flex';
     choseMenu.style.display = 'flex';
-    document.body.style.background = 'url(assets/background.png) cover repeat';
+    const resultsTable = document.getElementById('results');
+    resultsTable.classList.remove('hidden');
+    drawResults(results);
+    document.body.style.background = 'url(assets/background.png) repeat cover';
     document.getElementById('game-canvas').style.display = 'none';
     document.getElementById('leaderboard').style.display = 'none';
+}
+
+function drawResults(player) {
+    const radiusCell = document.getElementById('radius');
+    const radiusTextNode = document.createTextNode(player.radius);
+    radiusCell.appendChild(radiusTextNode);
 }

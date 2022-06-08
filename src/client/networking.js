@@ -12,25 +12,12 @@ socket.on(settings.MESSAGES.GAME_UPDATE, processGameUpdate);
 socket.on('disconnect', () => {
     console.log('Disconnected from server');
 });
-socket.on(settings.MESSAGES.GAME_OVER, () => {
+socket.on(settings.MESSAGES.GAME_OVER, results => {
     console.log('Game over');
-    drawResultsMenu();
+    drawResultsMenu(results);
     stopRendering();
     stopCapturingInput();
 });
-
-// const connectedPromise = new Promise(resolve => {
-//     socket.on('connect', () => {
-//         console.log('Connected to server!');
-//         resolve();
-//     });
-// });
-//
-// export const connect = async onGameOver => {
-//     await connectedPromise;
-//     socket.on(settings.MESSAGES.GAME_UPDATE, processGameUpdate);
-//
-// };
 
 export const updateDirection = throttle(20, direction => {
     socket.emit(settings.MESSAGES.INPUT, direction)
