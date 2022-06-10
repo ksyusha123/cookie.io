@@ -12,12 +12,22 @@
 <script src="game.bundle.js"></script>
 <div class="head-menu">
     <h1 class="game-name">Cookie.io</h1>
+    <table id="results" class="results hidden">
+        <thead>
+            <tr>
+                <th>радиус</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td id="radius"></td></tr>
+        </tbody>
+    </table>
     <button class="play-button" id="play-button">играть</button>
 </div>
 <div class="chose-menu">
     <div class="chose-username-menu">
         <p class="select-heading">название печенья:</p>
-        <label for="username"></label><input type="text" id="username" placeholder="введите название, например, галета">
+        <label for="username"></label><input type="text" id="username" placeholder="oreo">
     </div>
     <div class="chose-skin-menu">
         <p class="select-heading">как печенье выглядит:</p>

@@ -35,6 +35,8 @@ function renderLeaderboard(leaderboard) {
     const rows = leaderboardBody.getElementsByTagName('tr');
     const myId = getMyId();
 
+    clearTable(leaderboardBody, Object.values(leaderboard).length, rows.length);
+
     const newRowsCount = settings.TOP_COUNT - rows.length;
     enlargeTable(leaderboardBody, newRowsCount);
 
@@ -55,6 +57,12 @@ function enlargeTable(table, rowsCount) {
         const radiusTextNode = document.createTextNode('');
         usernameCell.appendChild(usernameTextNode);
         radiusCell.appendChild(radiusTextNode);
+    }
+}
+
+function clearTable(table, actualRowsCount, rowsCount) {
+    for (let i = actualRowsCount; i < rowsCount; i++) {
+        table.deleteRow(actualRowsCount);
     }
 }
 
@@ -129,4 +137,33 @@ export function startRendering() {
 
 export function stopRendering() {
     clearInterval(renderInterval);
+}
+
+export function removeMenu() {
+    const headMenu = document.getElementsByClassName('head-menu')[0];
+    const choseMenu = document.getElementsByClassName('chose-menu')[0];
+    headMenu.style.display = 'none';
+    choseMenu.style.display = 'none';
+    document.body.style.background = 'none';
+    document.getElementById('game-canvas').style.display = 'flex';
+    document.getElementById('leaderboard').style.display = 'flex';
+}
+
+export function drawResultsMenu(results) {
+    const headMenu = document.getElementsByClassName('head-menu')[0];
+    const choseMenu = document.getElementsByClassName('chose-menu')[0];
+    headMenu.style.display = 'flex';
+    choseMenu.style.display = 'flex';
+    const resultsTable = document.getElementById('results');
+    resultsTable.classList.remove('hidden');
+    drawResults(results);
+    document.body.style.background = 'url(assets/background.png) repeat cover';
+    document.getElementById('game-canvas').style.display = 'none';
+    document.getElementById('leaderboard').style.display = 'none';
+}
+
+function drawResults(player) {
+    const radiusCell = document.getElementById('radius');
+    const radiusTextNode = document.createTextNode(player.radius);
+    radiusCell.appendChild(radiusTextNode);
 }

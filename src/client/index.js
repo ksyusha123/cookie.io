@@ -1,7 +1,7 @@
 import {downloadAssets, getAsset, downloadSkinMenuAssets} from "./assets";
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
-import {startRendering} from "./render";
+import {startRendering, removeMenu} from "./render";
 
 const settings = require('../settings');
 
@@ -14,11 +14,7 @@ const choseMenu = document.getElementsByClassName('chose-menu')[0];
 
 document.getElementById("play-button").addEventListener('click', () => {
     play(document.getElementById("username").value, skin);
-    headMenu.style.display = 'none';
-    choseMenu.style.display = 'none';
-    document.body.style.background = 'none';
-    document.getElementById('game-canvas').style.display = 'flex';
-    document.getElementById('leaderboard').style.display = 'flex';
+    removeMenu();
     startCapturingInput();
     startRendering();
 });
