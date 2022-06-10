@@ -1,6 +1,8 @@
 import {updateDirection} from "./networking";
 
 const MAX_INSIGNIFICANT_DEVIATION = 10;
+const rAF = window.mozRequestAnimationFrame || window.requestAnimationFrame;
+let interval;
 
 function onMouseInput(e) {
     handleInput(e.clientX, e.clientY);
@@ -9,6 +11,11 @@ function onMouseInput(e) {
 function onTouchInput(e) {
     const touch = e.touches[0];
     handleInput(touch.clientX, touch.clientY);
+}
+
+function onGamepadUpdate() {
+    const gp = navigator.getGamepads()[0];
+    //todo add some black magic and gamepad controlling stuff
 }
 
 function handleInput(x, y) {
@@ -26,9 +33,15 @@ export function startCapturingInput() {
     window.addEventListener('click', onMouseInput);
     window.addEventListener('touchstart', onTouchInput);
     window.addEventListener('touchmove', onTouchInput);
+
+    window.addEventListener('gamepadconnected', _ => {
+        interval = setInterval(() => rAF(onGamepadUpdate), 150);
+    });
+    window.addEventListener('gamepaddisconnected', _ => clearInterval(interval));
 }
 
 export function stopCapturingInput() {
+    clearInterval(interval);
     window.removeEventListener('mousemove', onMouseInput);
     window.removeEventListener('click', onMouseInput);
     window.removeEventListener('touchstart', onTouchInput);
