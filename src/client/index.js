@@ -39,11 +39,12 @@ document.getElementById("modal__close-button").addEventListener('click', () => {
     updateSkinButton(skin);
 });
 
+const prefixLen = 4;
 for (let e of document.getElementById('modal-skins').childNodes){
     if (e.nodeType !== 1)
         continue;
     e.addEventListener('click', () => {
-        skin = getPersonAsset(Number(e.id.slice(4)) - 1);
+        skin = getPersonAsset(Number(e.id.slice(prefixLen)) - 1);
     });
 }
 
