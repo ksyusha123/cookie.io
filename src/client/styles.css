@@ -216,15 +216,30 @@ input:hover{
 }
 
 .overlay{
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 10%;
-    height: 20%;
-    z-index: 10;
+
 }
 
 
 thead {
     font-size: 20px;
 }
+
+.scoreboard-table{
+    position: absolute;
+    right: 2%;
+    bottom: 2%;
+    width: 10%;
+    height: 25%;
+    z-index: 10;
+    border-spacing: 30px 2px;
+    background: rgba(250, 250, 250, 0.70);
+    border-radius: 20px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.scoreboard-section.tr{
+    border-top: 1px;
+}
+
+
