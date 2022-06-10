@@ -220,16 +220,12 @@ input:hover{
     border: 3px solid #B5EF8A;
 }
 
-.overlay{
-<<<<<<< HEAD
-
-=======
+.overlay {
     position: absolute;
     right: 0;
     bottom: 0;
     width: 20%;
     z-index: 10;
->>>>>>> master
 }
 
 
