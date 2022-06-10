@@ -36,7 +36,7 @@ document.getElementById("modal__close-button").addEventListener('click', () => {
 });
 
 const prefixLen = 4;
-for (let e of document.getElementById('modal-skins').childNodes){
+for (let e of document.getElementById('modal-skins').childNodes) {
     if (e.nodeType !== 1)
         continue;
     e.addEventListener('click', () => {

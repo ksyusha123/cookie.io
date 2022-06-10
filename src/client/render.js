@@ -49,7 +49,7 @@ function renderLeaderboard(leaderboard) {
 }
 
 function enlargeTable(table, rowsCount) {
-    for (let i = 0; i < rowsCount; i++){
+    for (let i = 0; i < rowsCount; i++) {
         const row = table.insertRow();
         const usernameCell = row.insertCell();
         const radiusCell = row.insertCell();
@@ -66,7 +66,7 @@ function clearTable(table, actualRowsCount, rowsCount) {
     }
 }
 
-function processUsername(username){
+function processUsername(username) {
     return username !== '' ? username.slice(0, 10) : 'oreo';
 }
 

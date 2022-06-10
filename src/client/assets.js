@@ -24,8 +24,8 @@ export const downloadAssets = () => downloadPromise;
 export const getAsset = assetName => assets[assetName];
 export const getPersonAsset = index => personAssets[index];
 
-export function downloadSkinMenuAssets(){
-    for (let i = 0; i < personAssets.length; i++){
+export function downloadSkinMenuAssets() {
+    for (let i = 0; i < personAssets.length; i++) {
         const asset = assets[personAssets[i]];
         const button = document.getElementById(`skin${i + 1}`);
         asset.style.width = button.style.width;
@@ -33,7 +33,8 @@ export function downloadSkinMenuAssets(){
         button.style.backgroundImage = `url(/assets/${personAssets[i]})`;
     }
 }
-export function updateSkinButton(skin){
+
+export function updateSkinButton(skin) {
     const asset = assets[skin];
     const button = document.getElementById('select-skin-button');
     asset.style.width = button.style.width;
