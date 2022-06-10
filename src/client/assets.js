@@ -22,6 +22,7 @@ function downloadAsset(assetName) {
 
 export const downloadAssets = () => downloadPromise;
 export const getAsset = assetName => assets[assetName];
+export const getPersonAsset = index => personAssets[index];
 
 export function downloadSkinMenuAssets(){
     for (let i = 0; i < personAssets.length; i++){
@@ -30,6 +31,12 @@ export function downloadSkinMenuAssets(){
         asset.style.width = button.style.width;
         asset.style.height = button.style.height;
         button.style.backgroundImage = `url(/assets/${personAssets[i]})`;
-        console.log(button.style.backgroundImage);
     }
+}
+export function updateSkinButton(skin){
+    const asset = assets[skin];
+    const button = document.getElementById('select-skin-button');
+    asset.style.width = button.style.width;
+    asset.style.height = button.style.height;
+    button.style.backgroundImage = `url(/assets/${skin})`;
 }

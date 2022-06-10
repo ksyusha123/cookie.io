@@ -1,4 +1,4 @@
-import {downloadAssets, getAsset, downloadSkinMenuAssets} from "./assets";
+import {downloadAssets, getPersonAsset, downloadSkinMenuAssets, updateSkinButton} from "./assets";
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
 import {startRendering, removeMenu} from "./render";
@@ -8,6 +8,7 @@ const settings = require('../settings');
 await downloadAssets();
 
 let skin = 'Zhenya.png';
+updateSkinButton(skin);
 
 const headMenu = document.getElementsByClassName('head-menu')[0];
 const choseMenu = document.getElementsByClassName('chose-menu')[0];
@@ -31,6 +32,16 @@ document.getElementById("modal__close-button").addEventListener('click', () => {
     headMenu.style.display = 'flex';
     choseMenu.style.display = 'flex';
     document.getElementById("modal").style.display = 'none';
+    updateSkinButton(skin);
 });
+
+const prefixLen = 4;
+for (let e of document.getElementById('modal-skins').childNodes){
+    if (e.nodeType !== 1)
+        continue;
+    e.addEventListener('click', () => {
+        skin = getPersonAsset(Number(e.id.slice(prefixLen)) - 1);
+    });
+}
 
 
