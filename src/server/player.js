@@ -21,10 +21,15 @@ class Player extends GameObject {
         this.skin = skin;
         this.socket = socket;
         this.speed = settings.PLAYER_SPEED;
+        this.isMoving = true;
         this.eaten = false;
     }
 
     update(dt) {
+        if (!this.isMoving) {
+            return;
+        }
+
         this.x += dt * this.speed * Math.sin(this.direction);
         this.y -= dt * this.speed * Math.cos(this.direction);
 

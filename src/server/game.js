@@ -27,9 +27,11 @@ class Game {
         delete this.players[playerId];
     }
 
-    handleInput(playerId, direction) {
-        if (playerId in this.players)
+    handleInput(playerId, direction, isMoving) {
+        if (playerId in this.players) {
             this.players[playerId].direction = direction;
+            this.players[playerId].isMoving = isMoving;
+        }
     }
 
     update() {

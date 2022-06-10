@@ -19,8 +19,8 @@ socket.on(settings.MESSAGES.GAME_OVER, results => {
     stopCapturingInput();
 });
 
-export const updateDirection = throttle(20, direction => {
-    socket.emit(settings.MESSAGES.INPUT, direction)
+export const updateDirection = throttle(20, (direction, isMoving) => {
+    socket.emit(settings.MESSAGES.INPUT, direction, isMoving)
 });
 
 export const play = (username, skin) => socket.emit(settings.MESSAGES.JOIN, username, skin);
