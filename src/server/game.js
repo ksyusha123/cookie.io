@@ -118,12 +118,18 @@ class Game {
     }
 
     _removeLosersAndNotify() {
+        const eatenPlayers = [];
+
         for (const player of Object.values(this.players)) {
             if (player.eaten) {
                 player.socket.emit(settings.MESSAGES.GAME_OVER, player.serialize());
                 console.log('Game over', player.id);
-                this.removePlayer(player.id);
+                eatenPlayers.push(player.id);
             }
+        }
+
+        for (const eatenPlayer of eatenPlayers) {
+            this.removePlayer(eatenPlayer);
         }
     }
 
