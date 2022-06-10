@@ -5,6 +5,7 @@ const Food = require('./food');
 const VISIBLE_MAP_RADIUS = settings.MAP_SIZE / 2;
 const DESIRED_FRAMERATE = 60;
 const INTERVAL_SIZE = 1000 / DESIRED_FRAMERATE;
+const FOOD_COUNT = 250;
 
 
 class Game {
@@ -14,7 +15,7 @@ class Game {
         this.lastUpdateTime = Date.now();
         this.shouldSendUpdate = false;
 
-        this._generateFood(settings.FOOD_COUNT);
+        this._generateFood(FOOD_COUNT);
         setInterval(this.update.bind(this), INTERVAL_SIZE);
     }
 
@@ -34,7 +35,7 @@ class Game {
     update() {
         this._updatePositions();
         this._handleCollisions();
-        this._generateFood(settings.FOOD_COUNT - this.food.size);
+        this._generateFood(FOOD_COUNT - this.food.size);
         this._removeLosersAndNotify();
 
         if (this.shouldSendUpdate) {
@@ -117,11 +118,18 @@ class Game {
     }
 
     _removeLosersAndNotify() {
-        for (const [playerId, player] in this.players) {
-            if (player.radius === 0) {
-                player.socket.emit(settings.MESSAGES.GAME_OVER);
-                this.removePlayer(playerId);
+        const eatenPlayers = [];
+
+        for (const player of Object.values(this.players)) {
+            if (player.eaten) {
+                player.socket.emit(settings.MESSAGES.GAME_OVER, player.serialize());
+                console.log('Game over', player.id);
+                eatenPlayers.push(player.id);
             }
+        }
+
+        for (const eatenPlayer of eatenPlayers) {
+            this.removePlayer(eatenPlayer);
         }
     }
 

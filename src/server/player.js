@@ -21,6 +21,7 @@ class Player extends GameObject {
         this.skin = skin;
         this.socket = socket;
         this.speed = settings.PLAYER_SPEED;
+        this.eaten = false;
     }
 
     update(dt) {
@@ -34,7 +35,7 @@ class Player extends GameObject {
     eat(object) {
         this.radius = _recalculateRadius(this.radius, object.radius);
         this.speed = _recalculateSpeed(settings.PLAYER_SPEED, this.radius, settings.PLAYER_RADIUS);
-        object.radius = 0;
+        object.eaten = true;
     }
 
     serialize() {

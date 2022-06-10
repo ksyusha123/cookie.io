@@ -23,6 +23,11 @@ body{
     border-radius: 20px;
 }
 
+.results {
+    text-align: center;
+    justify-content: center;
+}
+
 .game-name{
     display: flex;
     justify-content: center;
@@ -216,7 +221,15 @@ input:hover{
 }
 
 .overlay{
+<<<<<<< HEAD
 
+=======
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 20%;
+    z-index: 10;
+>>>>>>> master
 }
 
 
