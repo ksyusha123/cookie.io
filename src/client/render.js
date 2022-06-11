@@ -27,6 +27,8 @@ function render() {
     others.forEach(renderPlayer.bind(null, me));
     food.forEach(renderFood.bind(null, me));
 
+    renderMeOnMap(me);
+
     renderLeaderboard(leaderboard);
 }
 
@@ -142,7 +144,7 @@ export function stopRendering() {
 export function removeMenu() {
     const headMenu = document.getElementsByClassName('head-menu')[0];
     const choseMenu = document.getElementsByClassName('chose-menu')[0];
-    const minimap = document.getElementsByClassName('map')[0];
+    const minimap = document.getElementById('map');
     minimap.style.display = 'flex';
     headMenu.style.display = 'none';
     choseMenu.style.display = 'none';
@@ -154,7 +156,7 @@ export function removeMenu() {
 export function drawResultsMenu(results) {
     const headMenu = document.getElementsByClassName('head-menu')[0];
     const choseMenu = document.getElementsByClassName('chose-menu')[0];
-    const minimap = document.getElementsByClassName('map')[0];
+    const minimap = document.getElementById('map');
     minimap.style.display = 'none';
     headMenu.style.display = 'flex';
     choseMenu.style.display = 'flex';
@@ -170,4 +172,19 @@ function drawResults(player) {
     const radiusCell = document.getElementById('radius');
     const radiusTextNode = document.createTextNode(player.radius);
     radiusCell.appendChild(radiusTextNode);
+}
+
+const mapCanvas = document.getElementById('map');
+const mapContext = mapCanvas.getContext('2d');
+
+function renderMeOnMap(me) {
+    const canvasX = me.x / settings.MAP_SIZE * mapCanvas.width;
+    const canvasY = me.y / settings.MAP_SIZE * mapCanvas.height;
+
+    mapContext.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
+    mapContext.beginPath();
+    mapContext.arc(canvasX, canvasY, 5, 0, 2 * Math.PI, false);
+    mapContext.fillStyle = 'red';
+    mapContext.fill();
+    mapContext.stroke();
 }
