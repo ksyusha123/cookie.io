@@ -62,15 +62,16 @@ class Game {
             .filter(f => f.distanceTo(player) <= radius);
     }
 
-    makeUpdate(player, leaderBoard) {
+    makeUpdate(player, leaderboard) {
         const closePlayers = this.findClosePlayersInRadius(player, VISIBLE_MAP_RADIUS);
         const closeFood = this.findCloseFoodInRadius(player, VISIBLE_MAP_RADIUS);
         return {
             time: Date.now(),
             me: player.serialize(),
-            others: closePlayers.map(p => p.serialize()),
+            visible: closePlayers.map(p => p.serialize()),
             food: closeFood.map(f => f.serialize()),
-            leaderboard: leaderBoard,
+            leaderboard: leaderboard,
+            players: Object.values(this.players).map(p => ({x: p.x, y: p.y})),
         };
     }
 

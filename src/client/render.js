@@ -16,7 +16,7 @@ let prevNetX = 100;
 let prevNetY = 100;
 
 function render() {
-    const {me, others, food, leaderboard} = getCurrentState();
+    const {me, visible, players, food, leaderboard} = getCurrentState();
     if (!me) {
         return;
     }
@@ -24,10 +24,10 @@ function render() {
     renderBackground(me.x, me.y);
 
     renderPlayer(me, me);
-    others.forEach(renderPlayer.bind(null, me));
+    visible.forEach(renderPlayer.bind(null, me));
     food.forEach(renderFood.bind(null, me));
 
-    renderMeOnMap(me);
+    renderMiniMap(me, players);
 
     renderLeaderboard(leaderboard);
 }
@@ -177,14 +177,19 @@ function drawResults(player) {
 const mapCanvas = document.getElementById('map');
 const mapContext = mapCanvas.getContext('2d');
 
-function renderMeOnMap(me) {
-    const canvasX = me.x / settings.MAP_SIZE * mapCanvas.width;
-    const canvasY = me.y / settings.MAP_SIZE * mapCanvas.height;
+function renderPlayerOnMap(color, player) {
+    const canvasX = player.x / settings.MAP_SIZE * mapCanvas.width;
+    const canvasY = player.y / settings.MAP_SIZE * mapCanvas.height;
 
-    mapContext.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
     mapContext.beginPath();
     mapContext.arc(canvasX, canvasY, 5, 0, 2 * Math.PI, false);
-    mapContext.fillStyle = 'red';
+    mapContext.fillStyle = color;
     mapContext.fill();
     mapContext.stroke();
+}
+
+function renderMiniMap(me, players) {
+    mapContext.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
+    players.forEach(renderPlayerOnMap.bind(null, 'blue'));
+    renderPlayerOnMap('red', me);
 }
