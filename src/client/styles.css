@@ -221,15 +221,11 @@ input:hover{
 }
 
 .overlay{
-<<<<<<< HEAD
-
-=======
     position: absolute;
     right: 0;
     bottom: 0;
     width: 20%;
     z-index: 10;
->>>>>>> master
 }
 
 
