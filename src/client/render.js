@@ -142,6 +142,8 @@ export function stopRendering() {
 export function removeMenu() {
     const headMenu = document.getElementsByClassName('head-menu')[0];
     const choseMenu = document.getElementsByClassName('chose-menu')[0];
+    const minimap = document.getElementsByClassName('map')[0];
+    minimap.style.display = 'flex';
     headMenu.style.display = 'none';
     choseMenu.style.display = 'none';
     document.body.style.background = 'none';
@@ -152,6 +154,8 @@ export function removeMenu() {
 export function drawResultsMenu(results) {
     const headMenu = document.getElementsByClassName('head-menu')[0];
     const choseMenu = document.getElementsByClassName('chose-menu')[0];
+    const minimap = document.getElementsByClassName('map')[0];
+    minimap.style.display = 'none';
     headMenu.style.display = 'flex';
     choseMenu.style.display = 'flex';
     const resultsTable = document.getElementById('results');
