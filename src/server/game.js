@@ -71,7 +71,7 @@ class Game {
             visible: closePlayers.map(p => p.serialize()),
             food: closeFood.map(f => f.serialize()),
             leaderboard: leaderboard,
-            players: Object.values(this.players).map(p => ({x: p.x, y: p.y})),
+            playersCoordinates: Object.values(this.players).map(p => ({x: p.x, y: p.y})),
         };
     }
 
