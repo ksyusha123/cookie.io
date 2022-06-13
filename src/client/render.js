@@ -100,7 +100,8 @@ function renderBackground(x, y) {
 }
 
 function renderPlayer(me, player) {
-    const {x, y, radius, direction, skin} = player;
+    let {x, y, radius, direction, skin, username} = player;
+    username = username || 'oreo';
     const canvasX = canvas.width / 2 + x - me.x;
     const canvasY = canvas.height / 2 + y - me.y;
 
@@ -113,6 +114,17 @@ function renderPlayer(me, player) {
         -radius,
         radius * 2,
         radius * 2,
+    );
+    context.strokeStyle = '#fff';
+    context.fillStyle = '#000';
+    context.font = `italic ${radius / 2}pt Arial`;
+    context.textBaseline = 'middle';
+    context.textAlign = 'center';
+    context.strokeText(
+        username,
+        0,
+        0,
+        100
     );
     context.restore();
 }

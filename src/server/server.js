@@ -34,7 +34,6 @@ function joinGame(username, skin) {
 
 function handleInput(direction) {
     game.handleInput(this.id, direction);
-    // console.log('Player updated direction', this.id);
 }
 
 function onDisconnect() {

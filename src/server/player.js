@@ -43,6 +43,7 @@ class Player extends GameObject {
             ...(super.serialize()),
             skin: this.skin,
             direction: this.direction,
+            username: this.username,
         };
     }
 
