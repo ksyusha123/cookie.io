@@ -1,31 +1,49 @@
 import {updateDirection} from "./networking";
 
-const MAX_INSIGNIFICANT_DEVIATION = 10;
+const MAX_SPEED_DEVIATION_FOR_NON_GAMEPAD = 150;
+const MIN_SPEED_DEVIATION_FOR_NON_GAMEPAD = 25;
 const rAF = window.mozRequestAnimationFrame || window.requestAnimationFrame;
 let interval;
+let isUsingGamepad = false;
 
 function onMouseInput(e) {
-    handleInput(e.clientX, e.clientY);
+    handleNonGamepadInput(e.clientX, e.clientY);
 }
 
 function onTouchInput(e) {
     const touch = e.touches[0];
-    handleInput(touch.clientX, touch.clientY);
+    handleNonGamepadInput(touch.clientX, touch.clientY);
 }
 
 function onGamepadUpdate() {
-    const gp = navigator.getGamepads()[0];
-    //todo add some black magic and gamepad controlling stuff
+    const diff = getGamepadDxAndDy();
+    calculateDirectionAndUpdate(diff.dx, diff.dy, diff.speedMultiplier);
 }
 
-function handleInput(x, y) {
-    const dx = x - window.innerWidth / 2;
-    const dy = window.innerHeight / 2 - y;
-    const deviation = Math.sqrt(dx * dx + dy * dy);
+function handleNonGamepadInput(x, y) {
+    if (!isUsingGamepad) {
+        const dx = x - window.innerWidth / 2;
+        const dy = y - window.innerHeight / 2;
+        const deviationDistance = Math.sqrt(dx * dx + dy * dy);
+        const speedMultiplier = Math.min(1,
+            Math.max(0, (deviationDistance - MIN_SPEED_DEVIATION_FOR_NON_GAMEPAD) / (MAX_SPEED_DEVIATION_FOR_NON_GAMEPAD - MIN_SPEED_DEVIATION_FOR_NON_GAMEPAD)));
 
-    const dir = Math.atan2(dx, dy);
-    const isMoving = deviation > MAX_INSIGNIFICANT_DEVIATION;
-    updateDirection(dir, isMoving);
+        calculateDirectionAndUpdate(dx, dy, speedMultiplier);
+    }
+}
+
+function getGamepadDxAndDy() {
+    const gp = navigator.getGamepads()[0];
+    const diff = {dx: gp.axes[0], dy: gp.axes[1]};
+    const deviationDistance = Math.sqrt(diff.dx * diff.dx + diff.dy * diff.dy);
+    diff.speedMultiplier = Math.min(1, Math.max(0, (deviationDistance - 0.05) / (1 - 0.05)));
+
+    return diff;
+}
+
+function calculateDirectionAndUpdate(dx, dy, speedMultiplier) {
+    const dir = Math.atan2(dx, -dy);
+    updateDirection(dir, speedMultiplier);
 }
 
 export function startCapturingInput() {
@@ -35,9 +53,14 @@ export function startCapturingInput() {
     window.addEventListener('touchmove', onTouchInput);
 
     window.addEventListener('gamepadconnected', _ => {
+        isUsingGamepad = true;
         interval = setInterval(() => rAF(onGamepadUpdate), 150);
     });
-    window.addEventListener('gamepaddisconnected', _ => clearInterval(interval));
+
+    window.addEventListener('gamepaddisconnected', _ => {
+        isUsingGamepad = false;
+        clearInterval(interval);
+    });
 }
 
 export function stopCapturingInput() {
