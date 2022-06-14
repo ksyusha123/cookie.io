@@ -20,7 +20,7 @@ export function processGameUpdate(update) {
 function getPreviousUpdateIndex() {
     const serverTime = getCurrentServerTime();
     for (let i = gameUpdates.length - 1; i > -1; i--) {
-        if (gameUpdates[i].time <= serverTime){
+        if (gameUpdates[i].time <= serverTime) {
             return i;
         }
     }
@@ -31,7 +31,7 @@ function getCurrentServerTime() {
     return serverTimestamp + Date.now() - currentGameTime - RENDER_DELAY;
 }
 
-export function getCurrentState(){
+export function getCurrentState() {
     if (!serverTimestamp) {
         return {};
     }
@@ -39,7 +39,7 @@ export function getCurrentState(){
     const previousUpdateIndex = getPreviousUpdateIndex();
     const serverTime = getCurrentServerTime();
 
-    if (previousUpdateIndex < 0 || previousUpdateIndex === gameUpdates.length - 1){
+    if (previousUpdateIndex < 0 || previousUpdateIndex === gameUpdates.length - 1) {
         return gameUpdates[-1];
     }
 
@@ -60,16 +60,16 @@ const interpolatedKeys = new Set(['x', 'y', 'radius']);
 
 
 function interpolateGameObject(prevObjState, nextObjState, ratio) {
-    if (!nextObjState){
+    if (!nextObjState) {
         return prevObjState;
     }
 
     const interpolatedObject = {};
 
-    for (const key of Object.keys(prevObjState)){
+    for (const key of Object.keys(prevObjState)) {
         if (key in interpolatedKeys) {
             interpolatedObject[key] = interpolateValue(prevObjState[key], nextObjState[key], ratio);
-        } else{
+        } else {
             interpolatedObject[key] = prevObjState[key];
         }
     }
@@ -82,6 +82,6 @@ function interpolateGameObjectsArray(prevObjectsStates, nextObjectsStates, ratio
         .map(o => interpolateGameObject(o, nextObjectsStates.find(o2 => o.id === o2.id), ratio));
 }
 
-function interpolateValue(prevValue, nextValue, ratio){
+function interpolateValue(prevValue, nextValue, ratio) {
     return prevValue + (nextValue - prevValue) * ratio;
 }
