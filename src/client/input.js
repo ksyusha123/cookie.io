@@ -1,8 +1,12 @@
 import {updateDirection} from "./networking";
 
-const MAX_SPEED_DEVIATION_FOR_NON_GAMEPAD = 150;
 const MIN_SPEED_DEVIATION_FOR_NON_GAMEPAD = 25;
-const rAF = window.mozRequestAnimationFrame || window.requestAnimationFrame;
+const MAX_SPEED_DEVIATION_FOR_NON_GAMEPAD = 150;
+const MIN_SPEED_DEVIATION_FOR_GAMEPAD = 0.1;
+const MAX_SPEED_DEVIATION_FOR_GAMEPAD = 1;
+
+const animationFrame = window.mozRequestAnimationFrame || window.requestAnimationFrame;
+
 let interval;
 let isUsingGamepad = false;
 
@@ -16,8 +20,8 @@ function onTouchInput(e) {
 }
 
 function onGamepadUpdate() {
-    const diff = getGamepadDxAndDy();
-    calculateDirectionAndUpdate(diff.dx, diff.dy, diff.speedMultiplier);
+    const movementInfo = getMovementInfoFromGamepad();
+    calculateDirectionAndUpdate(movementInfo.dx, movementInfo.dy, movementInfo.speedMultiplier);
 }
 
 function handleNonGamepadInput(x, y) {
@@ -25,18 +29,21 @@ function handleNonGamepadInput(x, y) {
         const dx = x - window.innerWidth / 2;
         const dy = y - window.innerHeight / 2;
         const deviationDistance = Math.sqrt(dx * dx + dy * dy);
-        const speedMultiplier = Math.min(1,
-            Math.max(0, (deviationDistance - MIN_SPEED_DEVIATION_FOR_NON_GAMEPAD) / (MAX_SPEED_DEVIATION_FOR_NON_GAMEPAD - MIN_SPEED_DEVIATION_FOR_NON_GAMEPAD)));
-
+        const speedMultiplier = Math.scaleOntoInterval(deviationDistance,
+            MIN_SPEED_DEVIATION_FOR_NON_GAMEPAD, MAX_SPEED_DEVIATION_FOR_NON_GAMEPAD,
+            0, 1);
         calculateDirectionAndUpdate(dx, dy, speedMultiplier);
     }
 }
 
-function getGamepadDxAndDy() {
+function getMovementInfoFromGamepad() {
     const gp = navigator.getGamepads()[0];
     const diff = {dx: gp.axes[0], dy: gp.axes[1]};
     const deviationDistance = Math.sqrt(diff.dx * diff.dx + diff.dy * diff.dy);
-    diff.speedMultiplier = Math.min(1, Math.max(0, (deviationDistance - 0.05) / (1 - 0.05)));
+
+    diff.speedMultiplier = Math.scaleOntoInterval(deviationDistance,
+        MIN_SPEED_DEVIATION_FOR_GAMEPAD, MAX_SPEED_DEVIATION_FOR_GAMEPAD,
+        0, 1);
 
     return diff;
 }
@@ -54,7 +61,7 @@ export function startCapturingInput() {
 
     window.addEventListener('gamepadconnected', _ => {
         isUsingGamepad = true;
-        interval = setInterval(() => rAF(onGamepadUpdate), 150);
+        interval = setInterval(() => animationFrame(onGamepadUpdate), 150);
     });
 
     window.addEventListener('gamepaddisconnected', _ => {

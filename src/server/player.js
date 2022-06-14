@@ -5,10 +5,6 @@ function _recalculateRadius(radius1, radius2) {
     return Math.sqrt(radius1 * radius1 + radius2 * radius2);
 }
 
-function toClosestInInterval(value, start, end) {
-    return Math.max(start, Math.min(end, value));
-}
-
 function _recalculateSpeed(start_speed, current_radius, start_radius) {
     return start_radius / current_radius * start_speed;
 }
@@ -31,8 +27,8 @@ class Player extends GameObject {
         this.x += dt * currentSpeed * Math.sin(this.direction);
         this.y -= dt * currentSpeed * Math.cos(this.direction);
 
-        this.x = toClosestInInterval(this.x, 0, settings.MAP_SIZE);
-        this.y = toClosestInInterval(this.y, 0, settings.MAP_SIZE);
+        this.x = Math.toClosestInInterval(this.x, 0, settings.MAP_SIZE);
+        this.y = Math.toClosestInInterval(this.y, 0, settings.MAP_SIZE);
     }
 
     eat(object) {

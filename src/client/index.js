@@ -2,9 +2,11 @@ import {downloadAssets, getPersonAsset, downloadSkinMenuAssets, updateSkinButton
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
 import {startRendering, removeMenu} from "./render";
+import addPrototypes from "../utils";
 
 const settings = require('../settings');
 
+addPrototypes();
 await downloadAssets();
 
 let skin = 'Zhenya.png';

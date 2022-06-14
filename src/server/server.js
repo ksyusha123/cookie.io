@@ -3,7 +3,7 @@ const socketio = require('socket.io');
 
 const Game = require('./game');
 const settings = require('../settings');
-const addPrototypes = require('./utils');
+const addPrototypes = require('../utils');
 
 addPrototypes();
 
