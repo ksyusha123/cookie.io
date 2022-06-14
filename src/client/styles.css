@@ -220,14 +220,6 @@ input:hover {
     border: 3px solid #B5EF8A;
 }
 
-.overlay {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 20%;
-    z-index: 10;
-}
-
 thead {
     font-size: 20px;
 }
@@ -238,6 +230,20 @@ thead {
     bottom: 2%;
     width: 10%;
     height: 25%;
+    z-index: 10;
+    border-spacing: 30px 2px;
+    background: rgba(250, 250, 250, 0.70);
+    border-radius: 20px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.map {
+    position: absolute;
+    left: 2%;
+    bottom: 2%;
+    width: 100px;
+    height: 100px;
     z-index: 10;
     border-spacing: 30px 2px;
     background: rgba(250, 250, 250, 0.70);

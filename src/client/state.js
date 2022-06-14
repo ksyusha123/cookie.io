@@ -49,7 +49,8 @@ export function getCurrentState() {
 
     return {
         me: interpolateGameObject(previousUpdate.me, nextUpdate.me, ratio),
-        others: interpolateGameObjectsArray(previousUpdate.others, nextUpdate.others, ratio),
+        visible: interpolateGameObjectsArray(previousUpdate.visible, nextUpdate.visible, ratio),
+        playersCoordinates: interpolateGameObjectsArray(previousUpdate.playersCoordinates, nextUpdate.playersCoordinates, ratio),
         food: previousUpdate.food,
         leaderboard: previousUpdate.leaderboard,
     };
