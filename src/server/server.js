@@ -32,8 +32,8 @@ function joinGame(username, skin) {
     console.log('Player joined the game!', this.id);
 }
 
-function handleInput(direction, isMoving) {
-    game.handleInput(this.id, direction, isMoving);
+function handleInput(direction, speedMultiplier) {
+    game.handleInput(this.id, direction, speedMultiplier);
 }
 
 function onDisconnect() {

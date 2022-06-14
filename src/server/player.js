@@ -21,17 +21,15 @@ class Player extends GameObject {
         this.skin = skin;
         this.socket = socket;
         this.speed = settings.PLAYER_SPEED;
-        this.isMoving = true;
+        this.speedMultiplier = 1;
         this.eaten = false;
     }
 
     update(dt) {
-        if (!this.isMoving) {
-            return;
-        }
+        const currentSpeed = this.speedMultiplier * this.speed;
 
-        this.x += dt * this.speed * Math.sin(this.direction);
-        this.y -= dt * this.speed * Math.cos(this.direction);
+        this.x += dt * currentSpeed * Math.sin(this.direction);
+        this.y -= dt * currentSpeed * Math.cos(this.direction);
 
         this.x = toClosestInInterval(this.x, 0, settings.MAP_SIZE);
         this.y = toClosestInInterval(this.y, 0, settings.MAP_SIZE);
