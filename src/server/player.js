@@ -5,10 +5,6 @@ function _recalculateRadius(radius1, radius2) {
     return Math.sqrt(radius1 * radius1 + radius2 * radius2);
 }
 
-function toClosestInInterval(value, start, end) {
-    return Math.max(start, Math.min(end, value));
-}
-
 function _recalculateSpeed(start_speed, current_radius, start_radius) {
     return start_radius / current_radius * start_speed;
 }
@@ -21,15 +17,18 @@ class Player extends GameObject {
         this.skin = skin;
         this.socket = socket;
         this.speed = settings.PLAYER_SPEED;
+        this.speedMultiplier = 1;
         this.eaten = false;
     }
 
     update(dt) {
-        this.x += dt * this.speed * Math.sin(this.direction);
-        this.y -= dt * this.speed * Math.cos(this.direction);
+        const currentSpeed = this.speedMultiplier * this.speed;
 
-        this.x = toClosestInInterval(this.x, 0, settings.MAP_SIZE);
-        this.y = toClosestInInterval(this.y, 0, settings.MAP_SIZE);
+        this.x += dt * currentSpeed * Math.sin(this.direction);
+        this.y -= dt * currentSpeed * Math.cos(this.direction);
+
+        this.x = Math.toClosestInInterval(this.x, 0, settings.MAP_SIZE);
+        this.y = Math.toClosestInInterval(this.y, 0, settings.MAP_SIZE);
     }
 
     eat(object) {

@@ -3,7 +3,7 @@ const socketio = require('socket.io');
 
 const Game = require('./game');
 const settings = require('../settings');
-const addPrototypes = require('./utils');
+const addPrototypes = require('../utils');
 
 addPrototypes();
 
@@ -32,9 +32,8 @@ function joinGame(username, skin) {
     console.log('Player joined the game!', this.id);
 }
 
-function handleInput(direction) {
-    game.handleInput(this.id, direction);
-    // console.log('Player updated direction', this.id);
+function handleInput(direction, speedMultiplier) {
+    game.handleInput(this.id, direction, speedMultiplier);
 }
 
 function onDisconnect() {
