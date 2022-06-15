@@ -115,13 +115,15 @@ function renderPlayer(me, player) {
         radius * 2,
         radius * 2,
     );
-    context.strokeStyle = '#fff';
-    context.fillStyle = '#000';
-    context.font = `italic ${radius / 2}pt Arial`;
-    context.textBaseline = 'middle';
+    context.lineWidth = 1.25;
+    context.strokeStyle = '#ffffff';
+    context.shadowColor = '#000000';
+    context.shadowBlur = '10';
+    context.font = `bold ${radius*2 / 7}pt Montserrat`;
+    context.textBaseline = 'hanging';
     context.textAlign = 'center';
     context.strokeText(
-        username,
+        username.slice(0, 6),
         0,
         0,
         100
