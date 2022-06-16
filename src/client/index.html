@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Cookie.io</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
+          rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <canvas class="game-canvas" id="game-canvas"></canvas>
+<canvas class="map hidden" id="map"></canvas>
 <script src="game.bundle.js"></script>
 <div class="head-menu">
     <h1 class="game-name">Cookie.io</h1>
@@ -19,7 +21,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr><td id="radius"></td></tr>
+        <tr>
+            <td id="radius"></td>
+        </tr>
         </tbody>
     </table>
     <button class="play-button" id="play-button">играть</button>
@@ -38,10 +42,10 @@
 <div id="leaderboard" class="hidden overlay">
     <table class="scoreboard-table">
         <thead>
-            <tr>
-                <th>печенька</th>
-                <th>куси</th>
-            </tr>
+        <tr>
+            <th>печенька</th>
+            <th>куси</th>
+        </tr>
         </thead>
         <tbody class="scoreboard-section"></tbody>
     </table>

@@ -3,11 +3,16 @@ import {getCurrentState} from './state';
 import {getMyId} from "./networking";
 import settings from "../settings";
 
-const canvas = document.getElementById('game-canvas');
-const context = canvas.getContext('2d');
+const ME_COLOR = 'red';
+const OTHER_COLOR = 'blue';
+const FOOD_COLOR = 'green';
+const PLAYER_MINIMAP_RADIUS = 5;
 
-canvas.width = document.documentElement.clientWidth;
-canvas.height = document.documentElement.clientHeight;
+const gameCanvas = document.getElementById('game-canvas');
+const gameContext = gameCanvas.getContext('2d');
+
+gameCanvas.width = document.documentElement.clientWidth;
+gameCanvas.height = document.documentElement.clientHeight;
 
 let prevX = 0;
 let prevY = 0;
@@ -16,7 +21,7 @@ let prevNetX = 100;
 let prevNetY = 100;
 
 function render() {
-    const {me, others, food, leaderboard} = getCurrentState();
+    const {me, visible, playersCoordinates, food, leaderboard} = getCurrentState();
     if (!me) {
         return;
     }
@@ -24,8 +29,10 @@ function render() {
     renderBackground(me.x, me.y);
 
     renderPlayer(me, me);
-    others.forEach(renderPlayer.bind(null, me));
+    visible.forEach(renderPlayer.bind(null, me));
     food.forEach(renderFood.bind(null, me));
+
+    renderMiniMap(me, playersCoordinates);
 
     renderLeaderboard(leaderboard);
 }
@@ -49,7 +56,7 @@ function renderLeaderboard(leaderboard) {
 }
 
 function enlargeTable(table, rowsCount) {
-    for (let i = 0; i < rowsCount; i++){
+    for (let i = 0; i < rowsCount; i++) {
         const row = table.insertRow();
         const usernameCell = row.insertCell();
         const radiusCell = row.insertCell();
@@ -66,15 +73,15 @@ function clearTable(table, actualRowsCount, rowsCount) {
     }
 }
 
-function processUsername(username){
+function processUsername(username) {
     return username !== '' ? username.slice(0, 10) : 'oreo';
 }
 
 function renderBackground(x, y) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.beginPath();
-    context.fillStyle = "#EEE5E9";
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    gameContext.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+    gameContext.beginPath();
+    gameContext.fillStyle = "#EEE5E9";
+    gameContext.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
 
     let diffX = x - prevX;
     let diffY = y - prevY;
@@ -82,21 +89,21 @@ function renderBackground(x, y) {
     prevX = x;
     prevY = y;
 
-    for (let x = prevNetX - diffX; x < canvas.width; x += 100) {
-        context.moveTo(x, 0);
-        context.lineTo(x, canvas.height);
+    for (let x = prevNetX - diffX; x < gameCanvas.width; x += 100) {
+        gameContext.moveTo(x, 0);
+        gameContext.lineTo(x, gameCanvas.height);
     }
 
-    for (let y = prevNetY - diffY; y < canvas.height; y += 100) {
-        context.moveTo(0, y);
-        context.lineTo(canvas.width, y);
+    for (let y = prevNetY - diffY; y < gameCanvas.height; y += 100) {
+        gameContext.moveTo(0, y);
+        gameContext.lineTo(gameCanvas.width, y);
     }
 
     prevNetX -= diffX;
     prevNetY -= diffY
 
-    context.strokeStyle = "#888";
-    context.stroke();
+    gameContext.strokeStyle = "#888";
+    gameContext.stroke();
 }
 
 function renderPlayer(me, player) {
@@ -105,10 +112,10 @@ function renderPlayer(me, player) {
     const canvasX = canvas.width / 2 + x - me.x;
     const canvasY = canvas.height / 2 + y - me.y;
 
-    context.save();
-    context.translate(canvasX, canvasY);
-    context.rotate(direction);
-    context.drawImage(
+    gameContext.save();
+    gameContext.translate(canvasX, canvasY);
+    gameContext.rotate(direction);
+    gameContext.drawImage(
         getAsset(skin),
         -radius,
         -radius,
@@ -116,18 +123,18 @@ function renderPlayer(me, player) {
         radius * 2,
     );
     renderNickname(context, username, radius * 2 / 7);
-    context.restore();
+    gameContext.restore();
 }
 
 function renderNickname(context, username, fontSize){
-    context.lineWidth = 1.25;
-    context.strokeStyle = '#ffffff';
-    context.shadowColor = '#000000';
-    context.shadowBlur = '10';
-    context.font = `bold ${fontSize}pt Montserrat`;
-    context.textBaseline = 'hanging';
-    context.textAlign = 'center';
-    context.strokeText(
+    gameContext.lineWidth = 1.25;
+    gameContext.strokeStyle = '#ffffff';
+    gameContext.shadowColor = '#000000';
+    gameContext.shadowBlur = '10';
+    gameContext.font = `bold ${fontSize}pt Montserrat`;
+    gameContext.textBaseline = 'hanging';
+    gameContext.textAlign = 'center';
+    gameContext.strokeText(
         username.slice(0, 6),
         0,
         0,
@@ -137,14 +144,10 @@ function renderNickname(context, username, fontSize){
 
 function renderFood(me, food) {
     const {x, y, radius} = food;
-    const canvasX = canvas.width / 2 + x - me.x;
-    const canvasY = canvas.height / 2 + y - me.y;
+    const canvasX = gameCanvas.width / 2 + x - me.x;
+    const canvasY = gameCanvas.height / 2 + y - me.y;
 
-    context.beginPath();
-    context.arc(canvasX, canvasY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = 'green';
-    context.fill();
-    context.stroke();
+    renderCircleOnCanvas(gameContext, canvasX, canvasY, radius, FOOD_COLOR);
 }
 
 let renderInterval = null;
@@ -160,6 +163,8 @@ export function stopRendering() {
 export function removeMenu() {
     const headMenu = document.getElementsByClassName('head-menu')[0];
     const choseMenu = document.getElementsByClassName('chose-menu')[0];
+    const minimap = document.getElementById('map');
+    minimap.style.display = 'flex';
     headMenu.style.display = 'none';
     choseMenu.style.display = 'none';
     document.body.style.background = 'none';
@@ -170,6 +175,8 @@ export function removeMenu() {
 export function drawResultsMenu(results) {
     const headMenu = document.getElementsByClassName('head-menu')[0];
     const choseMenu = document.getElementsByClassName('chose-menu')[0];
+    const minimap = document.getElementById('map');
+    minimap.style.display = 'none';
     headMenu.style.display = 'flex';
     choseMenu.style.display = 'flex';
     const resultsTable = document.getElementById('results');
@@ -182,6 +189,30 @@ export function drawResultsMenu(results) {
 
 function drawResults(player) {
     const radiusCell = document.getElementById('radius');
-    const radiusTextNode = document.createTextNode(player.radius);
+    const radiusTextNode = document.createTextNode(Math.round(player.radius).toString());
     radiusCell.appendChild(radiusTextNode);
+}
+
+const mapCanvas = document.getElementById('map');
+const mapContext = mapCanvas.getContext('2d');
+
+function renderPlayerOnMap(color, player) {
+    const canvasX = player.x / settings.MAP_SIZE * mapCanvas.width;
+    const canvasY = player.y / settings.MAP_SIZE * mapCanvas.height;
+
+    renderCircleOnCanvas(mapContext, canvasX, canvasY, PLAYER_MINIMAP_RADIUS, color);
+}
+
+function renderCircleOnCanvas(context, x, y, radius, color) {
+    context.beginPath();
+    context.arc(x, y, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = color;
+    context.fill();
+    context.stroke();
+}
+
+function renderMiniMap(me, players) {
+    mapContext.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
+    players.forEach(renderPlayerOnMap.bind(null, OTHER_COLOR));
+    renderPlayerOnMap(ME_COLOR, me);
 }

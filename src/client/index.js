@@ -2,9 +2,11 @@ import {downloadAssets, getPersonAsset, downloadSkinMenuAssets, updateSkinButton
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
 import {startRendering, removeMenu} from "./render";
+import addPrototypes from "../utils";
 
 const settings = require('../settings');
 
+addPrototypes();
 await downloadAssets();
 
 let skin = 'Zhenya.png';
@@ -36,7 +38,7 @@ document.getElementById("modal__close-button").addEventListener('click', () => {
 });
 
 const prefixLen = 4;
-for (let e of document.getElementById('modal-skins').childNodes){
+for (let e of document.getElementById('modal-skins').childNodes) {
     if (e.nodeType !== 1)
         continue;
     e.addEventListener('click', () => {
