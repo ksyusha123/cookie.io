@@ -109,8 +109,8 @@ function renderBackground(x, y) {
 function renderPlayer(me, player) {
     let {x, y, radius, direction, skin, username} = player;
     username = username || document.getElementById('username').getAttribute('placeholder');
-    const canvasX = canvas.width / 2 + x - me.x;
-    const canvasY = canvas.height / 2 + y - me.y;
+    const canvasX = gameCanvas.width / 2 + x - me.x;
+    const canvasY = gameCanvas.height / 2 + y - me.y;
 
     gameContext.save();
     gameContext.translate(canvasX, canvasY);
@@ -122,7 +122,7 @@ function renderPlayer(me, player) {
         radius * 2,
         radius * 2,
     );
-    renderNickname(context, username, radius * 2 / 7);
+    renderNickname(gameContext, username, radius * 2 / 7);
     gameContext.restore();
 }
 
