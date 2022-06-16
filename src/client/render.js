@@ -101,7 +101,7 @@ function renderBackground(x, y) {
 
 function renderPlayer(me, player) {
     let {x, y, radius, direction, skin, username} = player;
-    username = username || 'oreo';
+    username = username || document.getElementById('username').getAttribute('placeholder');
     const canvasX = canvas.width / 2 + x - me.x;
     const canvasY = canvas.height / 2 + y - me.y;
 
@@ -115,11 +115,16 @@ function renderPlayer(me, player) {
         radius * 2,
         radius * 2,
     );
+    renderNickname(context, username, radius * 2 / 7);
+    context.restore();
+}
+
+function renderNickname(context, username, fontSize){
     context.lineWidth = 1.25;
     context.strokeStyle = '#ffffff';
     context.shadowColor = '#000000';
     context.shadowBlur = '10';
-    context.font = `bold ${radius*2 / 7}pt Montserrat`;
+    context.font = `bold ${fontSize}pt Montserrat`;
     context.textBaseline = 'hanging';
     context.textAlign = 'center';
     context.strokeText(
@@ -128,7 +133,6 @@ function renderPlayer(me, player) {
         0,
         100
     );
-    context.restore();
 }
 
 function renderFood(me, food) {
