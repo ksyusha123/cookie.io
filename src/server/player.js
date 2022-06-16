@@ -19,6 +19,7 @@ class Player extends GameObject {
         this.speed = settings.PLAYER_SPEED;
         this.speedMultiplier = 1;
         this.eaten = false;
+        this.startTime = Date.now();
     }
 
     update(dt) {
@@ -43,6 +44,7 @@ class Player extends GameObject {
             skin: this.skin,
             direction: this.direction,
             username: this.username,
+            time: Date.now() - this.startTime,
         };
     }
 

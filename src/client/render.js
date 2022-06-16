@@ -188,9 +188,17 @@ export function drawResultsMenu(results) {
 }
 
 function drawResults(player) {
-    const radiusCell = document.getElementById('radius');
-    const radiusTextNode = document.createTextNode(Math.round(player.radius).toString());
-    radiusCell.appendChild(radiusTextNode);
+    drawResultCell('radius', Math.round(player.radius).toString());
+    drawResultCell('time', Math.round(player.time / 1000).toString());
+}
+
+function drawResultCell(cellName, data) {
+    const cell = document.getElementById(cellName);
+    if (cell.firstChild) {
+        cell.removeChild(cell.firstChild);
+    }
+    const textNode = document.createTextNode(data);
+    cell.appendChild(textNode);
 }
 
 const mapCanvas = document.getElementById('map');
