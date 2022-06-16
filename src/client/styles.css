@@ -33,7 +33,7 @@ body {
     justify-content: center;
     font-weight: bold;
     font-size: 50px;
-    margin: 2% 0 2% 0;
+    margin: 1% 0 1% 0;
 }
 
 .play-button {
@@ -42,7 +42,7 @@ body {
     font-size: 40px;
     background: #B5EF8A;
     border: 0;
-    margin: 3% 30% 3% 30%;
+    margin: 2% 30% 2% 30%;
     padding: 1%;
     border-radius: 20px;
 }
@@ -218,6 +218,14 @@ input:hover {
 
 .skin-button:focus {
     border: 3px solid #B5EF8A;
+}
+
+.overlay{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 20%;
+    z-index: 10;
 }
 
 thead {

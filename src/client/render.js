@@ -107,9 +107,10 @@ function renderBackground(x, y) {
 }
 
 function renderPlayer(me, player) {
-    const {x, y, radius, direction, skin} = player;
-    const canvasX = gameCanvas.width / 2 + x - me.x;
-    const canvasY = gameCanvas.height / 2 + y - me.y;
+    let {x, y, radius, direction, skin, username} = player;
+    username = username || document.getElementById('username').getAttribute('placeholder');
+    const canvasX = canvas.width / 2 + x - me.x;
+    const canvasY = canvas.height / 2 + y - me.y;
 
     gameContext.save();
     gameContext.translate(canvasX, canvasY);
@@ -121,7 +122,24 @@ function renderPlayer(me, player) {
         radius * 2,
         radius * 2,
     );
+    renderNickname(context, username, radius * 2 / 7);
     gameContext.restore();
+}
+
+function renderNickname(context, username, fontSize){
+    gameContext.lineWidth = 1.25;
+    gameContext.strokeStyle = '#ffffff';
+    gameContext.shadowColor = '#000000';
+    gameContext.shadowBlur = '10';
+    gameContext.font = `bold ${fontSize}pt Montserrat`;
+    gameContext.textBaseline = 'hanging';
+    gameContext.textAlign = 'center';
+    gameContext.strokeText(
+        username.slice(0, 6),
+        0,
+        0,
+        100
+    );
 }
 
 function renderFood(me, food) {

@@ -12,11 +12,14 @@ socket.on(settings.MESSAGES.GAME_UPDATE, processGameUpdate);
 socket.on('disconnect', () => {
     console.log('Disconnected from server');
 });
+
 socket.on(settings.MESSAGES.GAME_OVER, results => {
     console.log('Game over');
+    document.body.style.backgroundImage = 'url(assets/background.png)';
     drawResultsMenu(results);
     stopRendering();
     stopCapturingInput();
+
 });
 
 export const updateDirection = throttle(20, (direction, speedMultiplier) => {
