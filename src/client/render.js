@@ -6,15 +6,16 @@ import settings from "../settings";
 import {zip} from "../utils";
 import {fillRow, resizeTable} from "./tableUtils";
 
-const ME_COLOR = 'red';
-const OTHER_COLOR = 'blue';
+const ME_COLOR = '#96616B';
+const OTHER_COLOR = '#508CA4';
 const FOOD_COLOR = 'green';
 const LIGHT_PINK = '#EEE5E9';
 const LIGHT_GREY = '#888';
 
-const PLAYER_MINIMAP_RADIUS = 5;
+const PLAYER_MINIMAP_RADIUS = 6;
 const GRID_STEP_SIZE = 100;
 const FONT_SCALE = 2 / 7;
+let MAP_COUNTER = 0;
 
 const gameCanvas = document.getElementById('game-canvas');
 const gameContext = gameCanvas.getContext('2d');
@@ -52,7 +53,12 @@ function render() {
 
     renderBackground(me.x, me.y);
     renderPlayer(me, me);
-    renderMiniMap(me, playersCoordinates);
+    
+    if (MAP_COUNTER % 5 === 0){
+        renderMiniMap(me, playersCoordinates);
+    }
+    
+    MAP_COUNTER += 1;
     renderLeaderboard(leaderboard);
     visible.forEach(renderPlayer.bind(null, me));
     food.forEach(renderFood.bind(null, me));
@@ -137,8 +143,9 @@ function renderFood(me, food) {
 
 function renderCircleOnCanvas(context, x, y, radius, color) {
     context.beginPath();
-    context.arc(x, y, radius, 0, 2 * Math.PI, false);
+    context.ellipse(x, y, radius, radius-3, 0, 0, 2 * Math.PI, false);
     context.fillStyle = color;
+    context.strokeStyle = color;
     context.fill();
     context.stroke();
 }
