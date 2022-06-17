@@ -20,6 +20,7 @@ class Player extends GameObject {
         this.speedMultiplier = 1;
         this.eaten = false;
         this.startTime = Date.now();
+        this.partsCount = 1;
     }
 
     update(dt) {
@@ -45,6 +46,7 @@ class Player extends GameObject {
             direction: this.direction,
             username: this.username,
             time: Date.now() - this.startTime,
+            partsCount: this.partsCount,
         };
     }
 
@@ -52,6 +54,12 @@ class Player extends GameObject {
         const x = settings.MAP_SIZE * (0.25 + Math.random() * 0.5);
         const y = settings.MAP_SIZE * (0.25 + Math.random() * 0.5);
         return new Player(socket.id, username, skin, x, y, socket);
+    }
+
+    split() {
+        //if (this.radius < settings.PLAYER_RADIUS * (this.partsCount + 1))
+           //return;
+        this.partsCount++;
     }
 }
 

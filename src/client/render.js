@@ -107,7 +107,7 @@ function renderBackground(x, y) {
 }
 
 function renderPlayer(me, player) {
-    let {x, y, radius, direction, skin, username} = player;
+    let {x, y, radius, direction, skin, username, _, partsCount} = player;
     username = username || document.getElementById('username').getAttribute('placeholder');
     const canvasX = gameCanvas.width / 2 + x - me.x;
     const canvasY = gameCanvas.height / 2 + y - me.y;
@@ -115,18 +115,57 @@ function renderPlayer(me, player) {
     gameContext.save();
     gameContext.translate(canvasX, canvasY);
     gameContext.rotate(direction);
-    gameContext.drawImage(
-        getAsset(skin),
-        -radius,
-        -radius,
-        radius * 2,
-        radius * 2,
-    );
-    renderNickname(gameContext, username, radius * 2 / 7);
+    drawAsset(0, 0, skin, radius / partsCount);
+    let counter = partsCount
+    const shift = 2 * radius / partsCount;
+    const freePoints = [[0, shift], [0, -shift], [shift, 0], [-shift, 0]];
+    let i = 0;
+    const usedPoints = {0: new Set()};
+    const contains = (point) => point[0] in usedPoints && point[1] in usedPoints[point[0]]
+    usedPoints[0].add(0);
+    console.log(usedPoints);
+    while (counter > 1) {
+        console.log(counter);
+        counter--;
+        let point = freePoints[i];
+        while (contains(point)){
+            point = freePoints[++i];
+        }
+        const x = point[0];
+        const y = point[1];
+        drawAsset(x, y, skin, radius / partsCount);
+        const candidateNeighbors = [[x, y + shift], [x, y - shift], [x + shift, y], [x - shift, y]];
+        for (let e of candidateNeighbors){
+            if (contains(e)){
+                continue;
+            }
+            freePoints.push(e);
+        }
+        if (x in usedPoints){
+            usedPoints[x].add(y);
+        } else {
+            usedPoints[x] = new Set();
+            usedPoints[x].add(y);
+        }
+
+        i++;
+    }
+
+    renderNickname(username, radius * 2 / 7);
     gameContext.restore();
 }
 
-function renderNickname(context, username, fontSize){
+function drawAsset(x, y, skin, radius){
+    gameContext.drawImage(
+        getAsset(skin),
+        x - radius,
+        y - radius,
+        radius * 2,
+        radius * 2,
+    );
+}
+
+function renderNickname(username, fontSize){
     gameContext.lineWidth = 1.25;
     gameContext.strokeStyle = '#ffffff';
     gameContext.shadowColor = '#000000';

@@ -22,6 +22,12 @@ socket.on(settings.MESSAGES.GAME_OVER, results => {
 
 });
 
+document.addEventListener('keydown', (event) => {
+    if (event.code === 'KeyZ'){
+        socket.emit(settings.MESSAGES.PLAYER_SPLIT);
+    }
+})
+
 export const updateDirection = throttle(20, (direction, speedMultiplier) => {
     socket.emit(settings.MESSAGES.INPUT, direction, speedMultiplier)
 });
