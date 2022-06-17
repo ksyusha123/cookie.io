@@ -1,15 +1,16 @@
+import {soundManager} from "soundmanager2";
 import {downloadAssets, getPersonAsset, downloadSkinMenuAssets, updateSkinButton} from "./assets";
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
 import {startRendering, removeMenu} from "./render";
 import addPrototypes from "../utils";
 
-const settings = require('../settings');
+const DEFAULT_SKIN = 'Zhenya.png';
 
 addPrototypes();
 await downloadAssets();
 
-let skin = 'Zhenya.png';
+let skin = DEFAULT_SKIN;
 updateSkinButton(skin);
 
 const headMenu = document.getElementsByClassName('head-menu')[0];
