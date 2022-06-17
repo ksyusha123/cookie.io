@@ -1,9 +1,9 @@
-import {soundManager} from "soundmanager2";
 import {downloadAssets, getPersonAsset, downloadSkinMenuAssets, updateSkinButton} from "./assets";
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
 import {startRendering, removeMenu} from "./render";
 import addPrototypes from "../utils";
+import {playOrResumeSoundtrack, createSoundtrack} from "./sound";
 
 const DEFAULT_SKIN = 'Zhenya.png';
 
@@ -16,11 +16,14 @@ updateSkinButton(skin);
 const headMenu = document.getElementsByClassName('head-menu')[0];
 const choseMenu = document.getElementsByClassName('chose-menu')[0];
 
+createSoundtrack();
+
 document.getElementById("play-button").addEventListener('click', () => {
     play(document.getElementById("username").value, skin);
     removeMenu();
     startCapturingInput();
     startRendering();
+    playOrResumeSoundtrack();
 });
 
 document.getElementById("select-skin-button").addEventListener('click', () => {
@@ -46,5 +49,3 @@ for (let e of document.getElementById('modal-skins').childNodes) {
         skin = getPersonAsset(Number(e.id.slice(prefixLen)) - 1);
     });
 }
-
-
