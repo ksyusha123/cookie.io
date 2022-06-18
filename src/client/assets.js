@@ -7,7 +7,7 @@ const selectSkinButton = document.getElementById('select-skin-button');
 const assets = {};
 const downloadPromise = Promise.all(
     personAssets.map(p => downloadAsset(p, 'person'))
-        .concat(foodAssets.map(f => downloadAsset(f, 'other')))
+        .concat(foodAssets.map(f => downloadAsset(f, 'food')))
         .concat(otherAssets.map(o => downloadAsset(o, 'other'))))
     .then(() => console.log('all assets downloaded'));
 

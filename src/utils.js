@@ -18,7 +18,7 @@ function range(start, stop, step = 1) {
 }
 
 function zip(a, b) {
-    return a.map((element, index) => [element, b[index]]);
+    return Array.from(a).map((element, index) => [element, b[index]]);
 }
 
 module.exports = {addPrototypes, range, zip};
