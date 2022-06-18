@@ -1,9 +1,10 @@
 import {downloadAssets, getPersonAsset, downloadSkinMenuAssets, updateSkinButton} from "./assets";
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
-import {startRendering, removeMenu} from "./render";
+import {startRendering, removeMenu, drawResultsMenu} from "./render";
 import addPrototypes from "../utils";
 import {playOrResumeSoundtrack, createSoundtrack, muteSoundtrack, unmuteSoundtrack} from "./sound";
+import {getCurrentState} from "./state";
 
 const DEFAULT_SKIN = 'Zhenya.png';
 let soundCounter = 0;
@@ -25,20 +26,29 @@ document.getElementById("play-button").addEventListener('click', () => {
     startCapturingInput();
     startRendering();
     playOrResumeSoundtrack();
+    muteSoundtrack();
 });
 
 document.getElementById("sound").addEventListener('click', () => {
     const sound = document.getElementById("sound");
-    if (soundCounter % 2 === 0){
+    if (soundCounter % 2 === 1) {
         sound.style.backgroundImage = 'url(/assets/mute.png)';
         muteSoundtrack();
-    }
-    else{
+    } else {
         sound.style.backgroundImage = 'url(/assets/volume.png)';
         unmuteSoundtrack();
     }
     soundCounter += 1;
 });
+
+document.getElementById("home").addEventListener('click', () => {
+    const currentState = getCurrentState();
+    const results = {
+        radius: currentState.me.radius,
+        time: currentState.me.time,
+    };
+    drawResultsMenu(results);
+})
 
 document.getElementById("select-skin-button").addEventListener('click', () => {
     headMenu.style.display = 'none';

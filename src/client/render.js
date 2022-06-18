@@ -1,6 +1,7 @@
 import {getAsset} from './assets';
 import {getCurrentState} from './state';
 import {getMyId} from "./networking";
+import {pauseSoundtrack} from "./sound";
 import settings from "../settings";
 
 const ME_COLOR = 'red';
@@ -163,7 +164,9 @@ export function removeMenu() {
     const headMenu = document.getElementsByClassName('head-menu')[0];
     const choseMenu = document.getElementsByClassName('chose-menu')[0];
     const minimap = document.getElementById('map');
-    const sound = document.getElementById("sound")
+    const sound = document.getElementById('sound');
+    const home = document.getElementById('home');
+    home.style.display = 'flex';
     minimap.style.display = 'flex';
     sound.style.display = 'flex';
     headMenu.style.display = 'none';
@@ -177,11 +180,14 @@ export function drawResultsMenu(results) {
     const headMenu = document.getElementsByClassName('head-menu')[0];
     const choseMenu = document.getElementsByClassName('chose-menu')[0];
     const minimap = document.getElementById('map');
-    const sound = document.getElementById("sound")
+    const sound = document.getElementById('sound');
+    const home = document.getElementById('home');
+    home.style.display = 'none';
     sound.style.display = 'none';
     minimap.style.display = 'none';
     headMenu.style.display = 'flex';
     choseMenu.style.display = 'flex';
+    pauseSoundtrack();
     const resultsTable = document.getElementById('results');
     resultsTable.classList.remove('hidden');
     drawResults(results);
