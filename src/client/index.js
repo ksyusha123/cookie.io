@@ -2,18 +2,17 @@ import {downloadAssets, getPersonAsset, downloadSkinMenuAssets, updateSkinButton
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
 import {startRendering, removeMenu, drawResultsMenu} from "./render";
-import addPrototypes from "../utils";
+import {addPrototypes} from "../utils";
 import {playOrResumeSoundtrack, createSoundtrack, muteSoundtrack, unmuteSoundtrack} from "./sound";
 import {getCurrentState} from "./state";
 
 const DEFAULT_SKIN = 'Zhenya.png';
 const PREFIX_LEN = 4;
 let soundCounter = 0;
+let skin = DEFAULT_SKIN;
 
 addPrototypes();
 await downloadAssets();
-
-let skin = DEFAULT_SKIN;
 updateSkinButton(skin);
 
 const headMenu = document.getElementsByClassName('head-menu')[0];

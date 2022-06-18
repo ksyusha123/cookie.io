@@ -13,4 +13,12 @@ function addPrototypes() {
         Math.floor(Math.scaleOntoInterval(Math.random(), 0, 1, start, end));
 }
 
-module.exports = addPrototypes;
+function range(start, stop, step = 1) {
+    return Array.from({length: (stop - start) / step + 1}, (_, i) => start + (i * step));
+}
+
+function zip(a, b) {
+    return a.map((element, index) => [element, b[index]]);
+}
+
+module.exports = {addPrototypes, range, zip};

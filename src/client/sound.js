@@ -1,6 +1,5 @@
 import {soundManager} from "soundmanager2";
 
-
 const soundtrackOptions = {
     onfinish: playOrResumeSoundtrack
 };
@@ -14,6 +13,7 @@ export function createSoundtrack() {
 
 export function playOrResumeSoundtrack() {
     const soundtrack = soundManager.getSoundById('soundtrack');
+
     if (soundtrack.paused) {
         soundManager.resume('soundtrack', soundtrackOptions);
     } else {
