@@ -126,7 +126,7 @@ function renderPlayer(me, player) {
     gameContext.restore();
 }
 
-function renderNickname(context, username, fontSize){
+function renderNickname(context, username, fontSize) {
     gameContext.lineWidth = 1.25;
     gameContext.strokeStyle = '#ffffff';
     gameContext.shadowColor = '#000000';
@@ -191,7 +191,7 @@ export function drawResultsMenu(results) {
     const resultsTable = document.getElementById('results');
     resultsTable.classList.remove('hidden');
     drawResults(results);
-    document.body.style.backgroundImage = 'url(assets/background.png)';
+    document.body.style.backgroundImage = 'url(assets/other/background.png)';
     document.body.style.backgroundRepeat = 'repeat';
     document.body.style.backgroundSize = 'cover';
     document.getElementById('game-canvas').style.display = 'none';
