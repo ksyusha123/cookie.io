@@ -27,8 +27,8 @@ export function downloadSkinMenuAssets() {
     for (let i = 0; i < personAssets.length; i++) {
         const asset = assets[personAssets[i]];
         const button = document.getElementById(`skin${i + 1}`);
-        asset.style.width = button.style.width;
-        asset.style.height = button.style.height;
+        button.style.width = asset.style.width;
+        button.style.height = asset.style.height;
         button.style.backgroundImage = `url(/assets/person/${personAssets[i]})`;
     }
 }
@@ -36,8 +36,8 @@ export function downloadSkinMenuAssets() {
 export function updateSkinButton(skin) {
     const asset = assets[skin];
     const button = document.getElementById('select-skin-button');
-    asset.style.width = button.style.width;
-    asset.style.height = button.style.height;
+    button.style.width = asset.style.width;
+    button.style.height = asset.style.height;
     button.style.backgroundImage = `url(/assets/person/${skin})`;
 }
 
