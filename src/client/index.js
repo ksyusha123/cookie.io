@@ -3,23 +3,41 @@ import {play} from "./networking";
 import {startCapturingInput} from "./input";
 import {startRendering, removeMenu} from "./render";
 import addPrototypes from "../utils";
+import {playOrResumeSoundtrack, createSoundtrack, muteSoundtrack, unmuteSoundtrack} from "./sound";
 
-const settings = require('../settings');
+const DEFAULT_SKIN = 'Zhenya.png';
+let soundCounter = 0;
 
 addPrototypes();
 await downloadAssets();
 
-let skin = 'Zhenya.png';
+let skin = DEFAULT_SKIN;
 updateSkinButton(skin);
 
 const headMenu = document.getElementsByClassName('head-menu')[0];
 const choseMenu = document.getElementsByClassName('chose-menu')[0];
+
+createSoundtrack();
 
 document.getElementById("play-button").addEventListener('click', () => {
     play(document.getElementById("username").value, skin);
     removeMenu();
     startCapturingInput();
     startRendering();
+    playOrResumeSoundtrack();
+});
+
+document.getElementById("sound").addEventListener('click', () => {
+    const sound = document.getElementById("sound");
+    if (soundCounter % 2 === 0){
+        sound.style.backgroundImage = 'url(/assets/mute.png)';
+        muteSoundtrack();
+    }
+    else{
+        sound.style.backgroundImage = 'url(/assets/volume.png)';
+        unmuteSoundtrack();
+    }
+    soundCounter += 1;
 });
 
 document.getElementById("select-skin-button").addEventListener('click', () => {
@@ -45,5 +63,3 @@ for (let e of document.getElementById('modal-skins').childNodes) {
         skin = getPersonAsset(Number(e.id.slice(prefixLen)) - 1);
     });
 }
-
-

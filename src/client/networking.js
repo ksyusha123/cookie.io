@@ -4,6 +4,7 @@ import {throttle} from "throttle-debounce";
 import {processGameUpdate} from "./state";
 import {stopRendering, drawResultsMenu} from "./render";
 import {stopCapturingInput} from "./input";
+import {pauseSoundtrack} from "./sound";
 
 
 const socket = io();
@@ -15,6 +16,7 @@ socket.on('disconnect', () => {
 
 socket.on(settings.MESSAGES.GAME_OVER, results => {
     console.log('Game over');
+    pauseSoundtrack();
     document.body.style.backgroundImage = 'url(assets/background.png)';
     drawResultsMenu(results);
     stopRendering();

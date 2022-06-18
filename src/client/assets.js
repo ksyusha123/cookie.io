@@ -1,9 +1,10 @@
 const ASSET_NAMES = ['Zhenya.png', 'background.png', 'BlueCookie.png', 'HoneyCookie.png', 'Ksyusha.png', 'OrangeCookie.png',
     'PinkCookie.png', 'Vanua.png', 'LimonCookie.png', 'LimeCookie.png', 'Polina.png', 'BrownPiece.png', 'DarkBluePiece.png', 'GreenPiece.png',
-    'LightBluePiece.png', 'OrangePiece.png', 'PurplePiece.png'];
+    'LightBluePiece.png', 'OrangePiece.png', 'PurplePiece.png', 'volume.png', 'mute.png'];
 
 const personAssets = ['Zhenya.png', 'BlueCookie.png', 'HoneyCookie.png', 'Ksyusha.png', 'OrangeCookie.png',
     'PinkCookie.png', 'Vanua.png', 'LimonCookie.png', 'LimeCookie.png', 'Polina.png'];
+
 
 const assets = {};
 const downloadPromise = Promise.all(ASSET_NAMES.map(downloadAsset)).then(() => console.log('all assets downloaded'));
@@ -41,3 +42,4 @@ export function updateSkinButton(skin) {
     asset.style.height = button.style.height;
     button.style.backgroundImage = `url(/assets/${skin})`;
 }
+

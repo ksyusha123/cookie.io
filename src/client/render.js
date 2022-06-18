@@ -25,7 +25,6 @@ function render() {
     if (!me) {
         return;
     }
-
     renderBackground(me.x, me.y);
 
     renderPlayer(me, me);
@@ -164,7 +163,9 @@ export function removeMenu() {
     const headMenu = document.getElementsByClassName('head-menu')[0];
     const choseMenu = document.getElementsByClassName('chose-menu')[0];
     const minimap = document.getElementById('map');
+    const sound = document.getElementById("sound")
     minimap.style.display = 'flex';
+    sound.style.display = 'flex';
     headMenu.style.display = 'none';
     choseMenu.style.display = 'none';
     document.body.style.background = 'none';
@@ -176,6 +177,8 @@ export function drawResultsMenu(results) {
     const headMenu = document.getElementsByClassName('head-menu')[0];
     const choseMenu = document.getElementsByClassName('chose-menu')[0];
     const minimap = document.getElementById('map');
+    const sound = document.getElementById("sound")
+    sound.style.display = 'none';
     minimap.style.display = 'none';
     headMenu.style.display = 'flex';
     choseMenu.style.display = 'flex';
