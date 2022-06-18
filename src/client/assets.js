@@ -1,15 +1,13 @@
-const ASSET_NAMES = ['Zhenya.png', 'background.png', 'BlueCookie.png', 'HoneyCookie.png', 'Ksyusha.png', 'OrangeCookie.png',
-    'PinkCookie.png', 'Vanua.png', 'LimonCookie.png', 'LimeCookie.png', 'Polina.png', 'BrownPiece.png', 'DarkBluePiece.png', 'GreenPiece.png',
-    'LightBluePiece.png', 'OrangePiece.png', 'PurplePiece.png', 'volume.png', 'mute.png'];
-
-const personAssets = ['Zhenya.png', 'BlueCookie.png', 'HoneyCookie.png', 'Ksyusha.png', 'OrangeCookie.png',
-    'PinkCookie.png', 'Vanua.png', 'LimonCookie.png', 'LimeCookie.png', 'Polina.png'];
-
+const personAssets = await fetch('/listassets/person').then(r => r.json());
+const otherAssets = await fetch('/listassets/other').then(r => r.json());
 
 const assets = {};
-const downloadPromise = Promise.all(ASSET_NAMES.map(downloadAsset)).then(() => console.log('all assets downloaded'));
+const downloadPromise = Promise.all(
+    personAssets.map(p => downloadAsset(p, 'person'))
+        .concat(otherAssets.map(o => downloadAsset(o, 'other'))))
+    .then(() => console.log('all assets downloaded'));
 
-function downloadAsset(assetName) {
+function downloadAsset(assetName, folderName) {
     return new Promise(resolve => {
         const asset = new Image();
         asset.onload = () => {
@@ -17,7 +15,7 @@ function downloadAsset(assetName) {
             assets[assetName] = asset;
             resolve();
         };
-        asset.src = `/assets/${assetName}`;
+        asset.src = `/assets/${folderName}/${assetName}`;
     });
 }
 
@@ -31,7 +29,7 @@ export function downloadSkinMenuAssets() {
         const button = document.getElementById(`skin${i + 1}`);
         asset.style.width = button.style.width;
         asset.style.height = button.style.height;
-        button.style.backgroundImage = `url(/assets/${personAssets[i]})`;
+        button.style.backgroundImage = `url(/assets/person/${personAssets[i]})`;
     }
 }
 
@@ -40,6 +38,6 @@ export function updateSkinButton(skin) {
     const button = document.getElementById('select-skin-button');
     asset.style.width = button.style.width;
     asset.style.height = button.style.height;
-    button.style.backgroundImage = `url(/assets/${skin})`;
+    button.style.backgroundImage = `url(/assets/person/${skin})`;
 }
 
