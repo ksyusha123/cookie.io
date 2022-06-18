@@ -7,6 +7,7 @@ import {playOrResumeSoundtrack, createSoundtrack, muteSoundtrack, unmuteSoundtra
 import {getCurrentState} from "./state";
 
 const DEFAULT_SKIN = 'Zhenya.png';
+const PREFIX_LEN = 4;
 let soundCounter = 0;
 
 addPrototypes();
@@ -31,6 +32,7 @@ document.getElementById("play-button").addEventListener('click', () => {
 
 document.getElementById("sound").addEventListener('click', () => {
     const sound = document.getElementById("sound");
+
     if (soundCounter % 2 === 1) {
         sound.style.backgroundImage = 'url(/assets/mute.png)';
         muteSoundtrack();
@@ -38,6 +40,7 @@ document.getElementById("sound").addEventListener('click', () => {
         sound.style.backgroundImage = 'url(/assets/volume.png)';
         unmuteSoundtrack();
     }
+
     soundCounter += 1;
 });
 
@@ -65,11 +68,11 @@ document.getElementById("modal__close-button").addEventListener('click', () => {
     updateSkinButton(skin);
 });
 
-const prefixLen = 4;
 for (let e of document.getElementById('modal-skins').childNodes) {
     if (e.nodeType !== 1)
         continue;
+
     e.addEventListener('click', () => {
-        skin = getPersonAsset(Number(e.id.slice(prefixLen)) - 1);
+        skin = getPersonAsset(Number(e.id.slice(PREFIX_LEN)) - 1);
     });
 }
