@@ -191,7 +191,9 @@ export function drawResultsMenu(results) {
     const resultsTable = document.getElementById('results');
     resultsTable.classList.remove('hidden');
     drawResults(results);
-    document.body.style.background = 'url(assets/background.png) repeat cover';
+    document.body.style.backgroundImage = 'url(assets/background.png)';
+    document.body.style.backgroundRepeat = 'repeat';
+    document.body.style.backgroundSize = 'cover';
     document.getElementById('game-canvas').style.display = 'none';
     document.getElementById('leaderboard').style.display = 'none';
 }

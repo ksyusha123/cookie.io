@@ -15,7 +15,6 @@ socket.on('disconnect', () => {
 
 socket.on(settings.MESSAGES.GAME_OVER, results => {
     console.log('Game over');
-    document.body.style.backgroundImage = 'url(assets/background.png)';
     drawResultsMenu(results);
     stopRendering();
     stopCapturingInput();
