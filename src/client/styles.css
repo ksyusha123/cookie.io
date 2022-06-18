@@ -292,7 +292,7 @@ thead {
 }
 
 .home {
-    background-image: url(./assets/home.png);
+    background-image: url(assets/other/home.png);
     background-color: rgba(250, 250, 250, 0.70);
     display: none;
     height: 70px;
