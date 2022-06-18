@@ -149,8 +149,8 @@ function renderFood(me, food) {
         foodAssetData[[x, y]],
         canvasX,
         canvasY,
-        radius,
-        radius
+        2 * radius,
+        2 * radius
     );
 }
 
