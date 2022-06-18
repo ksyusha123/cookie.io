@@ -51,9 +51,10 @@ function render() {
         return;
     }
 
-    const {me, visible, playersCoordinates, food, leaderboard} = state;
+    const {me, visible, playersCoordinates, food, leaderboard, monster} = state;
     renderBackground(me.x, me.y);
     renderPlayer(me, me);
+    renderMonster(me, monster);
 
     if (mapCounter % 5 === 0) {
         renderMiniMap(me, playersCoordinates);
@@ -130,6 +131,29 @@ function drawAsset(x, y, skin, radius){
         radius * 2,
         radius * 2,
     );
+}
+
+function renderNickname(username, fontSize){
+    renderNickname(gameContext, username, radius * FONT_SCALE);
+    gameContext.restore();
+}
+
+function renderMonster(me, monster) {
+    const {x, y, radius, direction} = monster;
+    const canvasX = gameCanvas.width / 2 + x - me.x;
+    const canvasY = gameCanvas.height / 2 + y - me.y;
+
+    gameContext.save();
+    gameContext.translate(canvasX, canvasY);
+    gameContext.rotate(direction);
+    gameContext.drawImage(
+        getAsset('monster.png'),
+        -radius,
+        -radius,
+        radius * 2,
+        radius * 2,
+    );
+    gameContext.restore();
 }
 
 function renderLeaderboard(leaderboard) {
