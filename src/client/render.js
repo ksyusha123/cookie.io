@@ -1,4 +1,4 @@
-import {getAsset} from './assets';
+import {getAsset, foodAssets} from './assets';
 import {getCurrentState} from './state';
 import {getMyId} from "./networking";
 import {pauseSoundtrack} from "./sound";
@@ -133,12 +133,33 @@ function renderPlayerOnMap(color, player) {
     renderCircleOnCanvas(mapContext, canvasX, canvasY, PLAYER_MINIMAP_RADIUS, color);
 }
 
+const foodAssetData = {};
+
 function renderFood(me, food) {
     const {x, y, radius} = food;
     const canvasX = gameCanvas.width / 2 + x - me.x;
     const canvasY = gameCanvas.height / 2 + y - me.y;
-
-    renderCircleOnCanvas(gameContext, canvasX, canvasY, radius, FOOD_COLOR);
+    if ([x, y] in foodAssetData){
+        gameContext.drawImage(
+            foodAssetData[[x, y]],
+            canvasX,
+            canvasY,
+            radius,
+            radius
+        );
+        return;
+    }
+    const randomAssetIndex = Math.floor(Math.random() * foodAssets.length);
+    const asset = getAsset(foodAssets[randomAssetIndex]);
+    gameContext.drawImage(
+      asset,
+      canvasX,
+      canvasY,
+      radius,
+      radius
+    );
+    foodAssetData[[x, y]] = asset;
+    //renderCircleOnCanvas(gameContext, canvasX, canvasY, radius, FOOD_COLOR);
 }
 
 function renderCircleOnCanvas(context, x, y, radius, color) {

@@ -3,6 +3,8 @@ const otherAssets = await fetch('/listassets/other').then(r => r.json());
 
 const selectSkinButton = document.getElementById('select-skin-button');
 
+export const foodAssets = ['BrownPiece.png', 'DarkBluePiece.png', 'GreenPiece.png', 'LightBluePiece.png', 'OrangePiece.png', 'PurplePiece.png'];
+
 const assets = {};
 const downloadPromise = Promise.all(
     personAssets.map(p => downloadAsset(p, 'person'))
