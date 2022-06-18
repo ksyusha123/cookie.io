@@ -1,6 +1,8 @@
 const personAssets = await fetch('/listassets/person').then(r => r.json());
 const otherAssets = await fetch('/listassets/other').then(r => r.json());
 
+const selectSkinButton = document.getElementById('select-skin-button');
+
 const assets = {};
 const downloadPromise = Promise.all(
     personAssets.map(p => downloadAsset(p, 'person'))
@@ -25,19 +27,18 @@ export const getPersonAsset = index => personAssets[index];
 
 export function downloadSkinMenuAssets() {
     for (let i = 0; i < personAssets.length; i++) {
-        const asset = assets[personAssets[i]];
         const button = document.getElementById(`skin${i + 1}`);
-        button.style.width = asset.style.width;
-        button.style.height = asset.style.height;
-        button.style.backgroundImage = `url(/assets/person/${personAssets[i]})`;
+        updateButtonWithSkin(button, personAssets[i]);
     }
 }
 
 export function updateSkinButton(skin) {
+    updateButtonWithSkin(selectSkinButton, skin);
+}
+
+function updateButtonWithSkin(button, skin) {
     const asset = assets[skin];
-    const button = document.getElementById('select-skin-button');
     button.style.width = asset.style.width;
     button.style.height = asset.style.height;
     button.style.backgroundImage = `url(/assets/person/${skin})`;
 }
-
