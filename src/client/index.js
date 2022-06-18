@@ -34,10 +34,10 @@ document.getElementById("sound").addEventListener('click', () => {
     const sound = document.getElementById("sound");
 
     if (soundCounter % 2 === 1) {
-        sound.style.backgroundImage = 'url(/assets/mute.png)';
+        sound.style.backgroundImage = 'url(/assets/other/mute.png)';
         muteSoundtrack();
     } else {
-        sound.style.backgroundImage = 'url(/assets/volume.png)';
+        sound.style.backgroundImage = 'url(/assets/other/volume.png)';
         unmuteSoundtrack();
     }
 
