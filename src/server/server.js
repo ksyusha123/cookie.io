@@ -13,6 +13,7 @@ app.use(express.static(__dirname + '/../client'));
 app.use(express.static(__dirname + '/../../dist'));
 
 app.get('/listassets/person', getDirectoryFilesForRequestSelector('/../client/assets/person/'));
+app.get('/listassets/food', getDirectoryFilesForRequestSelector('/../client/assets/food/'));
 app.get('/listassets/other', getDirectoryFilesForRequestSelector('/../client/assets/other/'));
 
 const port = process.env.PORT || 3000;

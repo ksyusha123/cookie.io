@@ -1,13 +1,13 @@
 const personAssets = await fetch('/listassets/person').then(r => r.json());
+export const foodAssets = await fetch('/listassets/food').then(r => r.json());
 const otherAssets = await fetch('/listassets/other').then(r => r.json());
 
 const selectSkinButton = document.getElementById('select-skin-button');
 
-export const foodAssets = ['BrownPiece.png', 'DarkBluePiece.png', 'GreenPiece.png', 'LightBluePiece.png', 'OrangePiece.png', 'PurplePiece.png'];
-
 const assets = {};
 const downloadPromise = Promise.all(
     personAssets.map(p => downloadAsset(p, 'person'))
+        .concat(foodAssets.map(f => downloadAsset(f, 'other')))
         .concat(otherAssets.map(o => downloadAsset(o, 'other'))))
     .then(() => console.log('all assets downloaded'));
 
