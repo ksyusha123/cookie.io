@@ -1,6 +1,6 @@
 const settings = {
     MAP_SIZE: 10000,
-    PLAYER_RADIUS: 80,
+    PLAYER_RADIUS: 40,
     MESSAGES: {
         JOIN: 'join',
         INPUT: 'input',

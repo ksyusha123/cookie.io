@@ -116,16 +116,20 @@ function renderPlayer(me, player) {
     gameContext.translate(canvasX, canvasY);
     gameContext.rotate(direction);
     drawAsset(0, 0, skin, radius / partsCount);
-    let counter = partsCount
-    const shift = 2 * radius / partsCount;
+    drawParts(partsCount, radius, skin);
+    renderNickname(username, radius * 2 / 7);
+    gameContext.restore();
+}
+
+function drawParts(partsCount, totalRadius, skin){
+    let counter = partsCount;
+    const shift = 2 * totalRadius / partsCount;
     const freePoints = [[0, shift], [0, -shift], [shift, 0], [-shift, 0]];
     let i = 0;
     const usedPoints = {0: new Set()};
     const contains = (point) => point[0] in usedPoints && point[1] in usedPoints[point[0]]
     usedPoints[0].add(0);
-    console.log(usedPoints);
     while (counter > 1) {
-        console.log(counter);
         counter--;
         let point = freePoints[i];
         while (contains(point)){
@@ -133,9 +137,9 @@ function renderPlayer(me, player) {
         }
         const x = point[0];
         const y = point[1];
-        drawAsset(x, y, skin, radius / partsCount);
-        const candidateNeighbors = [[x, y + shift], [x, y - shift], [x + shift, y], [x - shift, y]];
-        for (let e of candidateNeighbors){
+        drawAsset(x, y, skin, totalRadius / partsCount);
+        const pointNeighbors = [[x, y + shift], [x, y - shift], [x + shift, y], [x - shift, y]];
+        for (let e of pointNeighbors){
             if (contains(e)){
                 continue;
             }
@@ -147,12 +151,8 @@ function renderPlayer(me, player) {
             usedPoints[x] = new Set();
             usedPoints[x].add(y);
         }
-
         i++;
     }
-
-    renderNickname(username, radius * 2 / 7);
-    gameContext.restore();
 }
 
 function drawAsset(x, y, skin, radius){

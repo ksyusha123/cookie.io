@@ -57,8 +57,8 @@ class Player extends GameObject {
     }
 
     split() {
-        //if (this.radius < settings.PLAYER_RADIUS * (this.partsCount + 1))
-           //return;
+        if (this.radius < settings.PLAYER_RADIUS * (this.partsCount + 1))
+           return;
         this.partsCount++;
     }
 }
