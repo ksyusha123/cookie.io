@@ -220,7 +220,7 @@ input:hover {
     border: 3px solid #B5EF8A;
 }
 
-.overlay{
+.overlay {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -317,4 +317,13 @@ thead {
     border: 3px solid #B5EF8A;
     background-color: rgba(250, 250, 250, 0.50);
     background-size: 100% 100%;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
