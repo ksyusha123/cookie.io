@@ -3,9 +3,10 @@ import {play} from "./networking";
 import {startCapturingInput} from "./input";
 import {startRendering, removeMenu} from "./render";
 import addPrototypes from "../utils";
-import {playOrResumeSoundtrack, createSoundtrack} from "./sound";
+import {playOrResumeSoundtrack, createSoundtrack, muteSoundtrack, unmuteSoundtrack} from "./sound";
 
 const DEFAULT_SKIN = 'Zhenya.png';
+let SOUND_COUNTER = 0;
 
 addPrototypes();
 await downloadAssets();
@@ -24,6 +25,19 @@ document.getElementById("play-button").addEventListener('click', () => {
     startCapturingInput();
     startRendering();
     playOrResumeSoundtrack();
+});
+
+document.getElementById("sound").addEventListener('click', () => {
+    const sound = document.getElementById("sound");
+    if (SOUND_COUNTER % 2 === 0){
+        sound.style.backgroundImage = 'url(/assets/mute.png)';
+        muteSoundtrack();
+    }
+    else{
+        sound.style.backgroundImage = 'url(/assets/volume.png)';
+        unmuteSoundtrack();
+    }
+    SOUND_COUNTER += 1;
 });
 
 document.getElementById("select-skin-button").addEventListener('click', () => {
