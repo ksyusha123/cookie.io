@@ -19,7 +19,7 @@ class Player extends GameObject {
     }
 
     get speed() {
-        return this.speedMultiplier * settings.PLAYER_RADIUS / this.radius * settings.PLAYER_SPEED;
+        return this.speedMultiplier * settings.PLAYER_RADIUS / this.radius * settings.PLAYER_SPEED  * this.partsCount;
     }
 
     update(dt) {
