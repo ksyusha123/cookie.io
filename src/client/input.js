@@ -28,6 +28,11 @@ function onTouchInput(e) {
     return false;
 }
 
+function onTouchMove(e) {
+    const touch = e.touches[0];
+    handleNonGamepadInput(touch.clientX, touch.clientY);
+}
+
 function onGamepadUpdate() {
     const {dx, dy, speedMultiplier} = getMovementInfoFromGamepad();
     calculateDirectionAndUpdate(dx, dy, speedMultiplier);
@@ -66,7 +71,7 @@ export function startCapturingInput() {
     window.addEventListener('mousemove', onMouseInput);
     window.addEventListener('click', onMouseInput);
     window.addEventListener('touchstart', onTouchInput);
-    window.addEventListener('touchmove', onTouchInput);
+    window.addEventListener('touchmove', onTouchMove);
     window.addEventListener('mousedown', splitPlayer);
 
     window.addEventListener('gamepadconnected', _ => {
@@ -85,5 +90,6 @@ export function stopCapturingInput() {
     window.removeEventListener('mousemove', onMouseInput);
     window.removeEventListener('click', onMouseInput);
     window.removeEventListener('touchstart', onTouchInput);
-    window.removeEventListener('touchmove', onTouchInput);
+    window.removeEventListener('touchmove', onTouchMove);
+    window.removeEventListener('mousedown', splitPlayer);
 }
