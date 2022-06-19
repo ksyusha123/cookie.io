@@ -27,6 +27,10 @@ class Game {
         delete this.players[playerId];
     }
 
+    splitPlayer(playerId) {
+        this.players[playerId].split();
+    }
+
     handleInput(playerId, direction, speedMultiplier) {
         if (playerId in this.players) {
             this.players[playerId].direction = direction;

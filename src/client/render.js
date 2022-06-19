@@ -76,20 +76,63 @@ function renderBackground(playerX, playerY) {
 }
 
 function renderPlayer(me, player) {
-    const {x, y, radius, direction, skin, username} = player;
+    let {x, y, radius, direction, skin, username, _, partsCount} = player;
+    username = username || document.getElementById('username').getAttribute('placeholder');
     const canvasX = gameCanvas.width / 2 + x - me.x;
     const canvasY = gameCanvas.height / 2 + y - me.y;
 
     gameContext.save();
     gameContext.translate(canvasX, canvasY);
     gameContext.rotate(direction);
+    drawAsset(0, 0, skin, radius / partsCount);
+    drawParts(partsCount, radius, skin);
+    renderNickname(username, radius * 2 / 7);
+    gameContext.restore();
+}
+
+function drawParts(partsCount, totalRadius, skin){
+    let counter = partsCount;
+    const shift = 2 * totalRadius / partsCount;
+    const freePoints = [[0, shift], [0, -shift], [shift, 0], [-shift, 0]];
+    let i = 0;
+    const usedPoints = new Set();
+    usedPoints.add([0, 0]);
+    while (counter > 1) {
+        counter--;
+        let point = freePoints[i];
+        while (usedPoints.has(point)){
+            point = freePoints[++i];
+        }
+        const x = point[0];
+        const y = point[1];
+        drawAsset(x, y, skin, totalRadius / partsCount);
+        processPointNeighbors(x, y, shift, freePoints, usedPoints);
+        i++;
+    }
+}
+
+function processPointNeighbors(x, y, shift, freePoints, usedPoints){
+    const pointNeighbors = [[x, y + shift], [x, y - shift], [x + shift, y], [x - shift, y]];
+    for (let e of pointNeighbors){
+        if (usedPoints.has(e)){
+            continue;
+        }
+        freePoints.push(e);
+    }
+    usedPoints.add([x, y]);
+}
+
+function drawAsset(x, y, skin, radius){
     gameContext.drawImage(
         getAsset(skin),
-        -radius,
-        -radius,
+        x - radius,
+        y - radius,
         radius * 2,
         radius * 2,
     );
+}
+
+function renderNickname(username, fontSize){
     renderNickname(gameContext, username, radius * FONT_SCALE);
     gameContext.restore();
 }

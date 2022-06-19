@@ -28,6 +28,7 @@ io.on('connection', socket => {
     socket.on(settings.MESSAGES.JOIN, joinGame);
     socket.on(settings.MESSAGES.INPUT, handleInput);
     socket.on(settings.MESSAGES.DISCONNECT, onDisconnect);
+    socket.on(settings.MESSAGES.PLAYER_SPLIT, onPlayerSplit);
 });
 
 const game = new Game();
@@ -44,6 +45,11 @@ function handleInput(direction, speedMultiplier) {
 function onDisconnect() {
     game.removePlayer(this.id);
     console.log('Player left the game', this.id);
+}
+
+
+function onPlayerSplit() {
+    game.splitPlayer(this.id);
 }
 
 function getDirectoryFilesForRequestSelector(relativePath) {
