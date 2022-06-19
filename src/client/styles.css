@@ -265,7 +265,7 @@ thead {
 }
 
 .sound {
-    background-image: url(assets/other/volume.png);
+    background-image: url(assets/other/mute.png);
     background-color: rgba(250, 250, 250, 0.70);
     display: none;
     height: 70px;
