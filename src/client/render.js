@@ -86,7 +86,7 @@ function renderPlayer(me, player) {
     gameContext.rotate(direction);
     drawAsset(0, 0, skin, radius / partsCount);
     drawParts(partsCount, radius, skin);
-    renderNickname(username, radius * 2 / 7);
+    renderNickname(username, radius * FONT_SCALE);
     gameContext.restore();
 }
 
@@ -152,7 +152,7 @@ function renderMiniMap(me, players) {
     renderPlayerOnMap(ME_COLOR, me);
 }
 
-function renderNickname(context, username, fontSize) {
+function renderNickname(username, fontSize) {
     gameContext.lineWidth = 1.25;
     gameContext.strokeStyle = 'white';
     gameContext.shadowColor = 'black';

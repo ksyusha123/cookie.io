@@ -1,4 +1,4 @@
-import {updateDirection} from "./networking";
+import {updateDirection, splitPlayer} from "./networking";
 
 const MIN_SPEED_DEVIATION_FOR_NON_GAMEPAD = 25;
 const MAX_SPEED_DEVIATION_FOR_NON_GAMEPAD = 150;
@@ -9,6 +9,7 @@ const animationFrame = window.mozRequestAnimationFrame || window.requestAnimatio
 
 let interval;
 let isUsingGamepad = false;
+let previousTouchTime = -1;
 
 function onMouseInput(e) {
     handleNonGamepadInput(e.clientX, e.clientY);
@@ -16,7 +17,13 @@ function onMouseInput(e) {
 
 function onTouchInput(e) {
     const touch = e.touches[0];
-    handleNonGamepadInput(touch.clientX, touch.clientY);
+    const touchTime = Date.now();
+    if (previousTouchTime === -1 || touchTime - previousTouchTime >= 800) {
+        handleNonGamepadInput(touch.clientX, touch.clientY);
+    } else {
+        splitPlayer();
+    }
+    previousTouchTime = touchTime;
 }
 
 function onGamepadUpdate() {
@@ -58,6 +65,7 @@ export function startCapturingInput() {
     window.addEventListener('click', onMouseInput);
     window.addEventListener('touchstart', onTouchInput);
     window.addEventListener('touchmove', onTouchInput);
+    window.addEventListener('mousedown', splitPlayer);
 
     window.addEventListener('gamepadconnected', _ => {
         isUsingGamepad = true;
