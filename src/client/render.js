@@ -132,11 +132,6 @@ function drawAsset(x, y, skin, radius){
     );
 }
 
-function renderNickname(username, fontSize){
-    renderNickname(gameContext, username, radius * FONT_SCALE);
-    gameContext.restore();
-}
-
 function renderLeaderboard(leaderboard) {
     resizeTable(leaderboardBody, rows, Object.values(leaderboard).length);
     const myId = getMyId();
