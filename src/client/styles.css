@@ -133,6 +133,7 @@ input:hover {
 
 .game-canvas {
     display: none;
+    touch-action: manipulation;
 }
 
 .modal {
