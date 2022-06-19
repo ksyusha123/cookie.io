@@ -24,7 +24,7 @@ class Player extends GameObject {
 
     update(dt) {
         const currentSpeed = this.speed;
-        console.log(this.speed);
+
         this.x += dt * currentSpeed * Math.sin(this.direction);
         this.y -= dt * currentSpeed * Math.cos(this.direction);
 
