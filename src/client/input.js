@@ -4,6 +4,7 @@ const MIN_SPEED_DEVIATION_FOR_NON_GAMEPAD = 25;
 const MAX_SPEED_DEVIATION_FOR_NON_GAMEPAD = 150;
 const MIN_SPEED_DEVIATION_FOR_GAMEPAD = 0.1;
 const MAX_SPEED_DEVIATION_FOR_GAMEPAD = 1;
+const DOUBLE_TAP_MAX_INTERVAL = 800;
 
 const animationFrame = window.mozRequestAnimationFrame || window.requestAnimationFrame;
 
@@ -18,7 +19,7 @@ function onMouseInput(e) {
 function onTouchInput(e) {
     const touch = e.touches[0];
     const touchTime = Date.now();
-    if (previousTouchTime === -1 || touchTime - previousTouchTime >= 800) {
+    if (previousTouchTime === -1 || touchTime - previousTouchTime >= DOUBLE_TAP_MAX_INTERVAL) {
         handleNonGamepadInput(touch.clientX, touch.clientY);
     } else {
         splitPlayer();
