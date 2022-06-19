@@ -45,12 +45,13 @@ let prevNetY = GRID_STEP_SIZE;
 let renderInterval = null;
 
 function render() {
-    const {me, visible, playersCoordinates, food, leaderboard} = getCurrentState();
+    const state = getCurrentState();
 
-    if (!me) {
+    if (!state) {
         return;
     }
 
+    const {me, visible, playersCoordinates, food, leaderboard} = state;
     renderBackground(me.x, me.y);
     renderPlayer(me, me);
 
