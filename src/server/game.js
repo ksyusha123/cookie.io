@@ -30,7 +30,9 @@ class Game {
     }
 
     splitPlayer(playerId) {
-        this.players[playerId].split();
+        if (playerId in this.players) {
+            this.players[playerId].split();
+        }
     }
 
     handleInput(playerId, direction, speedMultiplier) {
