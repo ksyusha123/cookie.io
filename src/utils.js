@@ -9,8 +9,11 @@ function addPrototypes() {
         return Math.toClosestInInterval(newValue, startInterval, endInterval);
     }
 
+    Math.getRandomFromInterval = (start, end) =>
+        Math.scaleOntoInterval(Math.random(), 0, 1, start, end);
+
     Math.getRandomIntFromInterval = (start, end) =>
-        Math.floor(Math.scaleOntoInterval(Math.random(), 0, 1, start, end));
+        Math.floor(Math.getRandomFromInterval(start, end));
 }
 
 function range(start, stop, step = 1) {

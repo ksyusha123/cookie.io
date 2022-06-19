@@ -14,6 +14,8 @@ const settings = {
     FOOD_RADIUS: 20,
     PLAYER_SPEED: 400,
     TOP_COUNT: 5,
+    MONSTER_SPEED: 400,
+    MONSTER_RADIUS: 250,
 };
 
 module.exports = settings;
