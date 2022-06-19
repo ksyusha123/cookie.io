@@ -1,5 +1,5 @@
 const settings = require('../settings');
-const Player = require('./player');
+const PlayerPart = require('./playerPart');
 const Food = require('./food');
 const Monster = require('./monster');
 
@@ -22,7 +22,7 @@ class Game {
     }
 
     addPlayer(socket, username, skin) {
-        this.players[socket.id] = Player.spawn(username, skin, socket);
+        this.players[socket.id] = PlayerPart.spawn(username, skin, socket);
     }
 
     removePlayer(playerId) {

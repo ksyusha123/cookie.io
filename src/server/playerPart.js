@@ -5,7 +5,7 @@ function _recalculateRadius(radius1, radius2) {
     return Math.sqrt(radius1 * radius1 + radius2 * radius2);
 }
 
-class Player extends GameObject {
+class PlayerPart extends GameObject {
     constructor(id, username, skin, x, y, socket) {
         super(id, x, y, settings.PLAYER_RADIUS);
         this.direction = Math.random() * 2 * Math.PI;
@@ -51,7 +51,7 @@ class Player extends GameObject {
     static spawn(username, skin, socket) {
         const x = settings.MAP_SIZE * (0.25 + Math.random() * 0.5);
         const y = settings.MAP_SIZE * (0.25 + Math.random() * 0.5);
-        return new Player(socket.id, username, skin, x, y, socket);
+        return new PlayerPart(socket.id, username, skin, x, y, socket);
     }
 
     split() {
@@ -61,4 +61,4 @@ class Player extends GameObject {
     }
 }
 
-module.exports = Player;
+module.exports = PlayerPart;
