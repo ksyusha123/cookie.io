@@ -126,33 +126,31 @@ function drawParts(partsCount, totalRadius, skin){
     const shift = 2 * totalRadius / partsCount;
     const freePoints = [[0, shift], [0, -shift], [shift, 0], [-shift, 0]];
     let i = 0;
-    const usedPoints = {0: new Set()};
-    const contains = (point) => point[0] in usedPoints && point[1] in usedPoints[point[0]]
-    usedPoints[0].add(0);
+    const usedPoints = new Set();
+    usedPoints.add([0, 0]);
     while (counter > 1) {
         counter--;
         let point = freePoints[i];
-        while (contains(point)){
+        while (usedPoints.has(point)){
             point = freePoints[++i];
         }
         const x = point[0];
         const y = point[1];
         drawAsset(x, y, skin, totalRadius / partsCount);
-        const pointNeighbors = [[x, y + shift], [x, y - shift], [x + shift, y], [x - shift, y]];
-        for (let e of pointNeighbors){
-            if (contains(e)){
-                continue;
-            }
-            freePoints.push(e);
-        }
-        if (x in usedPoints){
-            usedPoints[x].add(y);
-        } else {
-            usedPoints[x] = new Set();
-            usedPoints[x].add(y);
-        }
+        processPointNeighbors(x, y, shift, freePoints, usedPoints);
         i++;
     }
+}
+
+function processPointNeighbors(x, y, shift, freePoints, usedPoints){
+    const pointNeighbors = [[x, y + shift], [x, y - shift], [x + shift, y], [x - shift, y]];
+    for (let e of pointNeighbors){
+        if (usedPoints.has(e)){
+            continue;
+        }
+        freePoints.push(e);
+    }
+    usedPoints.add([x, y]);
 }
 
 function drawAsset(x, y, skin, radius){
