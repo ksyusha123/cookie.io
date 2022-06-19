@@ -5,10 +5,6 @@ function _recalculateRadius(radius1, radius2) {
     return Math.sqrt(radius1 * radius1 + radius2 * radius2);
 }
 
-function _recalculateSpeed(start_speed, current_radius, start_radius) {
-    return start_radius / current_radius * start_speed;
-}
-
 class Player extends GameObject {
     constructor(id, username, skin, x, y, socket) {
         super(id, x, y, settings.PLAYER_RADIUS);
@@ -16,15 +12,18 @@ class Player extends GameObject {
         this.username = username;
         this.skin = skin;
         this.socket = socket;
-        this.speed = settings.PLAYER_SPEED;
         this.speedMultiplier = 1;
         this.eaten = false;
         this.startTime = Date.now();
         this.partsCount = 1;
     }
 
+    get speed() {
+        return this.speedMultiplier * settings.PLAYER_RADIUS / this.radius * settings.PLAYER_SPEED;
+    }
+
     update(dt) {
-        const currentSpeed = this.speedMultiplier * this.speed;
+        const currentSpeed = this.speed;
 
         this.x += dt * currentSpeed * Math.sin(this.direction);
         this.y -= dt * currentSpeed * Math.cos(this.direction);
@@ -35,7 +34,6 @@ class Player extends GameObject {
 
     eat(object) {
         this.radius = _recalculateRadius(this.radius, object.radius);
-        this.speed = _recalculateSpeed(settings.PLAYER_SPEED, this.radius, settings.PLAYER_RADIUS);
         object.eaten = true;
     }
 

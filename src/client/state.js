@@ -85,5 +85,6 @@ export function getCurrentState() {
             nextUpdate.playersCoordinates, ratio),
         food: previousUpdate.food,
         leaderboard: previousUpdate.leaderboard,
+        monster: previousUpdate.monster,
     };
 }

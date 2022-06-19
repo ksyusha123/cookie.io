@@ -15,7 +15,7 @@ const PLAYER_MINIMAP_RADIUS = 6;
 const GRID_STEP_SIZE = 100;
 const FONT_SCALE = 2 / 7;
 
-let mapCounter = 0;
+const foodAssetData = {};
 
 const gameCanvas = document.getElementById('game-canvas');
 const gameContext = gameCanvas.getContext('2d');
@@ -42,6 +42,7 @@ let prevY = 0;
 let prevNetX = GRID_STEP_SIZE;
 let prevNetY = GRID_STEP_SIZE;
 
+let mapCounter = 0;
 let renderInterval = null;
 
 function render() {
@@ -51,9 +52,10 @@ function render() {
         return;
     }
 
-    const {me, visible, playersCoordinates, food, leaderboard} = state;
+    const {me, visible, playersCoordinates, food, leaderboard, monster} = state;
     renderBackground(me.x, me.y);
     renderPlayer(me, me);
+    renderMonster(me, monster);
 
     if (mapCounter % 5 === 0) {
         renderMiniMap(me, playersCoordinates);
@@ -76,21 +78,15 @@ function renderBackground(playerX, playerY) {
 }
 
 function renderPlayer(me, player) {
-    let {x, y, radius, direction, skin, username, _, partsCount} = player;
-    username = username || document.getElementById('username').getAttribute('placeholder');
-    const canvasX = gameCanvas.width / 2 + x - me.x;
-    const canvasY = gameCanvas.height / 2 + y - me.y;
-
-    gameContext.save();
-    gameContext.translate(canvasX, canvasY);
-    gameContext.rotate(direction);
-    drawAsset(0, 0, skin, radius / partsCount);
-    drawParts(partsCount, radius, skin);
-    renderNickname(username, radius * FONT_SCALE);
-    gameContext.restore();
+    const {x, y, radius, direction, skin, username, _, partsCount} = player;
+    renderRotatedImage(me, x, y, radius / partsCount, direction, getAsset(skin),
+        () => {
+            drawParts(partsCount, radius, skin);
+            renderNickname(gameContext, username, radius * FONT_SCALE);
+        });
 }
 
-function drawParts(partsCount, totalRadius, skin){
+function drawParts(partsCount, totalRadius, skin) {
     let counter = partsCount;
     const shift = 2 * totalRadius / partsCount;
     const freePoints = [[0, shift], [0, -shift], [shift, 0], [-shift, 0]];
@@ -100,7 +96,7 @@ function drawParts(partsCount, totalRadius, skin){
     while (counter > 1) {
         counter--;
         let point = freePoints[i];
-        while (usedPoints.has(point)){
+        while (usedPoints.has(point)) {
             point = freePoints[++i];
         }
         const x = point[0];
@@ -111,18 +107,7 @@ function drawParts(partsCount, totalRadius, skin){
     }
 }
 
-function processPointNeighbors(x, y, shift, freePoints, usedPoints){
-    const pointNeighbors = [[x, y + shift], [x, y - shift], [x + shift, y], [x - shift, y]];
-    for (let e of pointNeighbors){
-        if (usedPoints.has(e)){
-            continue;
-        }
-        freePoints.push(e);
-    }
-    usedPoints.add([x, y]);
-}
-
-function drawAsset(x, y, skin, radius){
+function drawAsset(x, y, skin, radius) {
     gameContext.drawImage(
         getAsset(skin),
         x - radius,
@@ -130,6 +115,22 @@ function drawAsset(x, y, skin, radius){
         radius * 2,
         radius * 2,
     );
+}
+
+function processPointNeighbors(x, y, shift, freePoints, usedPoints) {
+    const pointNeighbors = [[x, y + shift], [x, y - shift], [x + shift, y], [x - shift, y]];
+    for (let e of pointNeighbors) {
+        if (usedPoints.has(e)) {
+            continue;
+        }
+        freePoints.push(e);
+    }
+    usedPoints.add([x, y]);
+}
+
+function renderMonster(me, monster) {
+    const {x, y, radius, direction} = monster;
+    renderRotatedImage(me, x, y, radius, direction, getAsset('monster.png'), null);
 }
 
 function renderLeaderboard(leaderboard) {
@@ -172,25 +173,37 @@ function renderPlayerOnMap(color, player) {
     renderCircleOnCanvas(mapContext, canvasX, canvasY, PLAYER_MINIMAP_RADIUS, color);
 }
 
-const foodAssetData = {};
-
 function renderFood(me, food) {
     const {x, y, radius} = food;
-    const canvasX = gameCanvas.width / 2 + x - me.x;
-    const canvasY = gameCanvas.height / 2 + y - me.y;
 
     if (!([x, y] in foodAssetData)) {
         const randomAssetIndex = Math.getRandomIntFromInterval(0, foodAssets.length);
         foodAssetData[[x, y]] = getAsset(foodAssets[randomAssetIndex]);
     }
 
+    renderRotatedImage(me, x, y, radius, 0, foodAssetData[[x, y]], null);
+}
+
+function renderRotatedImage(me, x, y, radius, direction, asset, callback) {
+    const canvasX = gameCanvas.width / 2 + x - me.x;
+    const canvasY = gameCanvas.height / 2 + y - me.y;
+
+    gameContext.save();
+    gameContext.translate(canvasX, canvasY);
+    gameContext.rotate(direction);
     gameContext.drawImage(
-        foodAssetData[[x, y]],
-        canvasX,
-        canvasY,
-        2 * radius,
-        2 * radius
+        asset,
+        -radius,
+        -radius,
+        radius * 2,
+        radius * 2,
     );
+
+    if (callback !== null) {
+        callback();
+    }
+
+    gameContext.restore();
 }
 
 function renderCircleOnCanvas(context, x, y, radius, color) {

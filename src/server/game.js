@@ -1,6 +1,7 @@
 const settings = require('../settings');
 const Player = require('./player');
 const Food = require('./food');
+const Monster = require('./monster');
 
 const VISIBLE_MAP_RADIUS = settings.MAP_SIZE / 2;
 const DESIRED_FRAMERATE = 60;
@@ -14,6 +15,7 @@ class Game {
         this.food = new Set();
         this.lastUpdateTime = Date.now();
         this.shouldSendUpdate = false;
+        this.monster = Monster.spawn();
 
         this._generateFood(FOOD_COUNT);
         setInterval(this.update.bind(this), INTERVAL_SIZE);
@@ -78,6 +80,7 @@ class Game {
             food: closeFood.map(f => f.serialize()),
             leaderboard: leaderboard,
             playersCoordinates: Object.values(this.players).map(p => ({x: p.x, y: p.y})),
+            monster: this.monster.serialize(),
         };
     }
 
@@ -86,6 +89,7 @@ class Game {
         const dt = (now - this.lastUpdateTime) / 1000;
 
         Object.values(this.players).forEach(player => player.update(dt));
+        this.monster.update(dt);
 
         this.lastUpdateTime = now;
     }
@@ -100,6 +104,10 @@ class Game {
                     player.eat(food);
                     this.food.delete(food);
                 }
+            }
+
+            if (this.monster.collides(player)) {
+                this.monster.eat(player);
             }
         }
 
