@@ -4,7 +4,7 @@ html {
 }
 
 body {
-    background-image: url(assets/background.png);
+    background-image: url(assets/other/background.png);
     background-size: cover;
     background-repeat: repeat;
     font-family: 'Montserrat', sans-serif;
@@ -220,11 +220,10 @@ input:hover {
     border: 3px solid #B5EF8A;
 }
 
-.overlay{
+.overlay {
     position: absolute;
     right: 0;
     bottom: 0;
-    width: 20%;
     z-index: 10;
 }
 
@@ -250,15 +249,82 @@ thead {
     position: absolute;
     left: 2%;
     bottom: 2%;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     z-index: 10;
     border-spacing: 30px 2px;
     background: rgba(250, 250, 250, 0.70);
     overflow-x: hidden;
     overflow-y: hidden;
+    padding: 1%;
+    border-radius: 20px;
 }
 
 .scoreboard-section.tr {
     border-top: 1px;
+}
+
+.sound {
+    background-image: url(assets/other/volume.png);
+    background-color: rgba(250, 250, 250, 0.70);
+    display: none;
+    height: 70px;
+    width: 70px;
+    padding: 5px;
+    position: absolute;
+    top: 2%;
+    left: 2%;
+    z-index: 11;
+    border: 0 solid;
+    border-radius: 10px;
+    background-size: 100% 100%;
+}
+
+.sound:hover {
+    border: 0 solid;
+    background-color: rgba(250, 250, 250, 0.50);
+    background-size: 100% 100%;
+}
+
+.sound:active {
+    border: 3px solid #B5EF8A;
+    background-color: rgba(250, 250, 250, 0.50);
+    background-size: 100% 100%;
+}
+
+.home {
+    background-image: url(assets/other/home.png);
+    background-color: rgba(250, 250, 250, 0.70);
+    display: none;
+    height: 70px;
+    width: 70px;
+    padding: 5px;
+    position: absolute;
+    top: 20%;
+    left: 2%;
+    z-index: 11;
+    border: 0 solid;
+    border-radius: 10px;
+    background-size: 100% 100%;
+}
+
+.home:hover {
+    border: 0 solid;
+    background-color: rgba(250, 250, 250, 0.50);
+    background-size: 100% 100%;
+}
+
+.home:active {
+    border: 3px solid #B5EF8A;
+    background-color: rgba(250, 250, 250, 0.50);
+    background-size: 100% 100%;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

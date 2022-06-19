@@ -20,8 +20,8 @@ function onTouchInput(e) {
 }
 
 function onGamepadUpdate() {
-    const movementInfo = getMovementInfoFromGamepad();
-    calculateDirectionAndUpdate(movementInfo.dx, movementInfo.dy, movementInfo.speedMultiplier);
+    const {dx, dy, speedMultiplier} = getMovementInfoFromGamepad();
+    calculateDirectionAndUpdate(dx, dy, speedMultiplier);
 }
 
 function handleNonGamepadInput(x, y) {

@@ -1,15 +1,24 @@
 function addPrototypes() {
-    Math.getRandomIntFromInterval = (start, end) =>
-        Math.floor(Math.random() * (end - start)) + start;
-
     Math.toClosestInInterval = (value, start, end) =>
         Math.max(start, Math.min(end, value));
 
     Math.scaleOntoInterval = (value, minThreshold, maxThreshold, startInterval, endInterval) => {
         const thresholdDistance = maxThreshold - minThreshold;
-        const newValue = (value - minThreshold) / thresholdDistance;
+        const intervalLength = endInterval - startInterval;
+        const newValue = (value - minThreshold) / thresholdDistance * intervalLength + startInterval;
         return Math.toClosestInInterval(newValue, startInterval, endInterval);
     }
+
+    Math.getRandomIntFromInterval = (start, end) =>
+        Math.floor(Math.scaleOntoInterval(Math.random(), 0, 1, start, end));
 }
 
-module.exports = addPrototypes;
+function range(start, stop, step = 1) {
+    return Array.from({length: (stop - start) / step + 1}, (_, i) => start + (i * step));
+}
+
+function zip(a, b) {
+    return Array.from(a).map((element, index) => [element, b[index]]);
+}
+
+module.exports = {addPrototypes, range, zip};

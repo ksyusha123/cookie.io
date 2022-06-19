@@ -1,15 +1,20 @@
 const express = require('express');
 const socketio = require('socket.io');
+const fs = require('fs');
 
 const Game = require('./game');
 const settings = require('../settings');
-const addPrototypes = require('../utils');
+const {addPrototypes} = require('../utils');
 
 addPrototypes();
 
 const app = express();
 app.use(express.static(__dirname + '/../client'));
 app.use(express.static(__dirname + '/../../dist'));
+
+app.get('/listassets/person', getDirectoryFilesForRequestSelector('/../client/assets/person/'));
+app.get('/listassets/food', getDirectoryFilesForRequestSelector('/../client/assets/food/'));
+app.get('/listassets/other', getDirectoryFilesForRequestSelector('/../client/assets/other/'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port);
@@ -42,6 +47,13 @@ function onDisconnect() {
     console.log('Player left the game', this.id);
 }
 
+
 function onPlayerSplit() {
     game.splitPlayer(this.id);
+}
+
+function getDirectoryFilesForRequestSelector(relativePath) {
+    return function (req, res) {
+        res.send(fs.readdirSync(__dirname + relativePath));
+    };
 }

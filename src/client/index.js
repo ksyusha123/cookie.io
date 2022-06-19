@@ -1,26 +1,56 @@
 import {downloadAssets, getPersonAsset, downloadSkinMenuAssets, updateSkinButton} from "./assets";
 import {play} from "./networking";
 import {startCapturingInput} from "./input";
-import {startRendering, removeMenu} from "./render";
-import addPrototypes from "../utils";
+import {startRendering, removeMenu, drawResultsMenu} from "./render";
+import {addPrototypes} from "../utils";
+import {playOrResumeSoundtrack, createSoundtrack, muteSoundtrack, unmuteSoundtrack} from "./sound";
+import {getCurrentState} from "./state";
 
-const settings = require('../settings');
+const DEFAULT_SKIN = 'Zhenya.png';
+const PREFIX_LEN = 4;
+let soundCounter = 0;
+let skin = DEFAULT_SKIN;
 
 addPrototypes();
 await downloadAssets();
-
-let skin = 'Zhenya.png';
 updateSkinButton(skin);
 
 const headMenu = document.getElementsByClassName('head-menu')[0];
 const choseMenu = document.getElementsByClassName('chose-menu')[0];
+
+createSoundtrack();
 
 document.getElementById("play-button").addEventListener('click', () => {
     play(document.getElementById("username").value, skin);
     removeMenu();
     startCapturingInput();
     startRendering();
+    playOrResumeSoundtrack();
+    muteSoundtrack();
 });
+
+document.getElementById("sound").addEventListener('click', () => {
+    const sound = document.getElementById("sound");
+
+    if (soundCounter % 2 === 1) {
+        sound.style.backgroundImage = 'url(/assets/other/mute.png)';
+        muteSoundtrack();
+    } else {
+        sound.style.backgroundImage = 'url(/assets/other/volume.png)';
+        unmuteSoundtrack();
+    }
+
+    soundCounter += 1;
+});
+
+document.getElementById("home").addEventListener('click', () => {
+    const currentState = getCurrentState();
+    const results = {
+        radius: currentState.me.radius,
+        time: currentState.me.time,
+    };
+    drawResultsMenu(results);
+})
 
 document.getElementById("select-skin-button").addEventListener('click', () => {
     headMenu.style.display = 'none';
@@ -37,14 +67,11 @@ document.getElementById("modal__close-button").addEventListener('click', () => {
     updateSkinButton(skin);
 });
 
-const prefixLen = 4;
 for (let e of document.getElementById('modal-skins').childNodes) {
     if (e.nodeType !== 1)
         continue;
+
     e.addEventListener('click', () => {
-        skin = getPersonAsset(Number(e.id.slice(prefixLen)) - 1);
+        skin = getPersonAsset(Number(e.id.slice(PREFIX_LEN)) - 1);
     });
 }
-
-
-
