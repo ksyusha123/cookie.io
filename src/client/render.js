@@ -141,9 +141,7 @@ function renderLeaderboard(leaderboard) {
         const {id, username, radius} = leaderboardRow;
         fillRow(row, processUsername(username), radius);
 
-        if (myId === id) {
-            row.style.fontWeight = 'bold';
-        }
+        row.style.fontWeight = myId === leaderboardRow.id ? 'bold' : null;
     }
 }
 
