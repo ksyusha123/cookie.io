@@ -1,4 +1,4 @@
-import {getAsset} from './assets';
+import {getAsset, foodAssets} from './assets';
 import {getCurrentState} from './state';
 import {getMyId} from "./networking";
 import {pauseSoundtrack} from "./sound";
@@ -6,15 +6,16 @@ import settings from "../settings";
 import {zip} from "../utils";
 import {fillRow, resizeTable} from "./tableUtils";
 
-const ME_COLOR = 'red';
-const OTHER_COLOR = 'blue';
-const FOOD_COLOR = 'green';
+const ME_COLOR = '#96616B';
+const OTHER_COLOR = '#508CA4';
 const LIGHT_PINK = '#EEE5E9';
 const LIGHT_GREY = '#888';
 
-const PLAYER_MINIMAP_RADIUS = 5;
+const PLAYER_MINIMAP_RADIUS = 6;
 const GRID_STEP_SIZE = 100;
 const FONT_SCALE = 2 / 7;
+
+let mapCounter = 0;
 
 const gameCanvas = document.getElementById('game-canvas');
 const gameContext = gameCanvas.getContext('2d');
@@ -52,7 +53,12 @@ function render() {
 
     renderBackground(me.x, me.y);
     renderPlayer(me, me);
-    renderMiniMap(me, playersCoordinates);
+
+    if (mapCounter % 5 === 0) {
+        renderMiniMap(me, playersCoordinates);
+    }
+
+    mapCounter++;
     renderLeaderboard(leaderboard);
     visible.forEach(renderPlayer.bind(null, me));
     food.forEach(renderFood.bind(null, me));
@@ -127,18 +133,32 @@ function renderPlayerOnMap(color, player) {
     renderCircleOnCanvas(mapContext, canvasX, canvasY, PLAYER_MINIMAP_RADIUS, color);
 }
 
+const foodAssetData = {};
+
 function renderFood(me, food) {
     const {x, y, radius} = food;
     const canvasX = gameCanvas.width / 2 + x - me.x;
     const canvasY = gameCanvas.height / 2 + y - me.y;
 
-    renderCircleOnCanvas(gameContext, canvasX, canvasY, radius, FOOD_COLOR);
+    if (!([x, y] in foodAssetData)) {
+        const randomAssetIndex = Math.getRandomIntFromInterval(0, foodAssets.length);
+        foodAssetData[[x, y]] = getAsset(foodAssets[randomAssetIndex]);
+    }
+
+    gameContext.drawImage(
+        foodAssetData[[x, y]],
+        canvasX,
+        canvasY,
+        2 * radius,
+        2 * radius
+    );
 }
 
 function renderCircleOnCanvas(context, x, y, radius, color) {
     context.beginPath();
-    context.arc(x, y, radius, 0, 2 * Math.PI, false);
+    context.ellipse(x, y, radius, radius - 3, 0, 0, 2 * Math.PI, false);
     context.fillStyle = color;
+    context.strokeStyle = color;
     context.fill();
     context.stroke();
 }
