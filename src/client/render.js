@@ -153,7 +153,7 @@ function renderMiniMap(me, players) {
     renderPlayerOnMap(ME_COLOR, me);
 }
 
-function renderNickname(context, username, fontSize) {
+function renderNickname(username, fontSize) {
     gameContext.lineWidth = 1.25;
     gameContext.strokeStyle = 'white';
     gameContext.shadowColor = 'black';

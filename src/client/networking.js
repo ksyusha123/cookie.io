@@ -21,11 +21,12 @@ export const updateDirection = throttle(20, (direction, speedMultiplier) => {
     socket.emit(settings.MESSAGES.INPUT, direction, speedMultiplier)
 });
 
+export const splitPlayer = () => {
+    socket.emit(settings.MESSAGES.PLAYER_SPLIT);
+}
+
 export const play = (username, skin) => {
     socket.emit(settings.MESSAGES.JOIN, username, skin);
-    document.addEventListener('mousedown', (event) => {
-        socket.emit(settings.MESSAGES.PLAYER_SPLIT);
-    });
 }
 
 export const getMyId = () => socket.id;
