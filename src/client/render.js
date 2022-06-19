@@ -78,21 +78,15 @@ function renderBackground(playerX, playerY) {
 }
 
 function renderPlayer(me, player) {
-    let {x, y, radius, direction, skin, username, _, partsCount} = player;
-    username = username || document.getElementById('username').getAttribute('placeholder');
-    const canvasX = gameCanvas.width / 2 + x - me.x;
-    const canvasY = gameCanvas.height / 2 + y - me.y;
-
-    gameContext.save();
-    gameContext.translate(canvasX, canvasY);
-    gameContext.rotate(direction);
-    drawAsset(0, 0, skin, radius / partsCount);
-    drawParts(partsCount, radius, skin);
-    renderNickname1(username, radius * 2 / 7);
-    gameContext.restore();
+    const {x, y, radius, direction, skin, username, _, partsCount} = player;
+    renderRotatedImage(me, x, y, radius / partsCount, direction, getAsset(skin),
+        () => {
+            drawParts(partsCount, radius, skin);
+            renderNickname(gameContext, username, radius * FONT_SCALE);
+        });
 }
 
-function drawParts(partsCount, totalRadius, skin){
+function drawParts(partsCount, totalRadius, skin) {
     let counter = partsCount;
     const shift = 2 * totalRadius / partsCount;
     const freePoints = [[0, shift], [0, -shift], [shift, 0], [-shift, 0]];
@@ -102,7 +96,7 @@ function drawParts(partsCount, totalRadius, skin){
     while (counter > 1) {
         counter--;
         let point = freePoints[i];
-        while (usedPoints.has(point)){
+        while (usedPoints.has(point)) {
             point = freePoints[++i];
         }
         const x = point[0];
@@ -113,18 +107,7 @@ function drawParts(partsCount, totalRadius, skin){
     }
 }
 
-function processPointNeighbors(x, y, shift, freePoints, usedPoints){
-    const pointNeighbors = [[x, y + shift], [x, y - shift], [x + shift, y], [x - shift, y]];
-    for (let e of pointNeighbors){
-        if (usedPoints.has(e)){
-            continue;
-        }
-        freePoints.push(e);
-    }
-    usedPoints.add([x, y]);
-}
-
-function drawAsset(x, y, skin, radius){
+function drawAsset(x, y, skin, radius) {
     gameContext.drawImage(
         getAsset(skin),
         x - radius,
@@ -134,9 +117,15 @@ function drawAsset(x, y, skin, radius){
     );
 }
 
-function renderNickname1(username, fontSize){
-    renderNickname(gameContext, username, radius * FONT_SCALE);
-    gameContext.restore();
+function processPointNeighbors(x, y, shift, freePoints, usedPoints) {
+    const pointNeighbors = [[x, y + shift], [x, y - shift], [x + shift, y], [x - shift, y]];
+    for (let e of pointNeighbors) {
+        if (usedPoints.has(e)) {
+            continue;
+        }
+        freePoints.push(e);
+    }
+    usedPoints.add([x, y]);
 }
 
 function renderMonster(me, monster) {
