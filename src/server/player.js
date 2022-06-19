@@ -19,12 +19,12 @@ class Player extends GameObject {
     }
 
     get speed() {
-        return this.speedMultiplier * settings.PLAYER_RADIUS / this.radius * settings.PLAYER_SPEED;
+        return this.speedMultiplier * settings.PLAYER_RADIUS / this.radius * settings.PLAYER_SPEED  * this.partsCount;
     }
 
     update(dt) {
         const currentSpeed = this.speed;
-
+        console.log(this.speed);
         this.x += dt * currentSpeed * Math.sin(this.direction);
         this.y -= dt * currentSpeed * Math.cos(this.direction);
 

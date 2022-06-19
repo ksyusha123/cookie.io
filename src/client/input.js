@@ -72,7 +72,11 @@ export function startCapturingInput() {
     window.addEventListener('click', onMouseInput);
     window.addEventListener('touchstart', onTouchInput);
     window.addEventListener('touchmove', onTouchMove);
-    window.addEventListener('mousedown', splitPlayer);
+    window.addEventListener('mousedown', (e) => {
+        if (e.button === 2){
+            splitPlayer();
+        }
+    });
 
     window.addEventListener('gamepadconnected', _ => {
         isUsingGamepad = true;
