@@ -52,6 +52,11 @@ function handleNonGamepadInput(x, y) {
 
 function getMovementInfoFromGamepad() {
     const gp = navigator.getGamepads()[0];
+
+    if (gp.buttons[2].value > 0) {
+        splitPlayer();
+    }
+
     const diff = {dx: gp.axes[0], dy: gp.axes[1]};
     const deviationDistance = Math.sqrt(diff.dx * diff.dx + diff.dy * diff.dy);
 
@@ -73,7 +78,7 @@ export function startCapturingInput() {
     window.addEventListener('touchstart', onTouchInput);
     window.addEventListener('touchmove', onTouchMove);
     window.addEventListener('mousedown', (e) => {
-        if (e.button === 2){
+        if (e.button === 2) {
             splitPlayer();
         }
     });
